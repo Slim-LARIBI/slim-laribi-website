@@ -1,0 +1,121 @@
+---
+title: "PCR (Profile Completion Rate) : le KPI CRM que votre équipe ignore"
+date: "2024-08-20"
+excerpt: "Le PCR (Profile Completion Rate) est l'indicateur de qualité CRM le plus sous-utilisé. Comment le calculer, l'interpréter et l'utiliser pour activer vos contacts dormants."
+category: "CRM & Automation"
+tags: ["CRM", "Klaviyo", "PCR", "Segmentation", "Lifecycle", "Email"]
+author: "Slim Laribi"
+---
+
+## Pourquoi votre taux d'ouverture vous ment
+
+Votre taux d'ouverture est à 25%. Félicitations. Maintenant demandez-vous : **sur quelle base de contacts ?**
+
+Si 40% de votre base est constituée de profils avec uniquement une adresse email (sans historique d'achat, sans données comportementales, sans préférences), votre "25%" cache en réalité une activation de moins de la moitié de vos contacts actionnables.
+
+C'est là qu'intervient le **PCR — Profile Completion Rate**.
+
+## Qu'est-ce que le PCR ?
+
+Le PCR mesure le pourcentage de profils de votre CRM qui atteignent un seuil de complétude défini. Ce seuil varie selon votre stack et vos objectifs, mais une définition courante pour un CRM e-commerce :
+
+**Profil "complet" = contact qui possède :**
+- Email valide et actif ✓
+- Au moins 1 achat historique ✓
+- Date du dernier achat connue ✓
+- Au moins 1 comportement email enregistré (ouverture, clic) ✓
+- Préférence de catégorie identifiable (depuis historique achat ou navigation) ✓
+
+**PCR = (Nombre de profils complets / Nombre total de profils actifs) × 100**
+
+Un PCR de 40-50% est courant pour un CRM e-commerce sans travail d'enrichissement. Avec une stratégie active, atteindre 65-75% est réaliste.
+
+## Pourquoi c'est le KPI le plus important de votre CRM
+
+Un CRM avec un PCR élevé permet de :
+
+1. **Segmenter précisément** : RFM, lifecycle, valeur prédictive
+2. **Personnaliser réellement** : Au-delà du `{{first_name}}`, vous personnalisez selon le comportement
+3. **Prédire les risques de churn** : Les profils incomplets sont souvent les premiers à se désinscrire
+4. **Optimiser les moments d'envoi** : L'historique comportemental révèle les fenêtres d'engagement optimales
+
+## Comment calculer le PCR dans Klaviyo
+
+Klaviyo ne calcule pas le PCR nativement, mais vous pouvez l'approcher :
+
+```
+Segment "Profil complet" =
+  Propriété "Total Orders" > 0
+  ET Propriété "$last_opened" est dans les 180 derniers jours
+  ET Localisation connue
+  ET Propriété "Total Clique" > 0
+```
+
+Taille de ce segment / Taille totale de la liste active = votre PCR approximatif.
+
+Pour aller plus loin, utilisez l'**export Klaviyo via API** et calculez le PCR dans BigQuery ou Looker Studio avec votre propre définition.
+
+## Les 5 stratégies d'enrichissement du PCR
+
+### 1. La série de bienvenue enrichissante
+
+Votre welcome series ne doit pas être une série commerciale pure. Email 2 ou 3 = questionnaire de préférences. Exemple :
+
+> "Pour vous envoyer uniquement ce qui vous intéresse, dites-nous : vous cherchez plutôt des conseils mode décontractée, des looks formels ou de la streetwear ?"
+
+Chaque réponse crée un tag Klaviyo et enrichit le profil.
+
+### 2. L'email d'activation post-achat
+
+L'achat est le moment idéal pour enrichir. Email post-achat J+3 :
+
+> "Votre commande est en route ! Pour mieux vous connaître, répondez à cette question en 10 secondes..."
+
+Un clic = une propriété enrichie. Taux de réponse typique : 15-25%.
+
+### 3. Les popups comportementaux de préférence
+
+Sur votre site, déclenchez des popups légères (non intrusives) pour les visiteurs avec 2+ visites :
+
+> "Vous revenez — tant mieux ! Créez un compte pour sauvegarder vos favoris et recevoir des offres adaptées à votre style."
+
+L'inscription crée un profil avec contexte de navigation.
+
+### 4. Le programme de fidélité comme levier de données
+
+Un programme de fidélité crée une **incitation naturelle** à compléter son profil (anniversaire, préférences, localisation). Chaque champ rempli = points bonus. Les données afflueront.
+
+### 5. La synchronisation Shopify / Klaviyo complète
+
+Vérifiez que votre intégration Shopify → Klaviyo remonte bien :
+- Historique des commandes complet (pas seulement les 90 derniers jours)
+- Tags clients Shopify mappés sur propriétés Klaviyo
+- Produits achetés → tags de catégorie dans Klaviyo
+
+Beaucoup d'intégrations sont partielles. Un audit de synchronisation peut révéler des données déjà disponibles que Klaviyo ne voit pas.
+
+## PCR et activation des dormants
+
+Le PCR est particulièrement utile pour les campagnes **win-back**. Distinguez :
+
+- **Dormants avec profil complet** : Vous avez l'historique pour personnaliser une offre de réactivation ciblée. Taux de succès : 12-20%.
+- **Dormants sans profil** : Vous devez d'abord tenter de récupérer des données, avant de faire une offre. Taux de succès : 2-5%.
+
+Ne traitez pas ces deux segments avec la même campagne.
+
+## Le benchmark PCR par secteur
+
+| Secteur | PCR moyen observé | PCR cible |
+|---------|-------------------|-----------|
+| Mode / DTC | 35-45% | 65% |
+| Sport & Outdoor | 40-50% | 68% |
+| Beauté / Cosmétique | 50-60% | 72% |
+| Maison & Déco | 30-40% | 60% |
+
+Ces chiffres varient selon l'ancienneté de la base et la stratégie d'acquisition.
+
+## Conclusion
+
+Le PCR n'est pas un KPI technique secondaire — c'est l'indicateur de santé le plus honnête de votre CRM. Un PCR élevé signifie une base activable, segmentable et personnalisable. Un PCR faible signifie des revenus email plafonnés par la qualité de la donnée, indépendamment de la qualité de vos contenus.
+
+**Mesurez votre PCR aujourd'hui. Vous pourriez avoir une surprise.**

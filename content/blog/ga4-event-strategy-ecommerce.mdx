@@ -1,0 +1,108 @@
+---
+title: "Stratégie d'événements GA4 pour l'e-commerce : le guide complet"
+date: "2024-11-15"
+excerpt: "Comment structurer une stratégie d'événements GA4 cohérente pour un site e-commerce : events standards, paramètres custom et entonnoir de conversion fiable."
+category: "Tracking & Data"
+tags: ["GA4", "Google Analytics 4", "E-commerce", "Events", "GTM"]
+author: "Slim Laribi"
+---
+
+## Pourquoi votre stratégie d'événements GA4 est probablement défaillante
+
+La plupart des configurations GA4 que j'audite ont le même problème : des événements qui se déclenchent, mais pas les bons paramètres. Des `purchase` sans `value`. Des `add_to_cart` sans `item_id`. Des entonnoirs de conversion incomplets.
+
+Le résultat ? Des données inutilisables pour l'optimisation algorithme, une attribution biaisée et des décisions d'investissement basées sur des illusions.
+
+## Les 8 événements e-commerce GA4 obligatoires
+
+GA4 propose des événements e-commerce recommandés qui couvrent l'ensemble du funnel d'achat. Voici ceux que vous **devez** implémenter :
+
+### 1. `view_item_list`
+Déclenché quand un utilisateur voit une liste de produits (catalogue, résultats de recherche).
+
+**Paramètres clés :**
+```js
+gtag('event', 'view_item_list', {
+  item_list_id: 'homepage_featured',
+  item_list_name: 'Produits en vedette',
+  items: [{
+    item_id: 'SKU123',
+    item_name: 'Nom du produit',
+    item_category: 'Catégorie',
+    price: 49.99,
+    index: 0
+  }]
+})
+```
+
+### 2. `view_item`
+Déclenché à l'ouverture d'une fiche produit. Critique pour mesurer les taux de consultation.
+
+### 3. `add_to_cart` / `remove_from_cart`
+Ces deux événements permettent de calculer le taux d'ajout panier et d'identifier les produits qui "accrochent" vs ceux qui "décrochent".
+
+### 4. `begin_checkout`
+Premier contact avec le tunnel d'achat. La différence entre `add_to_cart` et `begin_checkout` révèle vos abandons de panier.
+
+### 5. `add_payment_info` / `add_shipping_info`
+Ces étapes permettent d'identifier à quelle étape du checkout les utilisateurs abandonnent.
+
+### 6. `purchase` (l'événement roi)
+L'événement de conversion final. Il **doit** inclure :
+- `transaction_id` (unique, pour éviter les doublons)
+- `value` (CA en euros)
+- `currency`
+- `items` (liste complète avec SKU, prix, quantité)
+
+```js
+gtag('event', 'purchase', {
+  transaction_id: 'ORDER-12345',
+  value: 127.50,
+  tax: 21.25,
+  shipping: 5.90,
+  currency: 'EUR',
+  items: [/* ... */]
+})
+```
+
+## Le piège du `transaction_id` dupliqué
+
+C'est l'erreur la plus fréquente. Sans `transaction_id` unique, vos conversions sont comptées plusieurs fois à chaque rechargement de la page de confirmation. Résultat : un taux de conversion gonflé de 15 à 40% selon les cas.
+
+**Solution :** Vérifiez toujours que le `transaction_id` correspond à votre identifiant de commande côté serveur.
+
+## Paramètres custom indispensables
+
+Au-delà des events standards, certains paramètres custom font la différence :
+
+- `customer_type` : new vs returning
+- `discount_code` : code promo utilisé
+- `payment_method` : CB, PayPal, etc.
+- `source_product_list` : d'où vient le produit consulté
+
+Ces paramètres permettent des analyses de segmentation avancées dans Looker Studio.
+
+## Structurer son plan de marquage
+
+Avant d'implémenter, documentez tout dans un **plan de marquage** :
+
+| Événement | Déclencheur | Paramètres | Priorité |
+|-----------|-------------|------------|----------|
+| view_item | Chargement fiche produit | item_id, price, category | Critique |
+| add_to_cart | Clic "Ajouter au panier" | item_id, quantity, value | Critique |
+| purchase | Page de confirmation | transaction_id, value, items | Critique |
+
+## Valider avec DebugView
+
+Après implémentation, utilisez le **DebugView GA4** pour valider chaque événement en temps réel. Vérifiez :
+
+1. L'événement se déclenche au bon moment
+2. Tous les paramètres sont présents
+3. Les valeurs numériques sont correctes
+4. Le `transaction_id` ne se duplique pas
+
+## Conclusion
+
+Une stratégie d'événements GA4 solide n'est pas une option — c'est le fondement de toutes vos décisions d'optimisation. Prenez le temps de le faire correctement dès le départ. Les économies de temps (et d'argent) sur le long terme sont considérables.
+
+**Prochaine étape :** Une fois vos événements fiabilisés, explorez le tracking server-side pour aller encore plus loin dans la précision de votre mesure.

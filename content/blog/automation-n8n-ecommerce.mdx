@@ -1,0 +1,171 @@
+---
+title: "Automatisation n8n pour l'e-commerce : 5 workflows qui font gagner 5h par semaine"
+date: "2024-07-10"
+excerpt: "n8n est la meilleure alternative open-source à Zapier pour automatiser les opérations e-commerce. Voici 5 workflows concrets déployés en mission."
+category: "Automation"
+tags: ["n8n", "Automation", "Shopify", "Workflows", "No-code", "E-commerce Ops"]
+author: "Slim Laribi"
+---
+
+## Pourquoi n8n plutôt que Zapier ou Make ?
+
+La question revient souvent. Voici ma réponse directe :
+
+- **Zapier** : Simple, cher, propriétaire. Parfait pour des usages basiques mais les coûts explosent à volume.
+- **Make (ex-Integromat)** : Bon équilibre, interface visuelle agréable, mais encore propriétaire.
+- **n8n** : Open-source, self-hostable (Docker), puissant, personnalisable via JavaScript. Coût nul en self-hosted.
+
+Pour un e-commerce qui veut automatiser sérieusement sans dépendre d'un tiers et sans coûts qui scalent avec le volume, **n8n est le choix évident**.
+
+## Setup en 10 minutes avec Docker
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+services:
+  n8n:
+    image: n8nio/n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=admin
+      - N8N_BASIC_AUTH_PASSWORD=votre_mot_de_passe_fort
+      - WEBHOOK_URL=https://votre-domaine.com/
+    volumes:
+      - n8n_data:/home/node/.n8n
+volumes:
+  n8n_data:
+```
+
+Déployez sur un VPS à 5€/mois (Hetzner, OVH) et vous avez une instance n8n opérationnelle.
+
+## Workflow 1 : Rapport daily Shopify → Slack (15 min de setup)
+
+**Problème :** L'équipe commence la journée sans vision sur les chiffres de la veille. Quelqu'un doit manuellement extraire les données.
+
+**Solution n8n :**
+
+```
+Trigger (Cron 8h00)
+  → Node Shopify (récupérer les commandes J-1)
+  → Node Function (calculer CA, nb commandes, panier moyen)
+  → Node Slack (envoyer le rapport formaté)
+```
+
+**Message Slack type :**
+```
+📊 Rapport J-1 — 14 juillet 2024
+
+💰 CA : 4 827 €  (+12% vs J-1 sem. dernière)
+🛒 Commandes : 38  (panier moyen : 127 €)
+🔄 Taux de retour : 2.1%
+📦 En attente expédition : 12
+
+Top produit du jour : Référence SKU-456 (8 ventes)
+```
+
+**Gain estimé : 20-30 min/jour** (extraction + formatage manuel).
+
+## Workflow 2 : Alerte rupture de stock (5 min de setup)
+
+**Problème :** Les ruptures de stock passent inaperçues pendant des heures ou des jours. Manque à gagner direct.
+
+**Solution n8n :**
+
+```
+Trigger (Cron toutes les 2h)
+  → Node Shopify (récupérer l'inventaire)
+  → Node IF (stock < seuil défini par produit)
+  → Node Slack (alerte avec nom produit, stock actuel, ventes J-7)
+```
+
+**Personnalisation :** Définissez des seuils différents par produit dans un fichier de config JSON que le workflow lit. Certains produits tolèrent 5 unités, d'autres nécessitent 50.
+
+**Gain estimé : Évite des ruptures de stock non détectées. ROI difficile à chiffrer, mais impact réel.**
+
+## Workflow 3 : Sync commandes → CRM Klaviyo (enrichissement en temps réel)
+
+**Problème :** La synchronisation native Shopify → Klaviyo a des latences et ne remonte pas tous les attributs.
+
+**Solution n8n :**
+
+```
+Trigger (Webhook Shopify - order/paid)
+  → Node Function (extraire et enrichir les données)
+  → Node HTTP Request (API Klaviyo - PUT /api/profiles/)
+  → Node IF (premier achat ?)
+  → Node Klaviyo (déclencher flow welcome post-achat)
+```
+
+**Données enrichies transmises à Klaviyo :**
+- Tags de catégorie basés sur les produits achetés
+- LTV cumulée
+- Nombre de commandes total
+- Région/département de livraison
+- Code promotionnel utilisé
+
+**Gain estimé : +15-25% de personnalisation CRM** grâce à des données que l'intégration native ne transmet pas.
+
+## Workflow 4 : Routing SAV prioritaire (20 min de setup)
+
+**Problème :** Le SAV reçoit des tickets dans le désordre. Les VIP clients et les cas urgents (litige livraison, produit défectueux) ne sont pas traités en priorité.
+
+**Solution n8n :**
+
+```
+Trigger (Nouveau ticket email / Zendesk webhook)
+  → Node Shopify (récupérer l'historique du client par email)
+  → Node Function (calculer le score de priorité)
+      - LTV > 500€ : +3 points
+      - Mots-clés urgents (remboursement, cassé, litige) : +5 points
+      - Client VIP : +2 points
+      - Délai depuis commande < 48h : +1 point
+  → Node IF (score >= 7 ?)
+      → Assignation agent senior + tag "URGENT" + Slack alert
+      → Assignation file standard
+```
+
+**Gain estimé : Réduction de 40% du temps de résolution pour les cas prioritaires.**
+
+## Workflow 5 : Consolidation reporting ads multi-canal (1h de setup)
+
+**Problème :** Les données Google Ads et Meta Ads vivent dans des silos. Pas de vue unifiée du ROAS réel.
+
+**Solution n8n :**
+
+```
+Trigger (Cron hebdomadaire - lundi 9h)
+  → Node HTTP (Google Ads Reporting API)
+  → Node HTTP (Meta Ads Insights API)
+  → Node Function (normaliser les données + calculer ROAS consolidé)
+  → Node Google Sheets (écrire dans un spreadsheet)
+  → Node Slack (envoyer le rapport hebdomadaire consolidé)
+```
+
+**Résultat :** Un Google Sheet toujours à jour avec les données des deux plateformes, prêt pour Looker Studio.
+
+**Note technique :** Les APIs Google Ads et Meta nécessitent une authentification OAuth. n8n gère ça nativement — comptez 30 minutes supplémentaires pour la configuration OAuth la première fois.
+
+## Bonnes pratiques n8n en production
+
+Quelques règles que j'applique systématiquement :
+
+1. **Gestion d'erreurs** : Ajoutez toujours un nœud d'erreur avec alerte Slack. En production, un workflow silencieusement en échec est pire qu'un workflow visible en erreur.
+
+2. **Credentials centralisés** : Utilisez les "Credentials" n8n plutôt que de hardcoder les clés API dans les nœuds.
+
+3. **Logs et historique** : Activez l'historique d'exécution et conservez les 100 dernières exécutions pour le débogage.
+
+4. **Environnements** : Maintenez une instance n8n de test distincte de la production.
+
+5. **Backup régulier** : Exportez vos workflows en JSON toutes les semaines (`Settings > Export`).
+
+## Conclusion
+
+n8n transforme l'e-commerce opérationnel. Ces 5 workflows représentent environ 5-6 heures de travail manuel économisé par semaine, par opérateur. Sur une équipe de 3 personnes, c'est 15-18 heures récupérées.
+
+Mais la vraie valeur est moins quantifiable : **la réactivité**. Une alerte rupture de stock en 3 minutes vs une découverte aléatoire en fin de journée, c'est du chiffre d'affaires protégé.
+
+**Par où commencer ?** Listez vos 10 tâches manuelles les plus répétitives. Commencez par la plus simple à automatiser. Mesurez le gain. Itérez.

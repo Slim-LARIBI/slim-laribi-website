@@ -1,0 +1,97 @@
+---
+title: "Tracking server-side : mythes vs réalité — ce que personne ne vous dit"
+date: "2024-10-28"
+excerpt: "Le tracking server-side est souvent présenté comme la solution miracle à tous les problèmes de données. Voici ce qu'il résout vraiment — et ce qu'il ne résout pas."
+category: "Tracking & Data"
+tags: ["Server-side Tracking", "GTM Server-side", "ITP", "Privacy", "CAPI"]
+author: "Slim Laribi"
+---
+
+## Le contexte : pourquoi le tracking côté client se dégrade
+
+Depuis l'introduction d'ITP (Intelligent Tracking Prevention) par Safari et les bloqueurs de publicité omniprésents, le tracking côté client perd en fiabilité chaque année. En 2024, on estime que 20 à 40% des événements de conversion ne sont pas capturés par les pixels JavaScript traditionnels.
+
+C'est dans ce contexte que le tracking server-side s'est imposé comme une solution. Mais entre marketing d'agences et réalité technique, il y a souvent un fossé.
+
+## Mythe n°1 : "Le server-side résout tous les problèmes de tracking"
+
+**La réalité :** Le server-side améliore significativement la collecte de données, mais ne résout pas tout.
+
+Ce qu'il résout :
+- **Bloqueurs de pub** : Les requêtes partent de votre serveur, pas du navigateur du client. AdBlock n'interfère pas.
+- **ITP Safari** : Les cookies sont définis côté serveur avec une durée de vie complète (1 an), pas tronquée à 7 jours.
+- **Latence tracking** : Moins de scripts côté client = page plus rapide.
+
+Ce qu'il **ne résout pas** :
+- Les utilisateurs qui désactivent JavaScript complètement
+- Les utilisateurs avec VPN ou navigateurs "ultra-privés"
+- Les problèmes de déduplication si mal configuré
+- Un plan de marquage mal structuré à la base
+
+## Mythe n°2 : "C'est réservé aux grandes entreprises"
+
+**La réalité :** Avec Google Cloud Run ou Railway, un container GTM server-side peut être déployé pour moins de 20€/mois.
+
+La vraie barrière est technique, pas financière. Il faut maîtriser :
+- La configuration du container sGTM
+- Le mapping des clients (GA4, Meta, etc.)
+- La gestion des cookies first-party
+- Les tests et la déduplication
+
+Pour un e-commerce générant 500K€+ de CA annuel, le ROI est quasi systématiquement positif en quelques semaines.
+
+## Mythe n°3 : "Le server-side remplace le CAPI Meta"
+
+**La réalité :** Le server-side et le Meta Conversions API sont complémentaires, pas redondants — à condition de bien gérer la **déduplication**.
+
+Le setup optimal est un **modèle hybride** :
+1. Le pixel Meta se déclenche côté navigateur (capture les événements avec les données du navigateur)
+2. Le sGTM envoie les mêmes événements via CAPI (côté serveur, avec les données enrichies)
+3. Les deux événements partagent le même `event_id` pour que Meta les déduplique
+
+Sans déduplication correcte : chaque conversion est comptée deux fois. Résultat : votre ROAS s'effondre artificiellement et l'algorithme est mal guidé.
+
+## L'architecture server-side optimale en 2024
+
+Voici le setup que je déploie en mission :
+
+```
+Navigateur → GTM Web Container → sGTM (Cloud Run)
+                ↓                      ↓
+           Pixel Meta              GA4 MP API
+           (browser)           Meta CAPI (server)
+                                    ↓
+                              Déduplication
+                              (event_id partagé)
+```
+
+**Infrastructure recommandée :**
+- Google Cloud Run (scale-to-zero, coût réduit)
+- Container sGTM en mode debug activé pour les tests
+- Cookie first-party `_ga` redéfini côté serveur
+
+## Métriques pour valider votre setup
+
+Après déploiement, mesurez :
+
+1. **EMQ Score Meta** (Event Match Quality) : objectif > 7/10
+2. **Coverage rate** : % d'événements capturés server vs browser
+3. **Taux de déduplication** : doit être entre 1 et 1.3x (pas plus)
+4. **Latence ajoutée** : le sGTM ne doit pas ajouter plus de 150ms
+
+## Ce que le server-side ne peut pas remplacer
+
+Le tracking server-side améliore la **quantité** de données collectées. Il n'améliore pas leur **structure**. Un plan de marquage défaillant reste défaillant, même en server-side.
+
+**Avant de déployer du server-side, assurez-vous d'avoir :**
+- Un plan de marquage documenté et validé
+- Des événements GA4 correctement paramétrés
+- Un processus de QA et de monitoring des données
+
+## Conclusion
+
+Le tracking server-side est un outil puissant, pas une baguette magique. Déployé correctement sur une base solide, il peut récupérer 20 à 40% de conversions perdues et améliorer significativement la qualité des signaux envoyés aux algorithmes d'enchères.
+
+Déployé sur un tracking existant défaillant, il amplifie les problèmes existants.
+
+**La règle d'or : fiabiliser d'abord, amplifier ensuite.**

@@ -1,0 +1,104 @@
+---
+title: "Performance Max en 2024 : structure avancée et guardrails essentiels"
+date: "2024-09-12"
+excerpt: "Performance Max n'est pas une boîte noire incontrôlable. Voici comment le structurer intelligemment pour protéger vos segments à haute valeur et réduire le cannibalisme."
+category: "Performance Marketing"
+tags: ["Google Ads", "Performance Max", "PMax", "Shopping", "ROAS", "Guardrails"]
+author: "Slim Laribi"
+---
+
+## Le problème avec une campagne PMax unique
+
+La tentation est grande : créer une seule campagne Performance Max avec tous vos produits et laisser l'algorithme Google décider. En théorie, l'IA optimise pour le signal le plus fort. En pratique, les problèmes s'accumulent :
+
+- **Cannibalisme brand** : PMax capture du trafic de marque, gonfle son ROAS apparent et vous coûte cher sur des requêtes que vous auriez converties organiquement
+- **Concentration sur les "easy wins"** : L'algorithme surexpose vos produits déjà connus au détriment de la longue traîne
+- **Zéro visibilité** : Impossible de savoir quelle catégorie, quel canal ou quel format performe
+- **Budget dysfonctionnel** : Vos top produits ne reçoivent pas nécessairement plus de budget
+
+## La structure en 3 asset groups que j'utilise en mission
+
+Voici la segmentation qui fonctionne le mieux sur des comptes e-commerce matures :
+
+### Asset Group 1 : Top produits (30-40% du budget)
+
+Vos 20-30 produits qui génèrent 70-80% du CA. Signals :
+- Audiences d'acheteurs récents (0-30 jours)
+- Customer Match de vos meilleurs clients (VIP, LTV élevée)
+- Audiences Custom Intent basées sur vos mots-clés converts
+
+**Objectif :** Maximiser le volume sur les conversions les plus certaines.
+
+### Asset Group 2 : Catalogue longue traîne (40-50% du budget)
+
+L'ensemble du catalogue hors top produits. Signals :
+- Visiteurs pages produit (0-7 jours)
+- Audiences similaires à vos acheteurs
+- Custom Intent basée sur les recherches catégorielles
+
+**Objectif :** Développer la couverture et découvrir de nouveaux segments performants.
+
+### Asset Group 3 : Prospection pure (10-20% du budget)
+
+Pas d'audience specific — on laisse l'algorithme prospecter largement. Signals :
+- Audiences larges (intérêts + données démographiques)
+- In-market segments pertinents
+
+**Objectif :** Alimenter le funnel en nouveaux acheteurs.
+
+## Les guardrails indispensables
+
+### 1. Exclusion des requêtes de marque
+
+C'est probablement le guardrail le plus important. Sans exclusion :
+
+- PMax capte vos requêtes brand (nom de marque, domaine)
+- Il s'attribue des conversions quasi certaines
+- Son ROAS apparent explose — mais ce sont vos conversions brand, pas des nouvelles
+- Votre budget prospecte moins
+
+**Comment exclure :** Ajoutez les termes brand en liste d'exclusion au niveau du compte Google Ads, pas seulement au niveau campagne.
+
+### 2. Stratégie d'enchères : tROAS vs Maximiser les conversions
+
+En phase de lancement : **Maximiser les conversions** (sans contrainte de ROAS). L'algorithme a besoin de données pour calibrer.
+
+Après 30-50 conversions : Passez en **tROAS**, mais conservateur (80-90% du ROAS historique pour ne pas contraindre l'algorithme dès le départ).
+
+### 3. Seasonal adjustments
+
+PMax ignore vos promotions flash si vous ne lui signalez pas. Utilisez les **ajustements saisonniers** avant vos périodes clés (soldes, Black Friday, fêtes) pour que l'algorithme augmente les enchères en anticipation.
+
+## Les signaux d'audience : la clé secrète
+
+Les "signals" PMax sont mal compris. Ce ne sont **pas** des ciblages stricts — c'est une indication donnée à l'algorithme pour qu'il commence à chercher dans le bon espace, pas une restriction.
+
+**Les meilleurs signals en e-commerce :**
+
+1. **Customer Match** : Uploadez votre liste d'acheteurs (email hashé). C'est le signal le plus fort.
+2. **GA4 audiences** : Liez votre propriété GA4 et utilisez vos audiences de conversion.
+3. **Remarketing lists** : Visiteurs des 30 derniers jours, abandons panier, acheteurs récents.
+
+## Mesurer le vrai impact de PMax
+
+Le reporting natif de PMax est volontairement opaque. Pour mesurer correctement :
+
+1. **Rapport "Insight" PMax** : Regardez les catégories de recherche et les groupes d'audiences qui convertissent
+2. **Comparaison avec Google Analytics** : Comparez les conversions attribuées dans Google Ads vs dans GA4 avec un modèle data-driven
+3. **Rapport Merchant Center** : Analysez quels produits reçoivent des impressions et lesquels convertissent
+
+## Ce que PMax ne remplacera jamais
+
+PMax est excellent pour l'**activation** à grande échelle. Mais il ne remplacera pas :
+
+- Les campagnes **DSA** pour la couverture sémantique fine
+- Les campagnes **Shopping** classiques pour les top produits avec des règles d'enchères précises
+- Les campagnes **Search** pour les requêtes à haute intention commercial précise
+
+La vraie expertise, c'est de combiner ces formats intelligemment en évitant la cannibalisation.
+
+## Conclusion
+
+Performance Max bien structuré est un outil puissant. Performance Max mal configuré est un destructeur de budget. La différence est dans la granularité de la segmentation, la qualité des signals et la rigueur du monitoring.
+
+**Un compte performant = PMax segmenté + guardrails brand + signals first-party + mesure réelle.**
