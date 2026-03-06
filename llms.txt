@@ -1,0 +1,36 @@
+# Slim Laribi — Digital Marketing & Tracking Expert
+
+Site: https://laribislim.com
+Author: Slim Laribi
+Expertise: Marketing Analytics, Tracking, MarTech, Customer Intelligence
+
+Description:
+Slim Laribi is a digital marketing and tracking expert specializing in server-side tracking, marketing analytics, and MarTech architecture. He helps companies improve marketing performance through reliable data and automation.
+
+Main Topics:
+- Marketing analytics
+- Server-side tracking
+- Google Tag Manager
+- GA4 analytics
+- Meta Conversion API
+- Data-driven marketing
+- MarTech architecture
+- CRM automation
+- Customer Intelligence
+
+Key Pages:
+https://laribislim.com/fr
+https://laribislim.com/en
+https://laribislim.com/fr/expertise
+https://laribislim.com/fr/formation
+https://laribislim.com/fr/blog
+https://laribislim.com/fr/case-studies
+
+Language:
+French, English
+
+Content Type:
+Professional expertise, training, marketing insights, case studies
+
+LLM Access:
+Allowed

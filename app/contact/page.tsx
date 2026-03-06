@@ -6,40 +6,39 @@ import { Card } from '@/components/ui/Card'
 import { Reveal } from '@/components/animations/Reveal'
 import { AmbientGlow } from '@/components/animations/ParallaxGlow'
 import { ContactForm } from '@/components/contact/ContactForm'
+import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd'
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd'
 import { MapPin, Mail, Clock, Phone, Calendar, Linkedin } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Contact — Réserver un appel ou discuter d\'un projet',
+  title: "Contact — Réserver un appel ou discuter d'un projet",
   description:
-    'Réservez un appel découverte de 30 minutes ou envoyez un message pour discuter d\'une mission consulting, d\'un audit tracking ou d\'une formation.',
+    "Réservez un appel découverte de 30 minutes ou envoyez un message pour discuter d'une mission consulting, d'un audit tracking ou d'une formation.",
 }
 
 const contactInfo = [
-  {
-    icon: Clock,
-    label: 'Réponse garantie',
-    value: 'Sous 24h ouvrées',
-  },
-  {
-    icon: Phone,
-    label: 'Appel découverte',
-    value: '30 minutes, gratuit',
-  },
-  {
-    icon: MapPin,
-    label: 'Localisation',
-    value: 'France · Remote OK',
-  },
-  {
-    icon: Mail,
-    label: 'Email',
-    value: 'contact@slimlaribi.com',
-  },
+  { icon: Clock, label: 'Réponse garantie', value: 'Sous 24h ouvrées' },
+  { icon: Phone, label: 'Appel découverte', value: '30 minutes, gratuit' },
+  { icon: MapPin, label: 'Localisation', value: 'France · Remote OK' },
+  { icon: Mail, label: 'Email', value: 'contact@laribislim.com' },
 ]
 
 export default function ContactPage() {
   return (
     <>
+      {/* ✅ SEO JSON-LD */}
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Accueil', url: 'https://laribislim.com' },
+          { name: 'Contact', url: 'https://laribislim.com/contact' },
+        ]}
+      />
+      <WebPageJsonLd
+        name="Contact — Réserver un appel ou discuter d'un projet"
+        description="Réservez un appel découverte de 30 minutes ou envoyez un message pour discuter d'une mission consulting, d'un audit tracking ou d'une formation."
+        url="https://laribislim.com/contact"
+      />
+
       {/* Hero */}
       <Section py="2xl" className="relative hero-bg">
         <AmbientGlow
@@ -51,17 +50,19 @@ export default function ContactPage() {
         />
         <Container size="md" className="relative z-10 text-center">
           <Reveal>
-            <Badge variant="accent" dot className="mb-5">Contact</Badge>
+            <Badge variant="accent" dot className="mb-5">
+              Contact
+            </Badge>
           </Reveal>
           <Reveal delay={0.05}>
             <h1 className="font-display text-5xl md:text-6xl font-black text-brand-text-primary tracking-tight mb-5">
-              Parlons de votre{' '}
-              <span className="text-gradient-brand">projet.</span>
+              Parlons de votre <span className="text-gradient-brand">projet.</span>
             </h1>
           </Reveal>
           <Reveal delay={0.1}>
             <p className="text-xl text-brand-text-secondary max-w-xl mx-auto">
-              Mission consulting, audit tracking, formation ou projet SaaS — un premier appel de 30 minutes suffit pour qualifier votre besoin et voir si je peux vous aider.
+              Mission consulting, audit tracking, formation ou projet SaaS — un premier appel de 30 minutes suffit pour
+              qualifier votre besoin et voir si je peux vous aider.
             </p>
           </Reveal>
         </Container>
@@ -76,9 +77,7 @@ export default function ContactPage() {
               {/* Contact info */}
               <Reveal>
                 <Card variant="glass" padding="lg">
-                  <h2 className="font-display font-bold text-brand-text-primary mb-5">
-                    Informations
-                  </h2>
+                  <h2 className="font-display font-bold text-brand-text-primary mb-5">Informations</h2>
                   <div className="space-y-4">
                     {contactInfo.map((item) => (
                       <div key={item.label} className="flex items-start gap-3">
@@ -100,15 +99,12 @@ export default function ContactPage() {
                 <Card variant="glass" padding="lg">
                   <div className="flex items-center gap-3 mb-4">
                     <Calendar className="h-5 w-5 text-brand-gold" />
-                    <h3 className="font-display font-bold text-brand-text-primary">
-                      Réserver un créneau
-                    </h3>
+                    <h3 className="font-display font-bold text-brand-text-primary">Réserver un créneau</h3>
                   </div>
                   <p className="text-sm text-brand-text-secondary mb-4">
                     Réservez directement un appel découverte de 30 minutes dans mon agenda.
                   </p>
 
-                  {/* Calendly embed placeholder */}
                   <div className="h-48 rounded-xl bg-brand-surface border border-brand-border flex flex-col items-center justify-center gap-3">
                     <Calendar className="h-8 w-8 text-brand-text-muted" />
                     <p className="text-xs text-brand-text-muted text-center">
@@ -131,9 +127,7 @@ export default function ContactPage() {
               {/* Social */}
               <Reveal delay={0.1}>
                 <Card variant="glass" padding="lg">
-                  <h3 className="font-display font-bold text-brand-text-primary mb-4">
-                    Réseaux
-                  </h3>
+                  <h3 className="font-display font-bold text-brand-text-primary mb-4">Réseaux</h3>
                   <div className="space-y-3">
                     {[
                       {
@@ -171,11 +165,10 @@ export default function ContactPage() {
               <Reveal direction="left">
                 <Card variant="glass" padding="xl">
                   <div className="mb-7">
-                    <h2 className="font-display text-2xl font-bold text-brand-text-primary mb-2">
-                      Envoyez un message
-                    </h2>
+                    <h2 className="font-display text-2xl font-bold text-brand-text-primary mb-2">Envoyez un message</h2>
                     <p className="text-sm text-brand-text-secondary">
-                      Remplissez ce formulaire et je vous répondrai sous 24h ouvrées avec une première analyse de votre situation.
+                      Remplissez ce formulaire et je vous répondrai sous 24h ouvrées avec une première analyse de votre
+                      situation.
                     </p>
                   </div>
 
@@ -206,12 +199,14 @@ export default function ContactPage() {
               {
                 step: '02',
                 title: 'Proposition personnalisée',
-                description: 'Je vous envoie une proposition de mission ou de formation adaptée à vos besoins, avec un planning et des livrables précis.',
+                description:
+                  "Je vous envoie une proposition de mission ou de formation adaptée à vos besoins, avec un planning et des livrables précis.",
               },
               {
                 step: '03',
                 title: 'On démarre',
-                description: 'Après validation, on fixe les jalons et on commence. Premier livrable dans les 2 semaines suivant le kick-off.',
+                description:
+                  'Après validation, on fixe les jalons et on commence. Premier livrable dans les 2 semaines suivant le kick-off.',
               },
             ].map((step, i) => (
               <Reveal key={step.step} delay={i * 0.08}>

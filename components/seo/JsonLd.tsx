@@ -71,7 +71,7 @@ export function CourseJsonLd({
     provider: {
       '@type': 'Person',
       name: provider,
-      url: 'https://slimlaribi.com',
+      url: 'https://laribislim.com',
     },
     url,
     ...(duration ? { timeRequired: duration } : {}),

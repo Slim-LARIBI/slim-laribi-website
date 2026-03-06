@@ -38,9 +38,9 @@ export default function CaseStudyPage({ params }: Props) {
     <>
       <BreadcrumbJsonLd
         items={[
-          { name: 'Accueil', url: 'https://slimlaribi.com' },
-          { name: 'Cas clients', url: 'https://slimlaribi.com/case-studies' },
-          { name: study.title, url: `https://slimlaribi.com/case-studies/${study.slug}` },
+          { name: 'Accueil', url: 'https://laribislim.com' },
+          { name: 'Cas clients', url: 'https://laribislim.com/case-studies' },
+          { name: study.title, url: `https://laribislim.com/case-studies/${study.slug}` },
         ]}
       />
 

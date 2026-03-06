@@ -7,6 +7,8 @@ import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Reveal } from '@/components/animations/Reveal'
 import { AmbientGlow } from '@/components/animations/ParallaxGlow'
+import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd'
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd'
 import { ArrowRight, CheckCircle2, Clock } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -25,15 +27,15 @@ const services = [
     description:
       'Votre infrastructure de collecte est le fondement de toutes vos décisions. Un tracking défaillant produit des données fausses, des optimisations algorithm mal guidées et des budgets gaspillés.',
     what: [
-      'Audit complet de l\'existant (GTM, GA4, pixels, CAPI)',
+      "Audit complet de l'existant (GTM, GA4, pixels, CAPI)",
       'Plan de marquage structuré (événements, paramètres, e-commerce)',
       'Déploiement GTM server-side sur Cloud Run',
       'Implémentation Meta Conversions API avec déduplication',
       'Structuration GA4 : propriétés, conversions, audiences',
       'Dashboard qualité de données (EMQ, coverage rate)',
-      'Intégration BigQuery pour l\'analyse avancée',
+      "Intégration BigQuery pour l'analyse avancée",
     ],
-    deliverables: ['Rapport d\'audit', 'Container GTM', 'Dashboard Looker Studio', 'Documentation technique'],
+    deliverables: ["Rapport d'audit", 'Container GTM', 'Dashboard Looker Studio', 'Documentation technique'],
     duration: '4–8 semaines',
     color: 'gold',
   },
@@ -44,17 +46,17 @@ const services = [
     title: 'Performance Marketing',
     subtitle: 'Google Ads · Meta Ads · Attribution data-driven',
     description:
-      'Des campagnes performantes reposent sur une structure solide, des signaux d\'audience de qualité et une attribution réelle — pas une attribution qui flatte les algorithmes.',
+      "Des campagnes performantes reposent sur une structure solide, des signaux d'audience de qualité et une attribution réelle — pas une attribution qui flatte les algorithmes.",
     what: [
       'Audit de compte Google Ads / Meta Ads',
       'Restructuration de campagnes (Search, Shopping, PMax, Meta)',
       'Segmentation Performance Max avec asset groups & signals',
       'Setup Attribution data-driven (GA4 + import conversions)',
       'Stratégie créatives Meta (UGC, VSL, Dynamic)',
-      'A/B testing structuré et règles d\'optimisation',
+      "A/B testing structuré et règles d'optimisation",
       'Reporting ROAS réel vs attribution plateforme',
     ],
-    deliverables: ['Rapport audit', 'Comptes restructurés', 'Plan d\'audiences', 'Dashboard ROAS'],
+    deliverables: ['Rapport audit', 'Comptes restructurés', "Plan d'audiences", 'Dashboard ROAS'],
     duration: '6–10 semaines',
     color: 'accent',
   },
@@ -65,14 +67,14 @@ const services = [
     title: 'CRM & Email Automation',
     subtitle: 'Klaviyo · Lifecycle · Segmentation RFM · PCR',
     description:
-      'La base CRM est votre actif le plus précieux — à condition de l\'activer intelligemment. Segmentation comportementale, flows lifecycle, scoring de profils : chaque contact devient un levier.',
+      "La base CRM est votre actif le plus précieux — à condition de l'activer intelligemment. Segmentation comportementale, flows lifecycle, scoring de profils : chaque contact devient un levier.",
     what: [
       'Audit CRM : qualité des données, segmentation, performance',
-      'Calcul du PCR (Profile Completion Rate) et plan d\'enrichissement',
+      "Calcul du PCR (Profile Completion Rate) et plan d'enrichissement",
       'Modèle de segmentation RFM sur données Shopify/GA4',
       'Déploiement de 8–12 flows automatisés (Klaviyo)',
       'Welcome series, abandon, post-achat, win-back, VIP',
-      'A/B testing sujets, contenus, timings d\'envoi',
+      'A/B testing sujets, contenus, timings d’envoi',
       'Setup des KPIs CRM : revenue, OR, CTR, unsubscribe rate',
     ],
     deliverables: ['Audit CRM complet', 'Flows Klaviyo', 'Dashboard KPIs', 'Rapport monthly'],
@@ -86,7 +88,7 @@ const services = [
     title: 'Automation & SaaS Builder',
     subtitle: 'n8n · Workflows · Dashboards · Outils internes',
     description:
-      'Les tâches répétitives tuent la productivité. Je conçois et déploie des systèmes d\'automatisation opérationnelle qui libèrent du temps et éliminent les erreurs humaines.',
+      "Les tâches répétitives tuent la productivité. Je conçois et déploie des systèmes d'automatisation opérationnelle qui libèrent du temps et éliminent les erreurs humaines.",
     what: [
       'Cartographie et audit des processus opérationnels',
       'Déploiement n8n self-hosted (Docker / Cloud)',
@@ -118,6 +120,19 @@ const colorMap = {
 export default function ExpertisePage() {
   return (
     <>
+      {/* ✅ SEO JSON-LD */}
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Accueil', url: 'https://laribislim.com' },
+          { name: 'Expertise', url: 'https://laribislim.com/expertise' },
+        ]}
+      />
+      <WebPageJsonLd
+        name="Expertise — Tracking, Performance Marketing & Automation"
+        description="Services de consulting en tracking server-side, performance ads, CRM lifecycle et automatisation. Audit, implémentation, optimisation et formation."
+        url="https://laribislim.com/expertise"
+      />
+
       {/* Hero */}
       <Section py="2xl" className="relative hero-bg">
         <AmbientGlow
@@ -142,7 +157,7 @@ export default function ExpertisePage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="text-xl text-brand-text-secondary leading-relaxed max-w-xl mx-auto mb-8">
-              Du tracking à l'activation, en passant par l\'automatisation — des missions à fort impact, livrées avec rigueur.
+              Du tracking à l'activation, en passant par l'automatisation — des missions à fort impact, livrées avec rigueur.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
@@ -239,8 +254,7 @@ export default function ExpertisePage() {
               Quel est votre enjeu ?
             </h2>
             <p className="text-brand-text-secondary mb-8">
-              Audit gratuit · Diagnostic précis · Plan d'action chiffré.
-              Réponse sous 24h.
+              Audit gratuit · Diagnostic précis · Plan d'action chiffré. Réponse sous 24h.
             </p>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link href="/contact">

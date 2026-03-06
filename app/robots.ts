@@ -1,15 +1,43 @@
 import type { MetadataRoute } from 'next'
 
+const siteUrl = 'https://laribislim.com'
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/api/', '/_next/'],
+      },
+
+      // IA crawlers (LLM training / AI indexing)
+      {
+        userAgent: 'GPTBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'ChatGPT-User',
+        allow: '/',
+      },
+      {
+        userAgent: 'ClaudeBot',
+        allow: '/',
+      },
+      {
+        userAgent: 'anthropic-ai',
+        allow: '/',
+      },
+      {
+        userAgent: 'Google-Extended',
+        allow: '/',
+      },
+      {
+        userAgent: 'PerplexityBot',
+        allow: '/',
       },
     ],
-    sitemap: 'https://slimlaribi.com/sitemap.xml',
-    host: 'https://slimlaribi.com',
+
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   }
 }

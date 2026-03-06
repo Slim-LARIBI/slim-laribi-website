@@ -7,13 +7,17 @@ import { Section } from '@/components/ui/Section'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Reveal } from '@/components/animations/Reveal'
+import { ArticleJsonLd } from '@/components/seo/ArticleJsonLd'
+import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd'
 import { getPostBySlug, getAllSlugs, getAllPosts } from '@/lib/blog'
 import { formatDate } from '@/lib/utils'
 import { ArrowLeft, Clock, ArrowRight } from 'lucide-react'
 
 interface Props {
-  params: { slug: string }
+  params: { slug: string; locale: string }
 }
+
+const siteUrl = 'https://laribislim.com'
 
 export async function generateStaticParams() {
   return getAllSlugs().map((slug) => ({ slug }))
@@ -23,16 +27,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(params.slug)
   if (!post) return {}
 
+  const locale = params.locale || 'fr'
+  const canonical = `${siteUrl}/${locale}/blog/${post.slug}`
+
   return {
     title: post.title,
     description: post.excerpt,
+    alternates: {
+      canonical,
+    },
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: 'article',
+      url: canonical,
       publishedTime: post.date,
       authors: [post.author],
       tags: post.tags,
+      images: [
+        {
+          url: `${siteUrl}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: [`${siteUrl}/og-image.jpg`],
     },
   }
 }
@@ -41,6 +66,49 @@ export default function BlogPostPage({ params }: Props) {
   const post = getPostBySlug(params.slug)
   if (!post) notFound()
 
+  const locale = params.locale || 'fr'
+  const postUrl = `${siteUrl}/${locale}/blog/${post.slug}`
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    '@id': `${postUrl}#article`,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${postUrl}#webpage`,
+    },
+    headline: post.title,
+    description: post.excerpt,
+    image: [`${siteUrl}/og-image.jpg`],
+    author: {
+      '@type': 'Person',
+      '@id': `${siteUrl}/#person`,
+      name: post.author,
+    },
+    publisher: {
+      '@type': 'Organization',
+      '@id': `${siteUrl}/#organization`,
+      name: 'Slim Laribi',
+      url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/og-image.jpg`,
+      },
+    },
+    datePublished: post.date,
+    dateModified: post.date,
+    url: postUrl,
+    inLanguage: locale === 'en' ? 'en-US' : 'fr-FR',
+    keywords: post.tags,
+    articleSection: post.category,
+  }
+
+  const breadcrumbItems = [
+    { name: locale === 'en' ? 'Home' : 'Accueil', url: `${siteUrl}/${locale}` },
+    { name: 'Blog', url: `${siteUrl}/${locale}/blog` },
+    { name: post.title, url: postUrl },
+  ]
+
   const allPosts = getAllPosts()
   const related = allPosts
     .filter((p) => p.slug !== post.slug && p.tags.some((t) => post.tags.includes(t)))
@@ -48,12 +116,22 @@ export default function BlogPostPage({ params }: Props) {
 
   return (
     <>
-      {/* Header */}
+      <ArticleJsonLd
+          title={post.title}
+          description={post.excerpt}
+          url={postUrl}
+          image={post.coverImage ? `${siteUrl}${post.coverImage}` : `${siteUrl}/og-image.jpg`}
+          datePublished={post.date}
+          dateModified={post.date}
+          authorName={post.author}
+      />
+      <BreadcrumbJsonLd items={breadcrumbItems} />
+
       <Section py="xl" className="hero-bg border-b border-brand-border">
         <Container size="md">
           <Reveal>
             <Link
-              href="/blog"
+              href={`/${locale}/blog`}
               className="inline-flex items-center gap-2 text-sm text-brand-text-muted hover:text-brand-text-primary transition-colors mb-8"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -62,7 +140,9 @@ export default function BlogPostPage({ params }: Props) {
           </Reveal>
 
           <Reveal delay={0.05}>
-            <Badge variant="accent" className="mb-4">{post.category}</Badge>
+            <Badge variant="accent" className="mb-4">
+              {post.category}
+            </Badge>
           </Reveal>
 
           <Reveal delay={0.08}>
@@ -90,12 +170,13 @@ export default function BlogPostPage({ params }: Props) {
             </div>
           </Reveal>
 
-          {/* Tags */}
           {post.tags.length > 0 && (
             <Reveal delay={0.16}>
               <div className="flex flex-wrap gap-2 mt-5">
                 {post.tags.map((tag) => (
-                  <Badge key={tag} variant="outline" size="sm">{tag}</Badge>
+                  <Badge key={tag} variant="outline" size="sm">
+                    {tag}
+                  </Badge>
                 ))}
               </div>
             </Reveal>
@@ -103,11 +184,9 @@ export default function BlogPostPage({ params }: Props) {
         </Container>
       </Section>
 
-      {/* Content */}
       <Section py="xl">
         <Container size="md">
           <div className="grid lg:grid-cols-4 gap-12">
-            {/* Article */}
             <div className="lg:col-span-3">
               <Reveal>
                 <div className="prose">
@@ -115,7 +194,6 @@ export default function BlogPostPage({ params }: Props) {
                 </div>
               </Reveal>
 
-              {/* CTA after article */}
               <Reveal delay={0.05}>
                 <div className="mt-16 p-7 rounded-2xl glass border border-brand-border text-center">
                   <p className="text-xs font-semibold tracking-[0.2em] uppercase text-brand-accent mb-2">
@@ -127,8 +205,12 @@ export default function BlogPostPage({ params }: Props) {
                   <p className="text-brand-text-secondary text-sm mb-5">
                     Diagnostic gratuit · 30 minutes · Plan d'action concret
                   </p>
-                  <Link href="/contact">
-                    <Button variant="primary" size="lg" icon={<ArrowRight className="h-4 w-4" />}>
+                  <Link href={`/${locale}/contact`}>
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      icon={<ArrowRight className="h-4 w-4" />}
+                    >
                       Réserver un appel
                     </Button>
                   </Link>
@@ -136,44 +218,52 @@ export default function BlogPostPage({ params }: Props) {
               </Reveal>
             </div>
 
-            {/* Sidebar */}
             <div className="hidden lg:block">
               <div className="sticky top-24 space-y-4">
-                {/* Author card */}
                 <div className="glass rounded-2xl p-5 border border-brand-border">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="h-10 w-10 rounded-xl bg-gradient-brand flex items-center justify-center text-sm font-black text-white">
                       SL
                     </div>
                     <div>
-                      <p className="font-semibold text-brand-text-primary text-sm">{post.author}</p>
-                      <p className="text-xs text-brand-text-muted">Expert Marketing & Tracking</p>
+                      <p className="font-semibold text-brand-text-primary text-sm">
+                        {post.author}
+                      </p>
+                      <p className="text-xs text-brand-text-muted">
+                        Expert Marketing & Tracking
+                      </p>
                     </div>
                   </div>
-                  <Link href="/about">
+                  <Link href={`/${locale}/about`}>
                     <Button variant="ghost" size="sm" className="w-full">
                       À propos
                     </Button>
                   </Link>
                 </div>
 
-                {/* Tags */}
                 {post.tags.length > 0 && (
                   <div className="glass rounded-2xl p-5 border border-brand-border">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-brand-text-muted mb-3">Tags</p>
+                    <p className="text-xs font-semibold uppercase tracking-wider text-brand-text-muted mb-3">
+                      Tags
+                    </p>
                     <div className="flex flex-wrap gap-1.5">
                       {post.tags.map((tag) => (
-                        <Badge key={tag} variant="outline" size="sm">{tag}</Badge>
+                        <Badge key={tag} variant="outline" size="sm">
+                          {tag}
+                        </Badge>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* CTA */}
                 <div className="glass rounded-2xl p-5 border border-brand-border text-center">
-                  <p className="text-sm font-medium text-brand-text-primary mb-2">Formation 90h</p>
-                  <p className="text-xs text-brand-text-muted mb-3">Marketing · Tracking · CRM</p>
-                  <Link href="/formation">
+                  <p className="text-sm font-medium text-brand-text-primary mb-2">
+                    Formation 90h
+                  </p>
+                  <p className="text-xs text-brand-text-muted mb-3">
+                    Marketing · Tracking · CRM
+                  </p>
+                  <Link href={`/${locale}/formation`}>
                     <Button variant="gold" size="sm" className="w-full">
                       Voir le programme
                     </Button>
@@ -185,7 +275,6 @@ export default function BlogPostPage({ params }: Props) {
         </Container>
       </Section>
 
-      {/* Related posts */}
       {related.length > 0 && (
         <Section py="xl" className="border-t border-brand-border">
           <Container>
@@ -197,13 +286,17 @@ export default function BlogPostPage({ params }: Props) {
             <div className="grid md:grid-cols-2 gap-5">
               {related.map((rel, i) => (
                 <Reveal key={rel.slug} delay={i * 0.08}>
-                  <Link href={`/blog/${rel.slug}`} className="group block">
+                  <Link href={`/${locale}/blog/${rel.slug}`} className="group block">
                     <div className="glass rounded-2xl p-6 border border-brand-border hover:border-brand-border-strong hover:-translate-y-0.5 transition-all duration-300">
-                      <Badge variant="accent" size="sm" className="mb-3">{rel.category}</Badge>
+                      <Badge variant="accent" size="sm" className="mb-3">
+                        {rel.category}
+                      </Badge>
                       <h4 className="font-display font-bold text-brand-text-primary mb-2 group-hover:text-white transition-colors">
                         {rel.title}
                       </h4>
-                      <p className="text-sm text-brand-text-secondary line-clamp-2 mb-3">{rel.excerpt}</p>
+                      <p className="text-sm text-brand-text-secondary line-clamp-2 mb-3">
+                        {rel.excerpt}
+                      </p>
                       <div className="flex items-center gap-1.5 text-brand-accent text-sm">
                         <span>Lire</span>
                         <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />

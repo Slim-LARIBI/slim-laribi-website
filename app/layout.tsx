@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter, Syne, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
-import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
 import { PersonJsonLd } from '@/components/seo/JsonLd'
+import { WebSiteJsonLd } from '@/components/seo/WebSiteJsonLd'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
   display: 'swap',
 })
 
-const siteUrl = 'https://slimlaribi.com'
+const siteUrl = 'https://laribislim.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -32,7 +31,7 @@ export const metadata: Metadata = {
     template: '%s | Slim Laribi',
   },
   description:
-    'Expert Digital Marketing, Tracking & MarTech. Je vous aide à fiabiliser votre data, optimiser vos performances ads et former vos équipes. Formation Customer Intelligence 90h.',
+    "Expert Digital Marketing, Tracking & MarTech. Je vous aide à fiabiliser votre data, optimiser vos performances ads et former vos équipes. Formation Customer Intelligence 90h.",
   keywords: [
     'Expert Marketing Digital',
     'Tracking Server-side',
@@ -54,8 +53,7 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: 'Slim Laribi',
     title: 'Slim Laribi — Expert Marketing, Tracking & Formation',
-    description:
-      'Expert Digital Marketing, Tracking & MarTech. Data fiable. Résultats mesurables.',
+    description: 'Expert Digital Marketing, Tracking & MarTech. Data fiable. Résultats mesurables.',
     images: [
       {
         url: '/og-image.jpg',
@@ -70,7 +68,7 @@ export const metadata: Metadata = {
     title: 'Slim Laribi — Expert Marketing, Tracking & Formation',
     description: 'Data fiable. Résultats mesurables. Performance à grande échelle.',
     creator: '@slimlaribi',
-    images: ['/og-image.jpg'],
+    images: [`${siteUrl}/og-image.jpg`],
   },
   robots: {
     index: true,
@@ -84,9 +82,10 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: siteUrl,
+    canonical: `${siteUrl}/fr`,
     languages: {
-      'fr-FR': siteUrl,
+      'fr-FR': `${siteUrl}/fr`,
+      'en-US': `${siteUrl}/en`,
     },
   },
   icons: {
@@ -107,6 +106,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${inter.variable} ${syne.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-screen bg-brand-bg text-brand-text-primary antialiased">
+
+        {/* WebSite Schema */}
+        <WebSiteJsonLd />
+
+        {/* Person Schema */}
         <PersonJsonLd
           name="Slim Laribi"
           url={siteUrl}
@@ -114,12 +118,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           description="Expert en Performance Marketing, Tracking server-side, MarTech et formation Customer Intelligence. 8+ ans d'expérience, 40+ projets livrés."
           sameAs={[
             'https://linkedin.com/in/slim-laribi',
-            'https://twitter.com/slimlaribi',
+            'https://twitter.com/slimlaribi'
           ]}
         />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+
+        {children}
+
       </body>
     </html>
   )

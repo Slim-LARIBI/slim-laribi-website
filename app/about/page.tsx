@@ -1,18 +1,20 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
 import { Badge } from '@/components/ui/Badge'
 import { Card } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
 import { Reveal } from '@/components/animations/Reveal'
 import { AmbientGlow } from '@/components/animations/ParallaxGlow'
-import Link from 'next/link'
-import { Button } from '@/components/ui/Button'
+import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd'
+import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd'
 import { ArrowRight, Target, Users, Lightbulb, Shield } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'À propos — Slim Laribi',
   description:
-    'Expert Marketing Digital, Tracking & MarTech. Découvrez mon parcours, mes valeurs et mon approche opérationnelle basée sur la donnée fiable et l\'exécution sans compromis.',
+    "Expert Marketing Digital, Tracking & MarTech. Découvrez mon parcours, mes valeurs et mon approche opérationnelle basée sur la donnée fiable et l'exécution sans compromis.",
 }
 
 const values = [
@@ -26,7 +28,7 @@ const values = [
     icon: Shield,
     title: 'Rigueur & précision',
     description:
-      'La donnée doit être fiable avant d\'être analysée. Je refuse les approximations, les taux "estimés" et les attributions fantaisistes. La qualité de la mesure conditionne la qualité des décisions.',
+      "La donnée doit être fiable avant d'être analysée. Je refuse les approximations, les taux \"estimés\" et les attributions fantaisistes. La qualité de la mesure conditionne la qualité des décisions.",
   },
   {
     icon: Lightbulb,
@@ -38,7 +40,7 @@ const values = [
     icon: Users,
     title: 'Transmission & autonomie',
     description:
-      'Mon objectif n\'est pas de créer une dépendance mais de vous rendre autonome. En consulting comme en formation, je transmets la méthode, pas seulement le résultat.',
+      "Mon objectif n'est pas de créer une dépendance mais de vous rendre autonome. En consulting comme en formation, je transmets la méthode, pas seulement le résultat.",
   },
 ]
 
@@ -64,6 +66,19 @@ const tools = [
 export default function AboutPage() {
   return (
     <>
+      {/* ✅ SEO JSON-LD */}
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Accueil', url: 'https://laribislim.com' },
+          { name: 'À propos', url: 'https://laribislim.com/about' },
+        ]}
+      />
+      <WebPageJsonLd
+        name="À propos — Slim Laribi"
+        description="Expert Marketing Digital, Tracking & MarTech. Parcours, valeurs et approche opérationnelle basée sur la donnée fiable."
+        url="https://laribislim.com/about"
+      />
+
       {/* Hero */}
       <Section py="2xl" className="relative hero-bg">
         <AmbientGlow
@@ -86,13 +101,20 @@ export default function AboutPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="text-xl text-brand-text-secondary leading-relaxed mb-8 max-w-2xl mx-auto">
-              Expert en Performance Marketing, Tracking & MarTech. Je travaille à l'intersection de la donnée, de la technologie et de l\'activation commerciale — avec une obsession commune : la fiabilité et la mesurabilité des résultats.
+              Expert en Performance Marketing, Tracking & MarTech. Je travaille à
+              l'intersection de la donnée, de la technologie et de l'activation
+              commerciale — avec une obsession commune : la fiabilité et la
+              mesurabilité des résultats.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
             <div className="flex flex-wrap gap-3 justify-center">
               <Link href="/contact">
-                <Button variant="primary" size="lg" icon={<ArrowRight className="h-4 w-4" />}>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  icon={<ArrowRight className="h-4 w-4" />}
+                >
                   Travailler ensemble
                 </Button>
               </Link>
@@ -121,15 +143,36 @@ export default function AboutPage() {
                   </h2>
                   <div className="space-y-3">
                     {[
-                      { year: '2016', event: 'Premiers pas en marketing digital — SEO & Google Ads' },
-                      { year: '2018', event: 'Spécialisation performance e-commerce & tracking' },
-                      { year: '2020', event: 'Expertise server-side tracking & MarTech stack' },
-                      { year: '2022', event: 'Lancement de formations Customer Intelligence' },
-                      { year: '2024', event: 'Projets SaaS & automatisation opérationnelle' },
+                      {
+                        year: '2016',
+                        event:
+                          'Premiers pas en marketing digital — SEO & Google Ads',
+                      },
+                      {
+                        year: '2018',
+                        event: 'Spécialisation performance e-commerce & tracking',
+                      },
+                      {
+                        year: '2020',
+                        event: 'Expertise server-side tracking & MarTech stack',
+                      },
+                      {
+                        year: '2022',
+                        event:
+                          'Lancement de formations Customer Intelligence',
+                      },
+                      {
+                        year: '2024',
+                        event: 'Projets SaaS & automatisation opérationnelle',
+                      },
                     ].map((item) => (
                       <div key={item.year} className="flex gap-3">
-                        <span className="text-xs font-mono font-bold text-brand-accent shrink-0 mt-0.5">{item.year}</span>
-                        <span className="text-sm text-brand-text-secondary">{item.event}</span>
+                        <span className="text-xs font-mono font-bold text-brand-accent shrink-0 mt-0.5">
+                          {item.year}
+                        </span>
+                        <span className="text-sm text-brand-text-secondary">
+                          {item.event}
+                        </span>
                       </div>
                     ))}
                   </div>
@@ -140,11 +183,11 @@ export default function AboutPage() {
             <div className="md:col-span-3 space-y-5">
               {[
                 {
-                  title: 'Pourquoi la data d\'abord',
+                  title: "Pourquoi la data d'abord",
                   content: `Dès mes premières missions, j'ai constaté le même problème récurrent : des budgets ads optimisés sur des données fausses. GA4 mal configuré, CAPI inexistant, attributions gonflées par le multi-touch last-click. Des décisions stratégiques prises sur des illusions de performance.\n\nC'est cette frustration qui a orienté mon expertise vers le tracking et la fiabilité de la donnée. Avant d'optimiser, il faut mesurer correctement.`,
                 },
                 {
-                  title: 'L\'approche opérationnelle',
+                  title: "L'approche opérationnelle",
                   content: `Je ne suis pas consultant PowerPoint. J'interviens directement dans vos outils, je configure moi-même les containers GTM, j'audite les flux de données, je structure les comptes ads et je déploie les automations.\n\nCette approche hands-on permet une transmission efficace : mes clients comprennent ce qui est fait et pourquoi, ce qui garantit leur autonomie après la mission.`,
                 },
                 {
@@ -154,9 +197,14 @@ export default function AboutPage() {
               ].map((block, i) => (
                 <Reveal key={block.title} delay={i * 0.08}>
                   <Card variant="glass" padding="lg">
-                    <h3 className="font-display font-bold text-brand-text-primary mb-3">{block.title}</h3>
+                    <h3 className="font-display font-bold text-brand-text-primary mb-3">
+                      {block.title}
+                    </h3>
                     {block.content.split('\n\n').map((p, j) => (
-                      <p key={j} className="text-brand-text-secondary leading-relaxed text-sm mb-3 last:mb-0">
+                      <p
+                        key={j}
+                        className="text-brand-text-secondary leading-relaxed text-sm mb-3 last:mb-0"
+                      >
                         {p}
                       </p>
                     ))}
@@ -169,7 +217,10 @@ export default function AboutPage() {
       </Section>
 
       {/* Values */}
-      <Section py="xl" className="bg-brand-surface/30 border-y border-brand-border">
+      <Section
+        py="xl"
+        className="bg-brand-surface/30 border-y border-brand-border"
+      >
         <Container>
           <Reveal className="text-center mb-14">
             <p className="text-xs font-semibold tracking-[0.2em] uppercase text-brand-gold mb-3">
@@ -184,8 +235,12 @@ export default function AboutPage() {
               <Reveal key={v.title} delay={i * 0.08}>
                 <Card variant="glass" padding="lg" className="h-full">
                   <v.icon className="h-6 w-6 text-brand-accent mb-4" />
-                  <h3 className="font-display font-bold text-brand-text-primary mb-2">{v.title}</h3>
-                  <p className="text-sm text-brand-text-secondary leading-relaxed">{v.description}</p>
+                  <h3 className="font-display font-bold text-brand-text-primary mb-2">
+                    {v.title}
+                  </h3>
+                  <p className="text-sm text-brand-text-secondary leading-relaxed">
+                    {v.description}
+                  </p>
                 </Card>
               </Reveal>
             ))}
@@ -227,10 +282,15 @@ export default function AboutPage() {
               Travaillons ensemble.
             </h2>
             <p className="text-brand-text-secondary mb-8">
-              Mission consulting, audit ou formation — discutons de votre contexte.
+              Mission consulting, audit ou formation — discutons de votre
+              contexte.
             </p>
             <Link href="/contact">
-              <Button variant="primary" size="xl" icon={<ArrowRight className="h-5 w-5" />}>
+              <Button
+                variant="primary"
+                size="xl"
+                icon={<ArrowRight className="h-5 w-5" />}
+              >
                 Réserver un appel gratuit
               </Button>
             </Link>

@@ -22,8 +22,8 @@ export async function POST(req: NextRequest) {
     // import { Resend } from 'resend'
     // const resend = new Resend(process.env.RESEND_API_KEY)
     // await resend.emails.send({
-    //   from: 'noreply@slimlaribi.com',
-    //   to: 'contact@slimlaribi.com',
+    //   from: 'noreply@laribislim.com',
+    //   to: 'contact@laribislim.com',
     //   subject: `[Contact] ${data.subject} — ${data.name}`,
     //   text: `
     //     Nom: ${data.name}

@@ -9,7 +9,6 @@ import { Reveal } from '@/components/animations/Reveal'
 import { AmbientGlow } from '@/components/animations/ParallaxGlow'
 import { PricingPlaceholder } from '@/components/formation/PricingPlaceholder'
 import { FAQAccordion } from '@/components/formation/FAQAccordion'
-import { CourseJsonLd } from '@/components/seo/JsonLd'
 import {
   CheckCircle2, Clock, Users, Award, Download, ArrowRight,
   GraduationCap, BarChart3, Globe, Target, Cpu, Mail
@@ -93,18 +92,130 @@ const faqs = [
   },
 ]
 
+function BreadcrumbJsonLd({
+  items,
+}: {
+  items: Array<{ name: string; item: string }>
+}) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": items.map((it, idx) => ({
+      "@type": "ListItem",
+      "position": idx + 1,
+      "name": it.name,
+      "item": it.item,
+    })),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  )
+}
+
+function FAQJsonLd({
+  items,
+}: {
+  items: Array<{ question: string; answer: string }>
+}) {
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": items.map((f) => ({
+      "@type": "Question",
+      "name": f.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.answer,
+      },
+    })),
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  )
+}
+
 export default function FormationPage() {
   const totalHours = modules.reduce((s, m) => s + m.hours, 0)
 
   return (
     <>
-      <CourseJsonLd
-        name="Formation Customer Intelligence — Marketing Digital 90h"
-        description="Formation intensive 90 heures sur 3 mois : WordPress, SEO, Google Ads, Meta Ads, GTM, GA4, CRM. Formation présentielle en groupes réduits."
-        provider="Slim Laribi"
-        url="https://slimlaribi.com/formation"
-        duration="P3M"
+      {/* ✅ Structured Data (SEO) */}
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Accueil', item: 'https://laribislim.com/' },
+          { name: 'Formation', item: 'https://laribislim.com/formation' },
+        ]}
       />
+
+    {/* ✅ Course Structured Data enrichi */}
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Course",
+      "name": "Formation Customer Intelligence — Marketing Digital 90h",
+      "description":
+        "Formation intensive 90 heures sur 3 mois : WordPress, SEO, Google Ads, Meta Ads, GTM, GA4, CRM. Présentiel en groupes réduits.",
+      "url": "https://laribislim.com/formation",
+      "provider": {
+        "@type": "Organization",
+        "name": "Slim Laribi",
+        "url": "https://laribislim.com"
+      },
+      "inLanguage": "fr-FR",
+
+      /* ✅ Audience (pour qui) */
+      "audience": [
+        { "@type": "Audience", "audienceType": "Professionnels en reconversion" },
+        { "@type": "Audience", "audienceType": "Marketers juniors & mid" },
+        { "@type": "Audience", "audienceType": "Entrepreneurs & e-commerçants" },
+        { "@type": "Audience", "audienceType": "Équipes marketing en entreprise" }
+      ],
+
+      /* ✅ Présentiel + lieu */
+      "courseMode": "InPerson",
+      "location": {
+        "@type": "Place",
+        "name": "Centre de formation (Présentiel)",
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "TN",
+          "addressLocality": "Tunis"
+          /* option: "streetAddress": "...", "postalCode": "..." */
+        }
+      },
+
+      /* ✅ Offre (prix) */
+      "offers": {
+        "@type": "Offer",
+        "url": "https://laribislim.com/formation",
+        "availability": "https://schema.org/InStock",
+        "priceCurrency": "TND",
+        "price": "0",
+        "category": "Training"
+        /* Mets le vrai prix dès que tu l'as, ex: "price": "2900" */
+      },
+
+      /* ✅ Optionnel mais top : instance (durée 3 mois) */
+      "hasCourseInstance": {
+        "@type": "CourseInstance",
+        "courseMode": "InPerson",
+        "duration": "P3M"
+        /* option: "startDate": "2026-04-01", "endDate": "2026-07-01" */
+      }
+    }),
+  }}
+/>
+      <FAQJsonLd items={faqs} />
 
       {/* Hero */}
       <Section py="2xl" className="relative hero-bg overflow-hidden">
