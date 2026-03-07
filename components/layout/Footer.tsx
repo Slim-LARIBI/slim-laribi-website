@@ -3,21 +3,24 @@ import { Container } from '@/components/ui/Container'
 import { Button } from '@/components/ui/Button'
 
 const footerLinks = {
-  Expertise: [
-    { href: '/expertise', label: 'Tracking & Data' },
-    { href: '/expertise', label: 'Performance Ads' },
-    { href: '/expertise', label: 'CRM & Automation' },
-    { href: '/saas', label: 'SaaS Projects' },
+  Expertises: [
+    { href: '/data-tracking', label: 'Data Tracking' },
+    { href: '/performance-marketing', label: 'Performance Marketing' },
+    { href: '/marketing-automation', label: 'Marketing Automation' },
+    { href: '/customer-intelligence', label: 'Customer Intelligence' },
+    { href: '/seo-acquisition', label: 'SEO Acquisition' },
+    { href: '/expertises-data-marketing', label: 'Hub expertises' },
   ],
   Formation: [
     { href: '/formation', label: 'Programme 90h' },
     { href: '/formation/programme', label: 'Planning détaillé' },
     { href: '/testimonials', label: 'Témoignages' },
-    { href: '/contact', label: 'S\'inscrire' },
+    { href: '/contact', label: "S'inscrire" },
   ],
   Ressources: [
     { href: '/blog', label: 'Blog' },
     { href: '/case-studies', label: 'Cas clients' },
+    { href: '/saas', label: 'Projets SaaS' },
     { href: '/about', label: 'À propos' },
     { href: '/contact', label: 'Contact' },
   ],
@@ -27,57 +30,80 @@ export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-brand-border bg-brand-bg">
-      {/* CTA block */}
-      <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-glow opacity-50 pointer-events-none" />
-        <Container className="py-20 text-center relative z-10">
-          <p className="text-xs font-medium tracking-[0.2em] uppercase text-brand-accent mb-4">
-            Prêt à passer à l'action&nbsp;?
-          </p>
-          <h2 className="font-display text-3xl md:text-4xl font-bold text-brand-text-primary mb-4 tracking-tight">
-            Démarrons votre projet.
-          </h2>
-          <p className="text-brand-text-secondary max-w-md mx-auto mb-8">
-            Audit gratuit · Diagnostic tracking · Mission consulting ou formation — discutons-en.
-          </p>
-          <div className="flex flex-wrap gap-3 justify-center">
-            <Link href="/contact">
-              <Button variant="primary" size="lg">
-                Réserver un appel
-              </Button>
-            </Link>
-            <Link href="/formation">
-              <Button variant="secondary" size="lg">
-                Découvrir la formation
-              </Button>
-            </Link>
+    <footer className="relative border-t border-brand-border bg-brand-bg overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none opacity-40 bg-gradient-glow" />
+
+      {/* Premium CTA */}
+      <div className="relative">
+        <Container className="py-20 md:py-24">
+          <div className="rounded-[2rem] border border-brand-border bg-white/[0.03] backdrop-blur-sm px-6 py-12 md:px-10 md:py-14 text-center shadow-glow-sm">
+            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-brand-accent mb-4">
+              Conseil · Audit · Formation
+            </p>
+
+            <h2 className="font-display text-3xl md:text-5xl font-black tracking-tight text-brand-text-primary mb-5">
+              Construisons une
+              <span className="text-gradient-brand"> machine marketing </span>
+              pilotée par la donnée.
+            </h2>
+
+            <p className="text-brand-text-secondary max-w-2xl mx-auto mb-8 leading-relaxed">
+              Audit tracking, performance marketing, architecture MarTech, CRM et automatisation :
+              une approche senior, structurée et orientée résultats.
+            </p>
+
+            <div className="flex flex-wrap gap-3 justify-center">
+              <Link href="/contact">
+                <Button variant="primary" size="lg">
+                  Réserver un appel
+                </Button>
+              </Link>
+              <Link href="/expertises-data-marketing">
+                <Button variant="secondary" size="lg">
+                  Explorer les expertises
+                </Button>
+              </Link>
+            </div>
           </div>
         </Container>
       </div>
 
-      {/* Links grid */}
-      <Container className="py-12 border-t border-brand-border">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="col-span-2 md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-brand">
-                <span className="text-sm font-black text-white">SL</span>
+      {/* Main footer */}
+      <Container className="relative py-14 md:py-16 border-t border-brand-border">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
+          {/* Brand block */}
+          <div className="md:col-span-4">
+            <Link href="/" className="inline-flex items-center gap-3 mb-5">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-brand shadow-glow-sm">
+                <span className="text-sm font-black text-white tracking-wide">SL</span>
               </div>
-              <span className="font-display text-lg font-bold tracking-tight text-brand-text-primary">
-                Slim Laribi
-              </span>
+              <div>
+                <span className="block font-display text-xl font-black tracking-tight text-brand-text-primary">
+                  Slim Laribi
+                </span>
+                <span className="block text-xs text-brand-text-muted uppercase tracking-[0.18em] mt-0.5">
+                  Digital Marketing · Tracking · MarTech
+                </span>
+              </div>
             </Link>
-            <p className="text-sm text-brand-text-muted leading-relaxed mb-4">
-              Expert Digital Marketing, Tracking & MarTech.
-              Formateur Customer Intelligence.
+
+            <p className="text-sm text-brand-text-secondary leading-relaxed max-w-md mb-6">
+              J’aide les entreprises à fiabiliser leur tracking, mieux piloter leurs campagnes,
+              structurer leur CRM et transformer leur data en décisions utiles.
             </p>
-            {/* Social links */}
-            <div className="flex gap-3">
+
+            <div className="flex flex-wrap gap-3 mb-6">
               {[
-                { label: 'LinkedIn', href: 'https://linkedin.com/in/slim-laribi', initial: 'in' },
-                { label: 'Twitter/X', href: 'https://twitter.com/slimlaribi', initial: 'X' },
+                {
+                  label: 'LinkedIn',
+                  href: 'https://www.linkedin.com/in/slim-laribi/',
+                  initial: 'in',
+                },
+                {
+                  label: 'Site',
+                  href: 'https://laribislim.com',
+                  initial: 'SL',
+                },
               ].map((s) => (
                 <a
                   key={s.label}
@@ -85,44 +111,65 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-brand-border text-brand-text-muted hover:text-brand-text-primary hover:border-brand-border-strong transition-all duration-200 text-xs font-bold"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-brand-border bg-white/[0.02] text-brand-text-muted hover:text-brand-text-primary hover:border-brand-border-strong hover:bg-white/[0.04] transition-all duration-200 text-xs font-bold"
                 >
                   {s.initial}
                 </a>
               ))}
             </div>
+
+            <div className="space-y-2 text-sm text-brand-text-muted">
+              <p>Audit tracking · Google Tag Manager · GA4 · CAPI</p>
+              <p>Google Ads · Meta Ads · CRM · Automation · SEO</p>
+            </div>
           </div>
 
-          {/* Nav columns */}
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <p className="text-xs font-semibold tracking-wider uppercase text-brand-text-muted mb-4">
-                {category}
-              </p>
-              <ul className="space-y-2.5">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-brand-text-secondary hover:text-brand-text-primary transition-colors duration-200"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          {/* Links */}
+          <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
+            {Object.entries(footerLinks).map(([category, links]) => (
+              <div key={category}>
+                <p className="text-xs font-semibold tracking-[0.18em] uppercase text-brand-text-muted mb-4">
+                  {category}
+                </p>
+                <ul className="space-y-3">
+                  {links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-brand-text-secondary hover:text-brand-text-primary transition-colors duration-200"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 pt-6 border-t border-brand-border flex flex-col sm:flex-row justify-between items-center gap-3">
+        <div className="mt-14 pt-6 border-t border-brand-border flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
           <p className="text-xs text-brand-text-muted">
             © {year} Slim Laribi. Tous droits réservés.
           </p>
-          <p className="text-xs text-brand-text-muted">
-            Data-driven. Execution-ready. Results-focused.
-          </p>
+
+          <div className="flex flex-wrap items-center gap-3 text-xs text-brand-text-muted">
+            <Link href="/contact" className="hover:text-brand-text-primary transition-colors">
+              Contact
+            </Link>
+            <span className="opacity-40">•</span>
+            <Link href="/blog" className="hover:text-brand-text-primary transition-colors">
+              Blog
+            </Link>
+            <span className="opacity-40">•</span>
+            <Link
+              href="/expertises-data-marketing"
+              className="hover:text-brand-text-primary transition-colors"
+            >
+              Expertises
+            </Link>
+          </div>
         </div>
       </Container>
     </footer>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Hero } from '@/components/home/Hero'
 import { CredibilityStrip } from '@/components/home/CredibilityStrip'
+import { PillarsPreview } from '@/components/home/PillarsPreview'
 import { ExpertiseCards } from '@/components/home/ExpertiseCards'
 import { Methodology } from '@/components/home/Methodology'
 import { TrainingHighlight } from '@/components/home/TrainingHighlight'
@@ -160,6 +161,7 @@ export default function HomePage({
       <TrainingHighlight />
       <CaseStudiesPreview />
       <SaaSPreview />
+      <PillarsPreview locale={params.locale} />
       <TestimonialsPreview />
       <FinalCTA />
     </>
