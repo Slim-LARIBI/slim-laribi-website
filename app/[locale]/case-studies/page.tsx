@@ -7,10 +7,24 @@ import { Reveal } from '@/components/animations/Reveal'
 import { caseStudies } from '@/lib/case-studies'
 import { ArrowRight, TrendingUp, Clock } from 'lucide-react'
 
-export const metadata: Metadata = {
-  title: 'Cas clients — Résultats concrets',
-  description:
-    'Études de cas : tracking server-side, Meta CAPI, Performance Max, CRM lifecycle, automation n8n. Des résultats mesurables sur des projets réels.',
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: 'fr' | 'en' }
+}): Promise<Metadata> {
+  if (params.locale === 'fr') {
+    return {
+      title: 'Cas Clients Tracking & Data Marketing',
+      description:
+        'Découvrez des cas réels d’implémentation tracking, optimisation data marketing et architecture MarTech pour entreprises e-commerce et SaaS.',
+    }
+  }
+
+  return {
+    title: 'Tracking & Data Marketing Case Studies',
+    description:
+      'Discover real case studies in tracking implementation, data marketing optimization and MarTech architecture for e-commerce and SaaS companies.',
+  }
 }
 
 export default function CaseStudiesPage() {

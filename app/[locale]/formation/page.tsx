@@ -14,10 +14,24 @@ import {
   GraduationCap, BarChart3, Globe, Target, Cpu, Mail
 } from 'lucide-react'
 
-export const metadata: Metadata = {
-  title: 'Formation Customer Intelligence — 90h en présentiel',
-  description:
-    'Formation intensive 90 heures sur 3 mois : WordPress, SEO, Google Ads, Meta Ads, GTM, GA4, CRM. Apprenez à maîtriser tous les leviers du marketing digital.',
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: 'fr' | 'en' }
+}): Promise<Metadata> {
+  if (params.locale === 'fr') {
+    return {
+      title: 'Formation Tracking, Data Marketing & MarTech',
+      description:
+        'Formations avancées en tracking marketing, Google Tag Manager, server-side tracking et stratégie data pour équipes marketing et entreprises e-commerce.',
+    }
+  }
+
+  return {
+    title: 'Tracking, Data Marketing & MarTech Training',
+    description:
+      'Advanced training in marketing tracking, Google Tag Manager, server-side tracking and data strategy for marketing teams and e-commerce companies.',
+    }
 }
 
 const modules = [

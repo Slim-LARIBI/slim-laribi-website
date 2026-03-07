@@ -5,22 +5,21 @@
     "formation": "Training",
     "caseStudies": "Case studies",
     "blog": "Blog",
-    "contact": "Contact"
+    "contact": "Contact",
+    "about": "About",
+    "saas": "SaaS",
+    "more": "More"
   },
   "hero": {
     "badge": "Tracking · Data Strategy · MarTech Architecture · Training",
-
     "titlePrefix": "Make",
     "title1": "marketing decisions",
     "titlePrefix2": "based on",
     "title2": "reliable data.",
-
     "subtitle": "Tracking, performance marketing and MarTech architecture expert helping companies gain control of their data and optimize their growth.",
-
     "cta1": "Download the program",
     "cta2": "Schedule a call",
     "cta3": "View trainings",
-
     "metric1": {
       "label": "Reliable tracking",
       "sub": "GTM · Server-side · CAPI"

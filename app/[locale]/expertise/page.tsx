@@ -11,10 +11,24 @@ import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd'
 import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd'
 import { ArrowRight, CheckCircle2, Clock } from 'lucide-react'
 
-export const metadata: Metadata = {
-  title: 'Expertise — Tracking, Performance Marketing & Automation',
-  description:
-    'Services de consulting en tracking server-side, performance ads, CRM lifecycle et automatisation. Audit, implémentation, optimisation et formation.',
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: 'fr' | 'en' }
+}): Promise<Metadata> {
+  if (params.locale === 'fr') {
+    return {
+      title: 'Expertise Tracking, Data Marketing & MarTech',
+      description:
+        'Audit tracking, implémentation Google Tag Manager, server-side tracking, data layer et architecture MarTech pour entreprises orientées performance.',
+    }
+  }
+
+  return {
+    title: 'Tracking, Data Marketing & MarTech Expertise',
+    description:
+      'Tracking audit, Google Tag Manager implementation, server-side tracking, data layer and MarTech architecture for performance-driven companies.',
+  }
 }
 
 const services = [

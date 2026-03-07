@@ -9,10 +9,24 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { ArrowRight } from 'lucide-react'
 
-export const metadata: Metadata = {
-  title: 'Témoignages — Clients & Apprenants',
-  description:
-    'Avis et témoignages de clients en consulting et apprenants en formation Customer Intelligence. Résultats concrets, méthodologie rigoureuse.',
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: 'fr' | 'en' }
+}): Promise<Metadata> {
+  if (params.locale === 'fr') {
+    return {
+      title: 'Témoignages Clients | Tracking, Data Marketing & MarTech',
+      description:
+        'Consultez les témoignages clients et retours d’expérience sur les missions de tracking, performance marketing et architecture MarTech.',
+    }
+  }
+
+  return {
+    title: 'Client Testimonials | Tracking, Data Marketing & MarTech',
+    description:
+      'Read client testimonials and feedback on tracking, performance marketing and MarTech architecture projects.',
+  }
 }
 
 const contextLabels = {

@@ -161,6 +161,16 @@ const nextConfig = {
         destination: '/fr/blog/probleme-indexation-seo',
         permanent: true,
       },
+      {
+      source: '/case-studies/:slug',
+      destination: '/fr/case-studies/:slug',
+      permanent: true,
+      },
+      {
+      source: '/formation/programme',
+      destination: '/fr/formation/programme',
+      permanent: true,
+      },
     ]
   },
 }

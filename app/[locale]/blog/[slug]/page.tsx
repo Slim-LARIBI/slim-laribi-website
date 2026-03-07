@@ -18,9 +18,17 @@ interface Props {
 }
 
 const siteUrl = 'https://laribislim.com'
+const locales = ['fr', 'en'] as const
 
 export async function generateStaticParams() {
-  return getAllSlugs().map((slug) => ({ slug }))
+  const slugs = getAllSlugs()
+
+  return locales.flatMap((locale) =>
+    slugs.map((slug) => ({
+      locale,
+      slug,
+    }))
+  )
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -35,6 +43,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: post.excerpt,
     alternates: {
       canonical,
+      languages: {
+        'fr-FR': `${siteUrl}/fr/blog/${post.slug}`,
+        'en-US': `${siteUrl}/en/blog/${post.slug}`,
+      },
     },
     openGraph: {
       title: post.title,
@@ -46,7 +58,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       tags: post.tags,
       images: [
         {
-          url: `${siteUrl}/og-image.jpg`,
+          url: post.coverImage?.startsWith('http')
+            ? post.coverImage
+            : `${siteUrl}${post.coverImage || '/og-image.jpg'}`,
           width: 1200,
           height: 630,
           alt: post.title,
@@ -57,7 +71,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       card: 'summary_large_image',
       title: post.title,
       description: post.excerpt,
-      images: [`${siteUrl}/og-image.jpg`],
+      images: [
+        post.coverImage?.startsWith('http')
+          ? post.coverImage
+          : `${siteUrl}${post.coverImage || '/og-image.jpg'}`,
+      ],
     },
   }
 }
@@ -68,40 +86,6 @@ export default function BlogPostPage({ params }: Props) {
 
   const locale = params.locale || 'fr'
   const postUrl = `${siteUrl}/${locale}/blog/${post.slug}`
-
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    '@id': `${postUrl}#article`,
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': `${postUrl}#webpage`,
-    },
-    headline: post.title,
-    description: post.excerpt,
-    image: [`${siteUrl}/og-image.jpg`],
-    author: {
-      '@type': 'Person',
-      '@id': `${siteUrl}/#person`,
-      name: post.author,
-    },
-    publisher: {
-      '@type': 'Organization',
-      '@id': `${siteUrl}/#organization`,
-      name: 'Slim Laribi',
-      url: siteUrl,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${siteUrl}/og-image.jpg`,
-      },
-    },
-    datePublished: post.date,
-    dateModified: post.date,
-    url: postUrl,
-    inLanguage: locale === 'en' ? 'en-US' : 'fr-FR',
-    keywords: post.tags,
-    articleSection: post.category,
-  }
 
   const breadcrumbItems = [
     { name: locale === 'en' ? 'Home' : 'Accueil', url: `${siteUrl}/${locale}` },
@@ -117,14 +101,19 @@ export default function BlogPostPage({ params }: Props) {
   return (
     <>
       <ArticleJsonLd
-          title={post.title}
-          description={post.excerpt}
-          url={postUrl}
-          image={post.coverImage ? `${siteUrl}${post.coverImage}` : `${siteUrl}/og-image.jpg`}
-          datePublished={post.date}
-          dateModified={post.date}
-          authorName={post.author}
+        title={post.title}
+        description={post.excerpt}
+        url={postUrl}
+        image={
+          post.coverImage?.startsWith('http')
+            ? post.coverImage
+            : `${siteUrl}${post.coverImage || '/og-image.jpg'}`
+        }
+        datePublished={post.date}
+        dateModified={post.date}
+        authorName={post.author}
       />
+
       <BreadcrumbJsonLd items={breadcrumbItems} />
 
       <Section py="xl" className="hero-bg border-b border-brand-border">

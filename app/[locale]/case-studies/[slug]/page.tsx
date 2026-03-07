@@ -9,22 +9,68 @@ import { Button } from '@/components/ui/Button'
 import { Reveal } from '@/components/animations/Reveal'
 import { getCaseStudyBySlug, caseStudies } from '@/lib/case-studies'
 import { BreadcrumbJsonLd } from '@/components/seo/JsonLd'
-import { TrendingUp, Clock, Wrench, ArrowLeft, ArrowRight, Target, Lightbulb } from 'lucide-react'
+import {
+  TrendingUp,
+  Clock,
+  Wrench,
+  ArrowLeft,
+  ArrowRight,
+  Target,
+  Lightbulb,
+} from 'lucide-react'
 
 interface Props {
-  params: { slug: string }
+  params: { slug: string; locale: 'fr' | 'en' }
 }
 
+const siteUrl = 'https://laribislim.com'
+
 export async function generateStaticParams() {
-  return caseStudies.map((cs) => ({ slug: cs.slug }))
+  return ['fr', 'en'].flatMap((locale) =>
+    caseStudies.map((cs) => ({
+      locale,
+      slug: cs.slug,
+    }))
+  )
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const study = getCaseStudyBySlug(params.slug)
   if (!study) return {}
+
+  const locale = params.locale || 'fr'
+  const canonical = `${siteUrl}/${locale}/case-studies/${study.slug}`
+
   return {
     title: study.title,
     description: study.excerpt,
+    alternates: {
+      canonical,
+      languages: {
+        'fr-FR': `${siteUrl}/fr/case-studies/${study.slug}`,
+        'en-US': `${siteUrl}/en/case-studies/${study.slug}`,
+      },
+    },
+    openGraph: {
+      title: study.title,
+      description: study.excerpt,
+      type: 'article',
+      url: canonical,
+      images: [
+        {
+          url: `${siteUrl}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: study.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: study.title,
+      description: study.excerpt,
+      images: [`${siteUrl}/og-image.jpg`],
+    },
   }
 }
 
@@ -32,28 +78,37 @@ export default function CaseStudyPage({ params }: Props) {
   const study = getCaseStudyBySlug(params.slug)
   if (!study) notFound()
 
+  const locale = params.locale || 'fr'
   const otherStudies = caseStudies.filter((cs) => cs.slug !== study.slug).slice(0, 2)
 
   return (
     <>
       <BreadcrumbJsonLd
         items={[
-          { name: 'Accueil', url: 'https://laribislim.com' },
-          { name: 'Cas clients', url: 'https://laribislim.com/case-studies' },
-          { name: study.title, url: `https://laribislim.com/case-studies/${study.slug}` },
+          {
+            name: locale === 'fr' ? 'Accueil' : 'Home',
+            url: `${siteUrl}/${locale}`,
+          },
+          {
+            name: locale === 'fr' ? 'Cas clients' : 'Case studies',
+            url: `${siteUrl}/${locale}/case-studies`,
+          },
+          {
+            name: study.title,
+            url: `${siteUrl}/${locale}/case-studies/${study.slug}`,
+          },
         ]}
       />
 
-      {/* Hero */}
       <Section py="2xl" className="hero-bg">
         <Container size="md">
           <Reveal>
             <Link
-              href="/case-studies"
+              href={`/${locale}/case-studies`}
               className="inline-flex items-center gap-2 text-sm text-brand-text-muted hover:text-brand-text-primary transition-colors mb-8"
             >
               <ArrowLeft className="h-4 w-4" />
-              Cas clients
+              {locale === 'fr' ? 'Cas clients' : 'Case studies'}
             </Link>
           </Reveal>
 
@@ -81,7 +136,6 @@ export default function CaseStudyPage({ params }: Props) {
         </Container>
       </Section>
 
-      {/* Results grid */}
       <Section py="md">
         <Container>
           <Reveal>
@@ -90,7 +144,9 @@ export default function CaseStudyPage({ params }: Props) {
                 <Card key={r.label} variant="glass" padding="md" className="text-center">
                   <div className="flex items-center justify-center gap-1.5 mb-1">
                     <TrendingUp className="h-4 w-4 text-emerald-400" />
-                    <span className="font-display text-2xl font-black text-brand-text-primary">{r.value}</span>
+                    <span className="font-display text-2xl font-black text-brand-text-primary">
+                      {r.value}
+                    </span>
                   </div>
                   <p className="text-xs text-brand-text-muted mb-1">{r.label}</p>
                   {r.delta && <p className="text-xs text-emerald-400 font-medium">{r.delta}</p>}
@@ -101,11 +157,9 @@ export default function CaseStudyPage({ params }: Props) {
         </Container>
       </Section>
 
-      {/* Content */}
       <Section py="xl">
         <Container>
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Main */}
             <div className="lg:col-span-2 space-y-6">
               <Reveal>
                 <Card variant="glass" padding="xl">
@@ -113,7 +167,9 @@ export default function CaseStudyPage({ params }: Props) {
                     <div className="h-9 w-9 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
                       <Target className="h-4 w-4 text-red-400" />
                     </div>
-                    <h2 className="font-display font-bold text-xl text-brand-text-primary">Le problème</h2>
+                    <h2 className="font-display font-bold text-xl text-brand-text-primary">
+                      {locale === 'fr' ? 'Le problème' : 'The challenge'}
+                    </h2>
                   </div>
                   <p className="text-brand-text-secondary leading-relaxed">{study.challenge}</p>
                 </Card>
@@ -125,31 +181,35 @@ export default function CaseStudyPage({ params }: Props) {
                     <div className="h-9 w-9 rounded-xl bg-brand-accent/10 border border-brand-accent/20 flex items-center justify-center">
                       <Lightbulb className="h-4 w-4 text-brand-accent" />
                     </div>
-                    <h2 className="font-display font-bold text-xl text-brand-text-primary">La solution</h2>
+                    <h2 className="font-display font-bold text-xl text-brand-text-primary">
+                      {locale === 'fr' ? 'La solution' : 'The solution'}
+                    </h2>
                   </div>
                   <p className="text-brand-text-secondary leading-relaxed">{study.solution}</p>
                 </Card>
               </Reveal>
 
-              {/* Screenshot placeholder */}
               <Reveal delay={0.1}>
                 <div className="aspect-video rounded-2xl bg-brand-surface border border-brand-border flex items-center justify-center">
                   <div className="text-center">
                     <div className="h-12 w-12 rounded-xl bg-brand-surface-2 border border-brand-border mx-auto mb-3 flex items-center justify-center">
                       <span className="text-brand-text-muted text-xs font-mono">IMG</span>
                     </div>
-                    <p className="text-sm text-brand-text-muted">Screenshot / Dashboard placeholder</p>
+                    <p className="text-sm text-brand-text-muted">
+                      {locale === 'fr'
+                        ? 'Screenshot / Dashboard placeholder'
+                        : 'Screenshot / Dashboard placeholder'}
+                    </p>
                   </div>
                 </div>
               </Reveal>
             </div>
 
-            {/* Sidebar */}
             <div className="space-y-4">
               <Reveal direction="left">
                 <Card variant="surface" padding="lg">
                   <h3 className="font-display font-bold text-brand-text-primary mb-4 text-sm uppercase tracking-wider">
-                    Stack technique
+                    {locale === 'fr' ? 'Stack technique' : 'Tech stack'}
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {study.tools.map((tool) => (
@@ -169,7 +229,9 @@ export default function CaseStudyPage({ params }: Props) {
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {study.tags.map((tag) => (
-                      <Badge key={tag} variant="outline" size="sm">{tag}</Badge>
+                      <Badge key={tag} variant="outline" size="sm">
+                        {tag}
+                      </Badge>
                     ))}
                   </div>
                 </Card>
@@ -178,11 +240,18 @@ export default function CaseStudyPage({ params }: Props) {
               <Reveal direction="left" delay={0.1}>
                 <Card variant="glow" padding="lg" className="text-center">
                   <p className="text-sm text-brand-text-secondary mb-4">
-                    Un enjeu similaire ? Discutons-en.
+                    {locale === 'fr'
+                      ? 'Un enjeu similaire ? Discutons-en.'
+                      : 'A similar challenge? Let’s discuss it.'}
                   </p>
-                  <Link href="/contact">
-                    <Button variant="primary" size="md" className="w-full" icon={<ArrowRight className="h-4 w-4" />}>
-                      Réserver un appel
+                  <Link href={`/${locale}/contact`}>
+                    <Button
+                      variant="primary"
+                      size="md"
+                      className="w-full"
+                      icon={<ArrowRight className="h-4 w-4" />}
+                    >
+                      {locale === 'fr' ? 'Réserver un appel' : 'Book a call'}
                     </Button>
                   </Link>
                 </Card>
@@ -192,21 +261,22 @@ export default function CaseStudyPage({ params }: Props) {
         </Container>
       </Section>
 
-      {/* Other cases */}
       {otherStudies.length > 0 && (
         <Section py="xl" className="border-t border-brand-border">
           <Container>
             <Reveal>
               <h3 className="font-display text-2xl font-bold text-brand-text-primary mb-8">
-                Autres cas clients
+                {locale === 'fr' ? 'Autres cas clients' : 'Other case studies'}
               </h3>
             </Reveal>
             <div className="grid md:grid-cols-2 gap-5">
               {otherStudies.map((other, i) => (
                 <Reveal key={other.slug} delay={i * 0.08}>
-                  <Link href={`/case-studies/${other.slug}`} className="group block">
+                  <Link href={`/${locale}/case-studies/${other.slug}`} className="group block">
                     <Card variant="glass" hover padding="lg">
-                      <Badge variant="accent" size="sm" className="mb-3">{other.sector}</Badge>
+                      <Badge variant="accent" size="sm" className="mb-3">
+                        {other.sector}
+                      </Badge>
                       <h4 className="font-display font-bold text-brand-text-primary mb-2 group-hover:text-white transition-colors leading-tight">
                         {other.title}
                       </h4>
@@ -214,7 +284,7 @@ export default function CaseStudyPage({ params }: Props) {
                         {other.excerpt}
                       </p>
                       <div className="flex items-center gap-1.5 text-brand-accent text-sm">
-                        <span>Lire</span>
+                        <span>{locale === 'fr' ? 'Lire' : 'Read'}</span>
                         <ArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
                       </div>
                     </Card>

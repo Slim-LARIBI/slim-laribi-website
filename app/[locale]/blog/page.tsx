@@ -11,58 +11,124 @@ import { formatDate } from '@/lib/utils'
 import { Clock, ArrowRight } from 'lucide-react'
 
 const siteUrl = 'https://laribislim.com'
-const pageUrl = `${siteUrl}/blog`
 
-export const metadata: Metadata = {
-  title: 'Blog — Marketing Digital, Tracking & Data',
-  description:
-    "Articles sur le tracking server-side, GA4, Performance Max, CRM et l'automatisation marketing. Pratique, précis, orienté résultats.",
-  alternates: {
-    canonical: pageUrl,
-  },
-  openGraph: {
-    title: 'Blog — Marketing Digital, Tracking & Data',
-    description:
-      "Articles sur le tracking server-side, GA4, Performance Max, CRM et l'automatisation marketing. Pratique, précis, orienté résultats.",
-    url: pageUrl,
-    type: 'website',
-    images: [
-      {
-        url: `${siteUrl}/og-image.jpg`,
-        width: 1200,
-        height: 630,
-        alt: 'Blog — Slim Laribi',
+export async function generateMetadata({
+  params,
+}: {
+  params: { locale: 'fr' | 'en' }
+}): Promise<Metadata> {
+  const locale = params.locale || 'fr'
+  const pageUrl = `${siteUrl}/${locale}/blog`
+
+  if (locale === 'fr') {
+    return {
+      title: 'Blog Tracking, Data Marketing & MarTech',
+      description:
+        "Articles et guides sur le tracking marketing, Google Tag Manager, server-side tracking, data marketing et optimisation de la performance digitale.",
+      alternates: {
+        canonical: pageUrl,
+        languages: {
+          'fr-FR': `${siteUrl}/fr/blog`,
+          'en-US': `${siteUrl}/en/blog`,
+        },
       },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Blog — Marketing Digital, Tracking & Data',
+      openGraph: {
+        title: 'Blog Tracking, Data Marketing & MarTech',
+        description:
+          "Articles et guides sur le tracking marketing, Google Tag Manager, server-side tracking, data marketing et optimisation de la performance digitale.",
+        url: pageUrl,
+        type: 'website',
+        images: [
+          {
+            url: `${siteUrl}/og-image.jpg`,
+            width: 1200,
+            height: 630,
+            alt: 'Blog — Slim Laribi',
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Blog Tracking, Data Marketing & MarTech',
+        description:
+          "Articles et guides sur le tracking marketing, Google Tag Manager, server-side tracking, data marketing et optimisation de la performance digitale.",
+        images: [`${siteUrl}/og-image.jpg`],
+      },
+    }
+  }
+
+  return {
+    title: 'Tracking, Data Marketing & MarTech Blog',
     description:
-      "Articles sur le tracking server-side, GA4, Performance Max, CRM et l'automatisation marketing. Pratique, précis, orienté résultats.",
-    images: [`${siteUrl}/og-image.jpg`],
-  },
+      'Articles and guides about marketing tracking, Google Tag Manager, server-side tracking, data marketing and digital performance optimization.',
+    alternates: {
+      canonical: pageUrl,
+      languages: {
+        'fr-FR': `${siteUrl}/fr/blog`,
+        'en-US': `${siteUrl}/en/blog`,
+      },
+    },
+    openGraph: {
+      title: 'Tracking, Data Marketing & MarTech Blog',
+      description:
+        'Articles and guides about marketing tracking, Google Tag Manager, server-side tracking, data marketing and digital performance optimization.',
+      url: pageUrl,
+      type: 'website',
+      images: [
+        {
+          url: `${siteUrl}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: 'Blog — Slim Laribi',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'Tracking, Data Marketing & MarTech Blog',
+      description:
+        'Articles and guides about marketing tracking, Google Tag Manager, server-side tracking, data marketing and digital performance optimization.',
+      images: [`${siteUrl}/og-image.jpg`],
+    },
+  }
 }
 
-export default function BlogPage() {
+export default function BlogPage({
+  params,
+}: {
+  params: { locale: 'fr' | 'en' }
+}) {
+  const locale = params.locale || 'fr'
+  const pageUrl = `${siteUrl}/${locale}/blog`
   const posts = getAllPosts()
+
+  const pageName =
+    locale === 'fr'
+      ? 'Blog Tracking, Data Marketing & MarTech'
+      : 'Tracking, Data Marketing & MarTech Blog'
+
+  const pageDescription =
+    locale === 'fr'
+      ? "Articles et guides sur le tracking marketing, Google Tag Manager, server-side tracking, data marketing et optimisation de la performance digitale."
+      : 'Articles and guides about marketing tracking, Google Tag Manager, server-side tracking, data marketing and digital performance optimization.'
 
   return (
     <>
-      {/* SEO JSON-LD */}
       <BreadcrumbJsonLd
         items={[
-          { name: 'Accueil', url: siteUrl },
-          { name: 'Blog', url: pageUrl },
+          {
+            name: locale === 'fr' ? 'Accueil' : 'Home',
+            url: `${siteUrl}/${locale}`,
+          },
+          {
+            name: 'Blog',
+            url: pageUrl,
+          },
         ]}
       />
-      <WebPageJsonLd
-        name="Blog — Marketing Digital, Tracking & Data"
-        description="Articles sur le tracking server-side, GA4, Performance Max, CRM et l'automatisation marketing. Pratique, précis, orienté résultats."
-        url={pageUrl}
-      />
 
-      {/* Hero */}
+      <WebPageJsonLd name={pageName} description={pageDescription} url={pageUrl} />
+
       <Section py="2xl" className="hero-bg">
         <Container size="md" className="text-center">
           <Reveal>
@@ -70,32 +136,46 @@ export default function BlogPage() {
               Blog
             </Badge>
           </Reveal>
+
           <Reveal delay={0.05}>
             <h1 className="font-display text-5xl md:text-6xl font-black text-brand-text-primary tracking-tight mb-5">
-              Insights, méthodes, <span className="text-gradient-brand">pas de bullshit.</span>
+              {locale === 'fr' ? (
+                <>
+                  Insights, méthodes, <span className="text-gradient-brand">pas de bullshit.</span>
+                </>
+              ) : (
+                <>
+                  Insights, methods, <span className="text-gradient-brand">no fluff.</span>
+                </>
+              )}
             </h1>
           </Reveal>
+
           <Reveal delay={0.1}>
             <p className="text-xl text-brand-text-secondary max-w-xl mx-auto">
-              Des articles pratiques sur le tracking, la performance ads, le CRM et
-              l'automatisation. Orientés opérationnel, pas théorique.
+              {locale === 'fr'
+                ? "Des articles pratiques sur le tracking, la performance ads, le CRM et l'automatisation. Orientés opérationnel, pas théorique."
+                : 'Practical articles on tracking, ad performance, CRM and automation. Operational, not theoretical.'}
             </p>
           </Reveal>
         </Container>
       </Section>
 
-      {/* Posts */}
       <Section py="xl">
         <Container>
           {posts.length === 0 ? (
             <div className="text-center py-20 text-brand-text-muted">
-              <p>Aucun article pour l'instant. Revenez bientôt.</p>
+              <p>
+                {locale === 'fr'
+                  ? "Aucun article pour l'instant. Revenez bientôt."
+                  : 'No articles yet. Check back soon.'}
+              </p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {posts.map((post, i) => (
                 <Reveal key={post.slug} delay={i * 0.07}>
-                  <Link href={`/blog/${post.slug}`} className="group block h-full">
+                  <Link href={`/${locale}/blog/${post.slug}`} className="group block h-full">
                     <article className="glass rounded-2xl p-6 border border-brand-border h-full transition-all duration-300 group-hover:border-brand-border-strong group-hover:shadow-glow-sm group-hover:-translate-y-1 flex flex-col">
                       <div className="flex items-center gap-2 mb-4">
                         <Badge variant="accent" size="sm">
@@ -130,9 +210,12 @@ export default function BlogPage() {
                           <span>·</span>
                           <div className="flex items-center gap-1">
                             <Clock className="h-3 w-3" />
-                            <span>{post.readingTime} min</span>
+                            <span>
+                              {post.readingTime} min {locale === 'fr' ? '' : 'read'}
+                            </span>
                           </div>
                         </div>
+
                         <ArrowRight className="h-4 w-4 text-brand-accent group-hover:translate-x-0.5 transition-transform duration-200" />
                       </div>
                     </article>
