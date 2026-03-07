@@ -19,6 +19,9 @@ const nextConfig = {
 
   async redirects() {
     return [
+
+      // ===== BLOG REDIRECTS (ancien WordPress → nouveau blog) =====
+
       {
         source: '/strategies-encheres-ads-sea',
         destination: '/fr/blog/strategies-encheres-ads-sea',
@@ -161,16 +164,26 @@ const nextConfig = {
         destination: '/fr/blog/probleme-indexation-seo',
         permanent: true,
       },
+
+      // ===== REDIRECTS ARCHITECTURE =====
+
       {
-      source: '/case-studies/:slug',
-      destination: '/fr/case-studies/:slug',
-      permanent: true,
+        source: '/case-studies/:slug',
+        destination: '/fr/case-studies/:slug',
+        permanent: true,
+      },
+
+      {
+        source: '/formation/programme',
+        destination: '/fr/formation/programme',
+        permanent: true,
       },
       {
-      source: '/formation/programme',
-      destination: '/fr/formation/programme',
-      permanent: true,
+        source: '/formation/programme/',
+        destination: '/fr/formation/programme',
+        permanent: true,
       },
+
     ]
   },
 }
