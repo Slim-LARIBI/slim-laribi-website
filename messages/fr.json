@@ -1,0 +1,36 @@
+{
+  "navigation": {
+    "home": "Accueil",
+    "expertise": "Expertise",
+    "formation": "Formations",
+    "caseStudies": "Cas clients",
+    "blog": "Blog",
+    "contact": "Contact",
+    "about": "À propos",
+    "saas": "SaaS",
+    "more": "Plus"
+  },
+  "hero": {
+    "badge": "Tracking · Data Strategy · MarTech Architecture · Formation",
+    "titlePrefix": "Des",
+    "title1": "décisions marketing",
+    "titlePrefix2": "basées sur une",
+    "title2": "data fiable.",
+    "subtitle": "Expert en tracking, performance marketing et architecture MarTech. J’accompagne les entreprises dans la maîtrise de leur data et l’optimisation de leur croissance.",
+    "cta1": "Télécharger le programme",
+    "cta2": "Planifier un appel",
+    "cta3": "Voir les formations",
+    "metric1": {
+      "label": "Tracking fiable",
+      "sub": "GTM · Server-side · CAPI"
+    },
+    "metric2": {
+      "label": "Décisions data-driven",
+      "sub": "Attribution & analytics"
+    },
+    "metric3": {
+      "label": "Automatisation",
+      "sub": "Workflows · n8n · CRM"
+    }
+  }
+}

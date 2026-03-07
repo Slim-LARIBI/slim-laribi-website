@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/components/i18n/Link'
 import { Container } from '@/components/ui/Container'
 import { Button } from '@/components/ui/Button'
 

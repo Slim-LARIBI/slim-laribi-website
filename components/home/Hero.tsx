@@ -6,24 +6,41 @@ import { ArrowRight, Download, Phone } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { ParallaxGlow } from '@/components/animations/ParallaxGlow'
-import { HeroBackdropAurora } from '@/components/animations/HeroBackdropAurora'
 import { trackCTAClick } from '@/lib/analytics'
-
-const metrics = [
-  { label: 'Tracking fiable', sublabel: 'Server-side & CAPI' },
-  { label: 'Performance ROI', sublabel: 'Attribution réelle' },
-  { label: 'Automation at scale', sublabel: 'n8n · Flows · CRM' },
-]
+import { useTranslations } from 'next-intl'
 
 export function Hero() {
+  const t = useTranslations('hero')
+
+  const metrics = [
+    { label: t('metric1.label'), sublabel: t('metric1.sub') },
+    { label: t('metric2.label'), sublabel: t('metric2.sub') },
+    { label: t('metric3.label'), sublabel: t('metric3.sub') },
+  ]
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden hero-bg pt-16">
-      {/* Premium animated background */}
-      <HeroBackdropAurora />
+      {/* Background glows */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-brand-accent opacity-[0.06] blur-[120px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-brand-gold opacity-[0.04] blur-[100px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-brand-accent opacity-[0.03] blur-[150px]" />
+      </div>
+
+      {/* Grid overlay */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-[0.015] pointer-events-none"
+        style={{
+          backgroundImage:
+            'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)',
+          backgroundSize: '60px 60px',
+        }}
+      />
 
       <ParallaxGlow color="mixed" intensity="low" size="lg" className="w-full">
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20 text-center">
-          {/* Label chip */}
+          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -31,7 +48,7 @@ export function Hero() {
             className="flex justify-center mb-6"
           >
             <Badge variant="accent" dot>
-              Expert Marketing · Tracking · MarTech · Formation
+              {t('badge')}
             </Badge>
           </motion.div>
 
@@ -42,29 +59,24 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
           >
-            <span className="text-brand-text-primary">Data&nbsp;</span>
-            <span className="text-gradient-brand">fiable.</span>
+            <span className="text-brand-text-primary">{t('titlePrefix')}&nbsp;</span>
+            <span className="text-gradient-brand">{t('title1')}</span>
             <br />
-            <span className="text-brand-text-primary">Résultats&nbsp;</span>
-            <span className="text-gradient-gold">mesurables.</span>
+            <span className="text-brand-text-primary">{t('titlePrefix2')}&nbsp;</span>
+            <span className="text-gradient-gold">{t('title2')}</span>
           </motion.h1>
 
-          {/* Subheadline */}
+          {/* Subtitle */}
           <motion.p
             className="text-lg md:text-xl text-brand-text-secondary max-w-2xl mx-auto mb-10 leading-relaxed"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.35 }}
           >
-            J'aide les entreprises à{' '}
-            <span className="text-brand-text-primary font-medium">maîtriser leur tracking</span>,
-            optimiser leurs{' '}
-            <span className="text-brand-text-primary font-medium">performances ads</span> et
-            automatiser leurs opérations. Je forme aussi les équipes marketing à la{' '}
-            <span className="text-brand-text-primary font-medium">Customer Intelligence</span>.
+            {t('subtitle')}
           </motion.p>
 
-          {/* CTA buttons */}
+          {/* CTAs */}
           <motion.div
             className="flex flex-wrap gap-3 justify-center mb-14"
             initial={{ opacity: 0, y: 20 }}
@@ -76,9 +88,9 @@ export function Hero() {
               size="xl"
               icon={<Download className="h-5 w-5" />}
               iconPosition="left"
-              onClick={() => trackCTAClick('Télécharger programme', 'hero')}
+              onClick={() => trackCTAClick(t('cta1'), 'hero')}
             >
-              Télécharger le programme (PDF)
+              {t('cta1')}
             </Button>
 
             <Link href="/contact">
@@ -87,9 +99,9 @@ export function Hero() {
                 size="xl"
                 icon={<Phone className="h-5 w-5" />}
                 iconPosition="left"
-                onClick={() => trackCTAClick('Réserver un appel', 'hero')}
+                onClick={() => trackCTAClick(t('cta2'), 'hero')}
               >
-                Réserver un appel
+                {t('cta2')}
               </Button>
             </Link>
 
@@ -98,14 +110,14 @@ export function Hero() {
                 variant="ghost"
                 size="xl"
                 icon={<ArrowRight className="h-4 w-4" />}
-                onClick={() => trackCTAClick('Voir les formations', 'hero')}
+                onClick={() => trackCTAClick(t('cta3'), 'hero')}
               >
-                Voir les formations
+                {t('cta3')}
               </Button>
             </Link>
           </motion.div>
 
-          {/* Metric chips */}
+          {/* Metrics */}
           <motion.div
             className="flex flex-wrap gap-4 justify-center"
             initial={{ opacity: 0 }}
