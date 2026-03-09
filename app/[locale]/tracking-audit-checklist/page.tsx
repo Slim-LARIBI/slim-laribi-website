@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Reveal } from '@/components/animations/Reveal'
 import { BreadcrumbJsonLd } from '@/components/seo/BreadcrumbJsonLd'
+import LeadForm from "@/components/forms/LeadForm"
 import { WebPageJsonLd } from '@/components/seo/WebPageJsonLd'
 import {
   ArrowRight,
@@ -195,41 +196,14 @@ export default function TrackingAuditChecklistPage({ params }: Props) {
                     : 'Enter your email to instantly download the PDF. We may also send you other useful resources on tracking and performance.'}
                 </p>
 
-                <form className="space-y-4">
-                  <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-white/80 mb-2"
-                    >
-                      {locale === 'fr' ? 'Email professionnel' : 'Work email'}
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      placeholder={locale === 'fr' ? 'vous@entreprise.com' : 'you@company.com'}
-                      className="w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3.5 text-white placeholder:text-white/35 outline-none focus:border-violet-400 transition-colors"
-                    />
-                  </div>
+<LeadForm locale={locale} />
 
-                  <a href={pdfUrl} download className="block">
-                    <Button
-                      variant="primary"
-                      size="xl"
-                      className="w-full"
-                      icon={<Download className="h-5 w-5" />}
-                    >
-                      {locale === 'fr'
-                        ? 'Télécharger la checklist PDF'
-                        : 'Download the PDF checklist'}
-                    </Button>
-                  </a>
-                </form>
+<p className="text-xs text-white/40 mt-4 leading-relaxed">
+  {locale === 'fr'
+    ? 'En cliquant, vous acceptez de recevoir des contenus liés au tracking, au marketing et à la performance.'
+    : 'By clicking, you agree to receive content related to tracking, marketing and performance.'}
+</p>
 
-                <p className="text-xs text-white/40 mt-4 leading-relaxed">
-                  {locale === 'fr'
-                    ? 'En cliquant, vous acceptez de recevoir des contenus liés au tracking, au marketing et à la performance.'
-                    : 'By clicking, you agree to receive content related to tracking, marketing and performance.'}
-                </p>
               </div>
             </Reveal>
           </div>

@@ -95,7 +95,7 @@ const projects = [
   {
     id: 'roas-dashboard',
     icon: BarChart2,
-    name: 'ROASDash',
+    name: 'AdPulse',
     tagline: 'Dashboard ROAS unifié multi-canal',
     description:
       'Vue consolidée des performances ads Google + Meta avec attribution cross-canal configurable et alertes automatiques.',

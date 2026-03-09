@@ -22,7 +22,7 @@ const saasProjects = [
   {
     id: 'roas-dashboard',
     icon: BarChart2,
-    name: 'ROASDash',
+    name: 'AdPulse',
     tagline: 'Dashboard ROAS unifié multi-canal',
     description: 'Vue consolidée des performances ads Google + Meta avec attribution cross-canal, comparaison périodes et alertes seuils ROAS en temps réel.',
     status: 'building' as const,
