@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTM + GA4 — Formation Data Driven · Slim Laribi</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   THEME VARIABLES
+═══════════════════════════════════════ */
+[data-theme="dark"] {
+  --bg:#0d0f18; --bg2:#13161f; --bg3:#1a1d2e; --bg4:#20243a;
+  --border:rgba(255,255,255,.08); --border2:rgba(255,255,255,.14);
+  --text:#e8eaf2; --text2:#9ca3af; --text3:#6b7280;
+  --card:#13161f; --card2:#1a1d2e;
+  --shadow:rgba(0,0,0,.5);
+  --code-bg:#0a0c14; --code-border:rgba(255,255,255,.06);
+}
+[data-theme="light"] {
+  --bg:#f5f4ef; --bg2:#ffffff; --bg3:#fafafa; --bg4:#f0ede8;
+  --border:rgba(26,26,46,.1); --border2:rgba(26,26,46,.2);
+  --text:#1a1a2e; --text2:#555; --text3:#888;
+  --card:#ffffff; --card2:#f9f8f4;
+  --shadow:rgba(26,26,46,.12);
+  --code-bg:#1a1a2e; --code-border:rgba(26,26,46,.15);
+}
+:root {
+  --sun:#f5c842; --sun2:#f59e0b;
+  --accent:#4f8ef7; --green:#34d399;
+  --teal:#2dd4bf; --coral:#f87171;
+  --purple:#a78bfa; --amber:#fbbf24;
+}
+
+/* ═══════════════════════════════════════
+   BASE
+═══════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg);
+  font-family:'IBM Plex Sans',sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  transition:background .3s,color .3s;
+  overflow-x:hidden;
+}
+
+/* ═══════════════════════════════════════
+   TOP NAV
+═══════════════════════════════════════ */
+.topnav{
+  width:100%;background:var(--bg2);border-bottom:1px solid var(--border);
+  padding:0 48px;display:flex;align-items:center;gap:0;height:58px;
+  position:sticky;top:0;z-index:500;
+  transition:background .3s,border-color .3s;
+}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;}
+
+.brand-text{display:flex;flex-direction:column;line-height:1.1;}
+.brand-name{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;color:var(--sun);letter-spacing:.5px;}
+.brand-sub{font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;font-weight:500;}
+.nav-sep{width:1px;height:28px;background:var(--border);margin:0 24px;}
+.nav-pill{font-size:11px;font-weight:600;padding:5px 14px;border-radius:20px;background:rgba(245,200,66,.12);border:1px solid rgba(245,200,66,.35);color:var(--sun);letter-spacing:.5px;text-transform:uppercase;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px;}
+
+/* THEME TOGGLE */
+.theme-toggle{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:24px;padding:4px;cursor:pointer;
+  transition:all .2s;
+}
+.tt-opt{
+  display:flex;align-items:center;gap:5px;
+  padding:5px 12px;border-radius:20px;
+  font-size:11px;font-weight:600;
+  transition:all .2s;cursor:pointer;color:var(--text3);
+}
+.tt-opt.active{background:var(--sun);color:#000;}
+.tt-opt span{font-size:13px;}
+
+.wa-btn{
+  display:flex;align-items:center;gap:8px;
+  background:#25d366;color:#fff;
+  font-size:12px;font-weight:700;
+  padding:7px 16px;border-radius:8px;
+  text-decoration:none;transition:opacity .15s;
+}
+.wa-btn:hover{opacity:.88;}
+
+/* ═══════════════════════════════════════
+   POSTER
+═══════════════════════════════════════ */
+.poster{
+  width:100%;
+  max-width:1400px;
+  margin:0 auto;
+  padding:36px 24px 0;
+}
+
+/* HEADER */
+.hdr{
+  text-align:center;margin-bottom:26px;padding-bottom:20px;
+  border-bottom:1px solid var(--border2);
+}
+.hdr-sun{font-size:34px;display:block;margin-bottom:8px;filter:drop-shadow(0 0 12px rgba(245,200,66,.5));}
+.hdr h1{font-family:'IBM Plex Mono',monospace;font-size:40px;font-weight:700;letter-spacing:-1.5px;color:var(--text);line-height:1;margin-bottom:6px;}
+.hdr h1 span{color:var(--sun);}
+.hdr p{font-size:13px;color:var(--text3);letter-spacing:2.5px;text-transform:uppercase;font-weight:500;}
+.hdr-badges{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px;}
+.hdr-badge{font-size:10px;font-family:'IBM Plex Mono',monospace;padding:4px 14px;border-radius:20px;font-weight:700;letter-spacing:1px;}
+.hb-sun{background:rgba(245,200,66,.15);border:1px solid rgba(245,200,66,.35);color:var(--sun);}
+.hb-click{background:rgba(79,142,247,.12);border:1px solid rgba(79,142,247,.3);color:var(--accent);}
+.hb-new{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);color:var(--green);}
+
+/* FLOW BAR */
+.flow-bar{
+  display:flex;align-items:center;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:12px;padding:14px 20px;margin-bottom:20px;gap:0;
+  transition:background .3s;
+}
+.fb-node{flex:1;text-align:center;position:relative;cursor:pointer;padding:6px;border-radius:8px;transition:background .15s;}
+.fb-node:hover{background:rgba(245,200,66,.08);}
+.fb-node+.fb-node::before{content:'→';position:absolute;left:-10px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px;}
+.fb-icon{font-size:18px;display:block;margin-bottom:3px;}
+.fb-title{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--sun);margin-bottom:1px;}
+.fb-desc{font-size:10px;color:var(--text3);}
+
+/* PANELS */
+.main{display:grid;grid-template-columns:230px 1fr 260px;gap:16px;margin-bottom:16px;}
+.panel{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;
+  cursor:pointer;transition:transform .15s,border-color .15s,box-shadow .15s,background .3s;
+}
+.panel:hover{transform:translateY(-2px);border-color:var(--sun);box-shadow:0 8px 28px var(--shadow);}
+.panel-head{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;transition:background .3s;}
+.panel-head .num{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;background:var(--sun);color:#000;padding:2px 8px;border-radius:4px;letter-spacing:1px;}
+.panel-head h2{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text);}
+.panel-head .click-hint{margin-left:auto;font-size:9px;color:var(--text3);font-style:italic;}
+.panel-head .new-badge{display:inline-block;font-size:8px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(52,211,153,.15);border:1px solid rgba(52,211,153,.3);color:var(--green);font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:1px;margin-left:6px;}
+.panel-body{padding:14px 16px;}
+.accent-blue  .panel-head{background:rgba(79,142,247,.06);}
+.accent-green .panel-head{background:rgba(52,211,153,.06);}
+.accent-amber .panel-head{background:rgba(251,191,36,.06);}
+.accent-teal  .panel-head{background:rgba(45,212,191,.06);}
+.accent-sun   .panel-head{background:rgba(245,200,66,.06);}
+.accent-purple .panel-head{background:rgba(167,139,250,.06);}
+
+/* CODE */
+.code{background:var(--code-bg);border-radius:8px;padding:10px 12px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;line-height:1.8;color:#cdd9e5;margin-bottom:10px;border:1px solid var(--code-border);}
+.k{color:#ff7b72}.s{color:#79c0ff}.v{color:#ffa657}.c{color:#636e7b;font-style:italic}
+
+/* VARIABLE LIST */
+.vlist{list-style:none;}
+.vlist li{display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--border);font-size:11px;}
+.vlist li:last-child{border:none;}
+.vdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.vname{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);}
+.vdesc{color:var(--text3);font-size:10px;margin-left:auto;}
+
+/* GTM COLS */
+.gtm-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.gc-title{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.gitem{border:1px solid var(--border);border-radius:8px;padding:8px 10px;margin-bottom:6px;background:var(--card2);transition:border-color .15s,background .15s;}
+.gitem:hover{border-color:var(--sun);}
+.gi-head{display:flex;align-items:center;gap:6px;margin-bottom:3px;}
+.gi-title{font-size:11px;font-weight:700;color:var(--text);}
+.gi-sub{font-size:9.5px;color:var(--text3);line-height:1.7;font-family:'IBM Plex Mono',monospace;}
+.badge{display:inline-block;padding:1px 6px;border-radius:3px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-top:3px;}
+.b-ga4{background:rgba(251,191,36,.2);color:#f59e0b;}
+.b-ads{background:rgba(79,142,247,.2);color:var(--accent);}
+.b-meta{background:rgba(167,139,250,.2);color:var(--purple);}
+.b-rmkt{background:rgba(52,211,153,.2);color:var(--green);}
+
+/* GA4 */
+.ga4-panel{grid-column:3;grid-row:1/3;}
+.ga4-sec{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.ga4-sec:last-child{border:none;margin-bottom:0;}
+.ga4-sec h3{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:6px;}
+.erow{display:flex;align-items:center;justify-content:space-between;padding:4px 8px;background:var(--card2);border:1px solid var(--border);border-radius:5px;margin-bottom:3px;transition:border-color .15s;}
+.erow:hover{border-color:var(--sun);}
+.ename{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text);}
+.etype{font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;text-transform:uppercase;}
+.et-a{background:rgba(52,211,153,.2);color:var(--green);}
+.et-c{background:rgba(251,191,36,.2);color:var(--amber);}
+.et-cv{background:rgba(248,113,113,.2);color:var(--coral);}
+.cbox{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);border-radius:7px;padding:7px 10px;margin-bottom:5px;}
+.cbox-title{font-size:11px;font-weight:700;color:var(--coral);margin-bottom:1px;}
+.cbox-desc{font-size:10px;color:var(--text3);line-height:1.4;}
+.abox{background:rgba(79,142,247,.07);border:1px solid rgba(79,142,247,.25);border-radius:7px;padding:7px 10px;margin-bottom:5px;}
+.abox-title{font-size:11px;font-weight:700;color:var(--accent);margin-bottom:1px;}
+.abox-desc{font-size:10px;color:var(--text3);line-height:1.4;}
+
+/* FUNNEL */
+.funnel-panel{grid-column:2;grid-row:2;}
+.funnel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.fstep{border:1px solid var(--border);border-radius:8px;padding:10px;background:var(--card2);border-top:3px solid var(--border2);transition:all .15s;cursor:pointer;}
+.fstep:hover{border-color:var(--sun);border-top-color:var(--sun);transform:translateY(-1px);}
+.fstep.star{border-top-color:var(--coral);background:rgba(248,113,113,.05);}
+.fnum{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--border2);margin-bottom:3px;}
+.fstep.star .fnum{color:var(--coral);}
+.ftitle{font-size:11px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.fevent{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent);margin-bottom:2px;}
+.fparams{font-size:9px;color:var(--text3);line-height:1.4;}
+
+/* NEW SECTIONS */
+.new-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px;}
+
+/* 4 EVENT TYPES */
+.etypes-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.etype-card{border-radius:8px;padding:12px;border:1px solid;cursor:pointer;transition:all .15s;}
+.etype-card:hover{transform:translateY(-1px);}
+.etype-card .etn{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700;margin-bottom:4px;}
+.etype-card h4{font-size:12px;font-weight:700;margin-bottom:3px;}
+.etype-card p{font-size:10px;color:var(--text3);line-height:1.5;}
+.etype-card .etag{font-size:9px;font-family:'IBM Plex Mono',monospace;padding:2px 7px;border-radius:4px;display:inline-block;margin-top:5px;font-weight:600;}
+.et1{background:rgba(52,211,153,.07);border-color:rgba(52,211,153,.25);}
+.et1 .etn,.et1 h4{color:var(--green);}
+.et1 .etag{background:rgba(52,211,153,.15);color:var(--green);}
+.et2{background:rgba(79,142,247,.07);border-color:rgba(79,142,247,.25);}
+.et2 .etn,.et2 h4{color:var(--accent);}
+.et2 .etag{background:rgba(79,142,247,.15);color:var(--accent);}
+.et3{background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.25);}
+.et3 .etn,.et3 h4{color:var(--amber);}
+.et3 .etag{background:rgba(251,191,36,.15);color:var(--amber);}
+.et4{background:rgba(167,139,250,.07);border-color:rgba(167,139,250,.25);}
+.et4 .etn,.et4 h4{color:var(--purple);}
+.et4 .etag{background:rgba(167,139,250,.15);color:var(--purple);}
+
+/* ENHANCED MEASUREMENT */
+.em-row{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;background:var(--card2);border:1px solid var(--border);border-radius:6px;margin-bottom:5px;transition:all .15s;}
+.em-row:hover{border-color:var(--sun);}
+.em-name{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text);}
+.em-action{font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;font-family:'IBM Plex Mono',monospace;}
+.em-keep{background:rgba(52,211,153,.15);color:var(--green);}
+.em-replace{background:rgba(248,113,113,.15);color:var(--coral);}
+.em-note{font-size:9px;color:var(--text3);padding:3px 0 3px 10px;line-height:1.4;}
+
+/* CONSENT */
+.consent-step{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card2);margin-bottom:6px;transition:border-color .15s;}
+.consent-step:hover{border-color:var(--sun);}
+.cs-icon{font-size:15px;flex-shrink:0;margin-top:1px;}
+.cs-text h4{font-size:11px;font-weight:700;color:var(--text);}
+.cs-text p{font-size:10px;color:var(--text3);line-height:1.4;}
+.cs-badge{margin-left:auto;font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px;white-space:nowrap;font-family:'IBM Plex Mono',monospace;}
+.csb-req{background:rgba(248,113,113,.15);color:var(--coral);}
+.csb-ok{background:rgba(52,211,153,.15);color:var(--green);}
+.csb-basic{background:rgba(79,142,247,.15);color:var(--accent);}
+
+/* DEBUG STEPS */
+.dbg-step{display:flex;gap:12px;align-items:flex-start;padding:8px 10px;background:var(--card2);border:1px solid var(--border);border-radius:8px;border-left:3px solid var(--sun);margin-bottom:6px;transition:border-color .15s;}
+.dbg-step:hover{border-color:var(--sun);}
+.dbg-num{width:22px;height:22px;border-radius:50%;background:var(--sun);color:#000;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;font-family:'IBM Plex Mono',monospace;}
+.dbg-body h4{font-size:11px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.dbg-body p{font-size:10px;color:var(--text3);line-height:1.4;}
+
+/* TAGGING PLAN */
+.tplan-table{width:100%;border-collapse:collapse;font-size:10px;}
+.tplan-table th{padding:6px 8px;background:var(--card2);font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);text-align:left;border-bottom:1px solid var(--border);}
+.tplan-table td{padding:6px 8px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top;font-size:10px;}
+.tplan-table tr:hover td{background:var(--card2);}
+.tplan-table td code{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent);background:rgba(79,142,247,.1);padding:1px 5px;border-radius:3px;}
+.tc-ecom{color:var(--green);font-size:9px;font-weight:700;}
+.tc-eng{color:var(--accent);font-size:9px;font-weight:700;}
+.tc-cus{color:var(--purple);font-size:9px;font-weight:700;}
+
+/* BOTTOM */
+.bottom{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px;}
+.ntable{width:100%;border-collapse:collapse;}
+.ntable th{padding:7px 10px;background:var(--card2);font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);text-align:left;border-bottom:1px solid var(--border);}
+.ntable td{padding:6px 10px;font-size:11px;border-bottom:1px solid var(--border);color:var(--text);}
+.ntable tr:last-child td{border:none;}
+.ntable tr:hover td{background:var(--card2);}
+.c-ecom{color:var(--green);font-weight:700;font-size:10px;}
+.c-eng{color:var(--accent);font-weight:700;font-size:10px;}
+.c-int{color:var(--purple);font-weight:700;font-size:10px;}
+.mono{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text);}
+.bpitem{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);}
+.bpitem:last-child{border:none;}
+.bp-check{width:20px;height:20px;flex-shrink:0;background:rgba(245,200,66,.15);border:1px solid rgba(245,200,66,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;}
+.bp-title{font-size:11px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.bp-desc{font-size:10px;color:var(--text3);line-height:1.4;}
+
+/* DATA FLOW */
+.dfs{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 20px;display:flex;align-items:center;gap:0;margin-bottom:16px;transition:background .3s;}
+.dfs-label{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--text3);white-space:nowrap;margin-right:20px;}
+.dfs-node{display:flex;align-items:center;gap:6px;padding:5px 12px;background:var(--card2);border:1px solid var(--border);border-radius:6px;font-size:11px;font-weight:500;color:var(--text);white-space:nowrap;cursor:pointer;transition:border-color .15s;}
+.dfs-node:hover{border-color:var(--sun);}
+.dfs-arrow{color:var(--text3);font-size:14px;padding:0 8px;flex-shrink:0;}
+.dfs-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* LEGEND */
+.legend{display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;padding:12px 20px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin-bottom:0;transition:background .3s;}
+.leg-title{font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--text3);}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text2);}
+.leg-dot{width:10px;height:10px;border-radius:3px;}
+
+/* FOOTER */
+.footer{
+  background:var(--bg2);border-top:1px solid var(--border);
+  padding:28px 48px;margin-top:24px;
+  transition:background .3s;
+}
+.footer-inner{
+  width:100%;
+  max-width:1400px;
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  padding:0 24px;
+  box-sizing:border-box;
+}
+
+.footer-brand{display:flex;align-items:center;gap:14px;}
+
+.footer-name{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--sun);letter-spacing:.5px;}
+.footer-title{font-size:11px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;font-weight:500;margin-top:2px;}
+.footer-center{text-align:center;}
+.footer-site{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.footer-site a{color:var(--sun);text-decoration:none;}
+.footer-site a:hover{text-decoration:underline;}
+.footer-desc{font-size:11px;color:var(--text3);}
+.footer-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+.footer-wa{display:flex;align-items:center;gap:8px;background:#25d366;color:#fff;font-size:13px;font-weight:700;padding:8px 18px;border-radius:8px;text-decoration:none;transition:opacity .15s;}
+.footer-wa:hover{opacity:.88;}
+.footer-copy{font-size:10px;color:var(--text3);}
+
+/* ═══════════════════════════════════════
+   MODAL
+═══════════════════════════════════════ */
+.overlay{position:fixed;top:0;left:0;right:0;bottom:0;width:100%;height:100%;z-index:99999;background:rgba(5,5,15,.8);align-items:center;justify-content:center;padding:20px;}
+
+.modal{
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:16px;width:780px;max-width:100%;max-height:88vh;
+  overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.6);
+  animation:popIn .2s cubic-bezier(.34,1.56,.64,1);
+  transition:background .3s;
+}
+@keyframes popIn{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-head{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg2);z-index:2;transition:background .3s;}
+.modal-icon{font-size:24px;}
+.modal-title{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:700;color:var(--text);}
+.modal-badge{font-size:9px;font-weight:700;padding:3px 10px;border-radius:20px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:1px;}
+.modal-close{margin-left:auto;width:32px;height:32px;border-radius:50%;border:1px solid var(--border2);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .15s;color:var(--text);}
+.modal-close:hover{background:var(--sun);color:#000;border-color:var(--sun);}
+.modal-body{padding:20px 24px 24px;}
+.modal-body h3{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:8px;margin-top:18px;}
+.modal-body h3:first-child{margin-top:0;}
+.modal-desc{font-size:13px;line-height:1.8;color:var(--text2);margin-bottom:12px;}
+.modal-desc strong{color:var(--text);}
+.mcode{background:var(--code-bg);border-radius:10px;overflow:hidden;margin-bottom:14px;border:1px solid var(--code-border);}
+.mcode-head{display:flex;align-items:center;gap:8px;padding:8px 14px;border-bottom:1px solid var(--code-border);}
+.mcode-dots{display:flex;gap:5px;}
+.mcode-dot{width:10px;height:10px;border-radius:50%;}
+.mcode-label{font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;}
+.mcode pre{padding:14px 16px;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.8;color:#cdd9e5;overflow-x:auto;}
+.mk{color:#ff7b72}.ms{color:#79c0ff}.mv{color:#ffa657}.mc{color:#636e7b;font-style:italic}.mkey{color:#56d364}
+.mtip{background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:12px;color:#93c5fd;line-height:1.7;}
+.mwarn{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.25);border-radius:8px;padding:12px 14px;margin-bottom:10px;font-size:12px;color:#fde68a;line-height:1.7;}
+.mtip strong,.mwarn strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;opacity:.7;}
+.mpills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+.mpill{font-size:11px;font-weight:600;padding:4px 12px;border-radius:20px;font-family:'IBM Plex Mono',monospace;}
+.msteps{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+.mstep{display:flex;gap:14px;}
+.mstep-num{width:28px;height:28px;border-radius:50%;background:var(--sun);color:#000;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;font-family:'IBM Plex Mono',monospace;}
+.mstep-body h4{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.mstep-body p{font-size:12px;color:var(--text2);line-height:1.6;}
+.mtable{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:12px;}
+.mtable th{padding:8px 12px;background:var(--card2);font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text3);text-align:left;border-bottom:1px solid var(--border);}
+.mtable td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--text2);}
+.mtable tr:last-child td{border:none;}
+.mtable td code{font-family:'IBM Plex Mono',monospace;font-size:11px;background:rgba(79,142,247,.1);padding:2px 6px;border-radius:4px;color:var(--accent);}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <div class="brand">
+    <div class="brand-text">
+      <span class="brand-name">SLIM LARIBI</span>
+      <span class="brand-sub">Formation Data Driven</span>
+    </div>
+  </div>
+  <div class="nav-sep"></div>
+  <span class="nav-pill">GTM + GA4 — Architecture</span>
+  <div class="nav-right">
+    <div class="theme-toggle" id="themeToggle">
+      <div class="tt-opt active" id="opt-dark" onclick="setTheme('dark')">
+        <span>🌙</span> Sombre
+      </div>
+      <div class="tt-opt" id="opt-light" onclick="setTheme('light')">
+        <span>☀️</span> Clair
+      </div>
+    </div>
+    <a class="wa-btn" href="https://wa.me/21622354833" target="_blank">
+      <span class="wa-icon">💬</span> +216 22 354 833
+    </a>
+  </div>
+</nav>
+
+<div class="poster">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <h1>GTM + <span>GA4</span> ARCHITECTURE DIAGRAM</h1>
+    <p>Complete Tracking Architecture for Your Website</p>
+    <div class="hdr-badges">
+      <span class="hdr-badge hb-sun">Slim Laribi · Formation Data Driven</span>
+      <span class="hdr-badge hb-click">✦ Clique sur chaque bloc</span>
+      <span class="hdr-badge hb-new">6 nouvelles sections</span>
+    </div>
+  </div>
+
+  <!-- FLOW BAR -->
+  <div class="flow-bar">
+    <div class="fb-node" onclick="openModal('user')"><span class="fb-icon">👤</span><div class="fb-title">USER</div><div class="fb-desc">Interacts with your website</div></div>
+    <div class="fb-node" onclick="openModal('site')"><span class="fb-icon">🌐</span><div class="fb-title">WEBSITE</div><div class="fb-desc">Pages load, user performs actions</div></div>
+    <div class="fb-node" onclick="openModal('dl')"><span class="fb-icon">📦</span><div class="fb-title">DATA LAYER</div><div class="fb-desc">Data pushed to dataLayer</div></div>
+    <div class="fb-node" onclick="openModal('gtm')"><span class="fb-icon">🏷️</span><div class="fb-title">GOOGLE TAG MANAGER</div><div class="fb-desc">GTM collects, processes, fires tags</div></div>
+    <div class="fb-node" onclick="openModal('ga4')"><span class="fb-icon">📊</span><div class="fb-title">GOOGLE ANALYTICS 4</div><div class="fb-desc">Events sent to GA4 for reporting</div></div>
+    <div class="fb-node" onclick="openModal('report')"><span class="fb-icon">💡</span><div class="fb-title">INSIGHTS &amp; ACTIONS</div><div class="fb-desc">Reports · Conversions · Audiences</div></div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="main">
+    <!-- DATA LAYER -->
+    <div class="panel accent-teal" style="grid-row:1/3;" onclick="openModal('dl')">
+      <div class="panel-head"><span class="num">1</span><h2>Data Layer</h2><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:6px;">Data pushed from website to dataLayer</div>
+        <div class="code"><span class="c">// Clear + push ecommerce</span>
+dataLayer.push({<span class="k">ecommerce</span>:<span class="v">null</span>});
+dataLayer.push({
+  <span class="k">event</span>: <span class="s">'add_to_cart'</span>,
+  <span class="k">ecommerce</span>: {
+    <span class="k">currency</span>: <span class="s">'EUR'</span>,
+    <span class="k">value</span>: <span class="v">49.99</span>,
+    <span class="k">items</span>: [{
+      <span class="k">item_id</span>: <span class="s">'12345'</span>,
+      <span class="k">item_name</span>: <span class="s">'Product'</span>,
+      <span class="k">price</span>: <span class="v">49.99</span>,
+      <span class="k">quantity</span>: <span class="v">1</span>
+    }]
+  },
+  <span class="k">page_type</span>: <span class="s">'product'</span>
+});</div>
+        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px;">Common Variables</div>
+        <ul class="vlist">
+          <li><span class="vdot" style="background:#6366f1"></span><span class="vname">event</span><span class="vdesc">Event type</span></li>
+          <li><span class="vdot" style="background:#3b82f6"></span><span class="vname">page_type</span><span class="vdesc">home/product/cart</span></li>
+          <li><span class="vdot" style="background:#10b981"></span><span class="vname">page_url</span><span class="vdesc">Current URL</span></li>
+          <li><span class="vdot" style="background:#f59e0b"></span><span class="vname">user_type</span><span class="vdesc">new / returning</span></li>
+          <li><span class="vdot" style="background:#ef4444"></span><span class="vname">product_id</span><span class="vdesc">Product SKU</span></li>
+          <li><span class="vdot" style="background:#8b5cf6"></span><span class="vname">product_name</span><span class="vdesc">Product title</span></li>
+          <li><span class="vdot" style="background:#ec4899"></span><span class="vname">price</span><span class="vdesc">Item price</span></li>
+          <li><span class="vdot" style="background:#84cc16"></span><span class="vname">value</span><span class="vdesc">Transaction value</span></li>
+          <li><span class="vdot" style="background:#14b8a6"></span><span class="vname">items[ ]</span><span class="vdesc">Products array</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- GTM -->
+    <div class="panel accent-blue" onclick="openModal('gtm')">
+      <div class="panel-head"><span class="num">2</span><h2>GTM Container Structure</h2><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div class="gtm-cols">
+          <div>
+            <div class="gc-title">2.1 Triggers</div>
+            <div class="gitem" onclick="event.stopPropagation();openModal('trig')"><div class="gi-head"><span>👁️</span><span class="gi-title">Page View Triggers</span></div><div class="gi-sub">PV - All Pages<br>PV - Home (Page Path=/)<br>PV - Product Page<br>PV - Category Page</div></div>
+            <div class="gitem" onclick="event.stopPropagation();openModal('trig')"><div class="gi-head"><span>🖱️</span><span class="gi-title">Click Triggers</span></div><div class="gi-sub">Click - Add to Cart<br>Click - Buy Now<br>Click - WhatsApp<br>Click - Banner</div></div>
+            <div class="gitem" onclick="event.stopPropagation();openModal('trig')"><div class="gi-head"><span>📜</span><span class="gi-title">Scroll / Engagement</span></div><div class="gi-sub">Scroll - 90%<br>Video - Play<br>Video - 50%</div></div>
+            <div class="gitem" onclick="event.stopPropagation();openModal('trig')"><div class="gi-head"><span>📋</span><span class="gi-title">Form Triggers</span></div><div class="gi-sub">Form Submit - Contact<br>Form Submit - Newsletter</div></div>
+          </div>
+          <div>
+            <div class="gc-title">2.2 Variables</div>
+            <div class="gitem" onclick="event.stopPropagation();openModal('varr')"><div class="gi-head"><span>📦</span><span class="gi-title">Data Layer Variables</span></div><div class="gi-sub">DL - event<br>DL - page_type<br>DL - product_id<br>DL - price<br>DL - currency<br>DL - value</div></div>
+            <div class="gitem" onclick="event.stopPropagation();openModal('varr')"><div class="gi-head"><span>🔧</span><span class="gi-title">Built-in Variables</span></div><div class="gi-sub">Page URL<br>Page Path<br>Page Title<br>Click Text<br>Click URL<br>Referrer</div></div>
+            <div class="gitem" onclick="event.stopPropagation();openModal('varr')"><div class="gi-head"><span>⚙️</span><span class="gi-title">Custom Variables</span></div><div class="gi-sub">Form Element<br>Video Status<br>Scroll Depth</div></div>
+          </div>
+          <div>
+            <div class="gc-title">2.3 Tags</div>
+            <div class="gitem" onclick="event.stopPropagation();openModal('tag')"><div class="gi-head"><span>⚙️</span><span class="gi-title">GA4 Configuration Tag</span></div><span class="badge b-ga4">GA4</span><div class="gi-sub">GA4 - Config (All Pages)</div></div>
+            <div class="gitem" onclick="event.stopPropagation();openModal('tag')"><div class="gi-head"><span>📊</span><span class="gi-title">GA4 Event Tags</span></div><span class="badge b-ga4">GA4</span><div class="gi-sub">GA4 - home_view<br>GA4 - view_item<br>GA4 - add_to_cart<br>GA4 - begin_checkout<br>GA4 - purchase<br>GA4 - whatsapp_click<br>GA4 - scroll_90</div></div>
+            <div class="gitem" onclick="event.stopPropagation();openModal('tag')"><div class="gi-head"><span>🎯</span><span class="gi-title">Other Tags (Optional)</span></div><div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px;"><span class="badge b-ads">ADS</span><span class="badge b-meta">META</span><span class="badge b-rmkt">RMKT</span></div><div class="gi-sub">Google Ads Conversion<br>Meta Pixel Event<br>Floodlight Tag</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GA4 -->
+    <div class="panel accent-amber ga4-panel" onclick="openModal('ga4')">
+      <div class="panel-head"><span class="num">3</span><h2>GA4 Setup</h2><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div class="ga4-sec">
+          <h3>3.1 Events</h3>
+          <div style="font-size:10px;color:var(--text3);margin-bottom:6px;line-height:1.4;">Auto + Enhanced Measurement + Custom from GTM</div>
+          <div class="erow"><span class="ename">page_view</span><span class="etype et-a">Auto</span></div>
+          <div class="erow"><span class="ename">session_start</span><span class="etype et-a">Auto</span></div>
+          <div class="erow"><span class="ename">user_engagement</span><span class="etype et-a">Auto</span></div>
+          <div class="erow"><span class="ename">scroll</span><span class="etype et-a">Auto</span></div>
+          <div class="erow"><span class="ename">view_item</span><span class="etype et-c">Custom</span></div>
+          <div class="erow"><span class="ename">add_to_cart</span><span class="etype et-c">Custom</span></div>
+          <div class="erow" style="border-color:rgba(248,113,113,.4);"><span class="ename" style="color:var(--coral);font-weight:700;">purchase ★</span><span class="etype et-cv">Conv.</span></div>
+        </div>
+        <div class="ga4-sec">
+          <h3>3.2 Key Custom Events</h3>
+          <div class="erow"><span class="ename">home_view</span></div>
+          <div class="erow"><span class="ename">add_to_cart</span></div>
+          <div class="erow"><span class="ename">begin_checkout</span></div>
+          <div class="erow"><span class="ename">purchase</span></div>
+          <div class="erow"><span class="ename">whatsapp_click</span></div>
+          <div class="erow"><span class="ename">call_click</span></div>
+          <div class="erow"><span class="ename">scroll_90</span></div>
+          <div class="erow"><span class="ename">page_404</span></div>
+        </div>
+        <div class="ga4-sec">
+          <h3>3.3 Conversions</h3>
+          <div class="cbox"><div class="cbox-title">purchase ★ (Primary)</div><div class="cbox-desc">Dynamic value · 30-day window</div></div>
+          <div class="cbox"><div class="cbox-title">begin_checkout</div><div class="cbox-desc">Secondary · Checkout intent signal</div></div>
+          <div class="cbox"><div class="cbox-title">submit_form · whatsapp_click</div><div class="cbox-desc">Lead generation signals</div></div>
+        </div>
+        <div class="ga4-sec">
+          <h3>3.4 Audiences</h3>
+          <div class="abox"><div class="abox-title">🔥 Add to Cart Users</div><div class="abox-desc">add_to_cart without purchase · 7 days</div></div>
+          <div class="abox"><div class="abox-title">👁️ Product Viewers</div><div class="abox-desc">view_item · engaged users · 14 days</div></div>
+          <div class="abox"><div class="abox-title">✅ Purchasers</div><div class="abox-desc">purchase event · LTV · Lookalike base</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FUNNEL -->
+    <div class="panel accent-teal funnel-panel" onclick="openModal('funnel')">
+      <div class="panel-head"><span class="num">2b</span><h2>E-commerce Funnel Tracking</h2><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div class="funnel-grid">
+          <div class="fstep" onclick="event.stopPropagation();openModal('funnel')"><div class="fnum">①</div><div class="ftitle">Product Impression</div><div class="fevent">view_item_list</div><div class="fparams">item_list_id items[]</div></div>
+          <div class="fstep" onclick="event.stopPropagation();openModal('funnel')"><div class="fnum">②</div><div class="ftitle">Product Page</div><div class="fevent">view_item</div><div class="fparams">item_id item_name price</div></div>
+          <div class="fstep" onclick="event.stopPropagation();openModal('funnel')"><div class="fnum">③</div><div class="ftitle">Add to Cart</div><div class="fevent">add_to_cart</div><div class="fparams">value currency items[]</div></div>
+          <div class="fstep" onclick="event.stopPropagation();openModal('funnel')"><div class="fnum">④</div><div class="ftitle">View Cart</div><div class="fevent">view_cart</div><div class="fparams">value currency items[]</div></div>
+          <div class="fstep" onclick="event.stopPropagation();openModal('funnel')"><div class="fnum">⑤</div><div class="ftitle">Begin Checkout</div><div class="fevent">begin_checkout</div><div class="fparams">value coupon items[]</div></div>
+          <div class="fstep" onclick="event.stopPropagation();openModal('funnel')"><div class="fnum">⑥</div><div class="ftitle">Add Shipping</div><div class="fevent">add_shipping_info</div><div class="fparams">shipping_tier value</div></div>
+          <div class="fstep" onclick="event.stopPropagation();openModal('funnel')"><div class="fnum">⑦</div><div class="ftitle">Add Payment</div><div class="fevent">add_payment_info</div><div class="fparams">payment_type value</div></div>
+          <div class="fstep star" onclick="event.stopPropagation();openModal('funnel')"><div class="fnum">⑧</div><div class="ftitle" style="color:var(--coral);">Purchase ★</div><div class="fevent">purchase</div><div class="fparams">transaction_id value tax shipping items[]</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW SECTIONS ROW 1 -->
+  <div class="new-row">
+
+    <!-- 4 EVENT TYPES -->
+    <div class="panel accent-sun" onclick="openModal('event_types')">
+      <div class="panel-head"><span class="num">4</span><h2>Les 4 types d'events GA4</h2><span class="new-badge">NEW</span><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div class="etypes-grid">
+          <div class="etype-card et1" onclick="event.stopPropagation();openModal('event_types')">
+            <div class="etn">①</div>
+            <h4>Automatiques</h4>
+            <p>Sans aucune config. Dès l'install GA4.</p>
+            <span class="etag">session_start · first_visit</span>
+          </div>
+          <div class="etype-card et2" onclick="event.stopPropagation();openModal('event_types')">
+            <div class="etn">②</div>
+            <h4>Mesure améliorée</h4>
+            <p>Toggle ON dans GA4 Admin. Zéro GTM.</p>
+            <span class="etag">scroll · file_download</span>
+          </div>
+          <div class="etype-card et3" onclick="event.stopPropagation();openModal('event_types')">
+            <div class="etn">③</div>
+            <h4>Recommandés</h4>
+            <p>Nommage Google. Via GTM + dataLayer.</p>
+            <span class="etag">purchase · add_to_cart</span>
+          </div>
+          <div class="etype-card et4" onclick="event.stopPropagation();openModal('event_types')">
+            <div class="etn">④</div>
+            <h4>Personnalisés</h4>
+            <p>100% custom. Nommage libre via GTM.</p>
+            <span class="etag">page_404 · cta_click</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENHANCED MEASUREMENT -->
+    <div class="panel accent-green" onclick="openModal('enhanced')">
+      <div class="panel-head"><span class="num">5</span><h2>Mesure améliorée — stratégie</h2><span class="new-badge">NEW</span><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div style="font-size:10px;color:var(--text3);margin-bottom:8px;font-weight:600;">Quoi garder · Quoi remplacer par GTM</div>
+        <div class="em-row"><span class="em-name">page_view (SPA)</span><span class="em-action em-replace">Remplacer GTM</span></div>
+        <div class="em-note">→ SPAs : push manuel à chaque route</div>
+        <div class="em-row"><span class="em-name">scroll (90%)</span><span class="em-action em-replace">Remplacer GTM</span></div>
+        <div class="em-note">→ Créer 25 / 50 / 75 / 90% custom</div>
+        <div class="em-row"><span class="em-name">outbound click</span><span class="em-action em-replace">Remplacer GTM</span></div>
+        <div class="em-note">→ Ajouter page + position + id</div>
+        <div class="em-row"><span class="em-name">file_download</span><span class="em-action em-keep">Garder</span></div>
+        <div class="em-note">→ OK si extensions PDF/ZIP suffisent</div>
+        <div class="em-row"><span class="em-name">video_* (YouTube)</span><span class="em-action em-keep">Garder</span></div>
+        <div class="em-note">→ OK si uniquement iframes YouTube</div>
+        <div class="em-row"><span class="em-name">view_search_results</span><span class="em-action em-replace">Remplacer GTM</span></div>
+        <div class="em-note">→ Paramètre URL souvent incorrect</div>
+      </div>
+    </div>
+
+    <!-- CONSENT MODE V2 -->
+    <div class="panel accent-purple" onclick="openModal('consent')">
+      <div class="panel-head"><span class="num">6</span><h2>Consent Mode v2</h2><span class="new-badge">NEW</span><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div style="font-size:10px;color:var(--text3);margin-bottom:8px;font-weight:600;">Obligatoire Europe 2024 · Configuration GTM</div>
+        <div class="consent-step"><span class="cs-icon">🍪</span><div class="cs-text"><h4>CMP Banner (Cookiebot, Axeptio...)</h4><p>Collecte le consentement user. Injecte les signaux dans dataLayer.</p></div><span class="cs-badge csb-req">Requis</span></div>
+        <div class="consent-step"><span class="cs-icon">🏷️</span><div class="cs-text"><h4>Tag Consent Initialization</h4><p>Se déclenche avant tous les tags. Définit l'état par défaut : denied.</p></div><span class="cs-badge csb-req">Requis</span></div>
+        <div class="consent-step"><span class="cs-icon">📊</span><div class="cs-text"><h4>GA4 Config — mode consentement</h4><p>Attend analytics_storage = granted pour envoyer les données.</p></div><span class="cs-badge csb-ok">Conditionnel</span></div>
+        <div class="consent-step"><span class="cs-icon">🔬</span><div class="cs-text"><h4>Modélisation comportementale</h4><p>GA4 modélise les données des users sans consentement.</p></div><span class="cs-badge csb-basic">Automatique</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEW SECTIONS ROW 2 -->
+  <div class="new-row">
+
+    <!-- DEBUG -->
+    <div class="panel accent-sun" onclick="openModal('debug')">
+      <div class="panel-head"><span class="num">7</span><h2>Mode Debug — pas à pas</h2><span class="new-badge">NEW</span><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div class="dbg-step"><div class="dbg-num">1</div><div class="dbg-body"><h4>Activer GTM Preview</h4><p>GTM → Aperçu. Saisir l'URL du site. Ouvre Tag Assistant dans un nouvel onglet.</p></div></div>
+        <div class="dbg-step"><div class="dbg-num">2</div><div class="dbg-body"><h4>Déclencher l'action sur le site</h4><p>Clic, achat, scroll... L'event apparaît en temps réel dans Tag Assistant.</p></div></div>
+        <div class="dbg-step"><div class="dbg-num">3</div><div class="dbg-body"><h4>Vérifier le déclencheur</h4><p>L'event est-il détecté ? Onglet "Tags" : tag en vert (fired) ou rouge (not fired)?</p></div></div>
+        <div class="dbg-step"><div class="dbg-num">4</div><div class="dbg-body"><h4>Vérifier les variables DLV</h4><p>Onglet "Variables" : ecommerce.value est-il bien lu ? Valeur correcte ?</p></div></div>
+        <div class="dbg-step"><div class="dbg-num">5</div><div class="dbg-body"><h4>GA4 DebugView</h4><p>GA4 → Admin → DebugView. L'event arrive avec les bons paramètres ?</p></div></div>
+      </div>
+    </div>
+
+    <!-- PLAN DE MARQUAGE -->
+    <div class="panel accent-teal" style="grid-column:span 2;" onclick="openModal('tagging_plan')">
+      <div class="panel-head"><span class="num">8</span><h2>Plan de marquage — Tagging Plan Template</h2><span class="new-badge">NEW</span><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <table class="tplan-table">
+          <thead>
+            <tr><th>Catégorie</th><th>Event GA4</th><th>Déclencheur GTM</th><th>Variables DLV</th><th>Tag GTM</th><th>Priorité</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="tc-ecom">Ecommerce</td><td><code>purchase</code></td><td>Event custom "purchase"</td><td>DL-value · DL-items · DL-currency</td><td><code>GA4 - purchase</code></td><td>🔴 Critique</td></tr>
+            <tr><td class="tc-ecom">Ecommerce</td><td><code>add_to_cart</code></td><td>Click - Add to Cart</td><td>DL-value · DL-items</td><td><code>GA4 - add_to_cart</code></td><td>🔴 Critique</td></tr>
+            <tr><td class="tc-ecom">Ecommerce</td><td><code>begin_checkout</code></td><td>Event custom "begin_checkout"</td><td>DL-value · DL-items</td><td><code>GA4 - begin_checkout</code></td><td>🟠 Important</td></tr>
+            <tr><td class="tc-eng">Engagement</td><td><code>scroll</code></td><td>Scroll 25/50/75/90%</td><td>Scroll Depth Threshold</td><td><code>GA4 - scroll</code></td><td>🟠 Important</td></tr>
+            <tr><td class="tc-eng">Engagement</td><td><code>search</code></td><td>Event custom "search"</td><td>DL-search_term</td><td><code>GA4 - search</code></td><td>🟡 Utile</td></tr>
+            <tr><td class="tc-cus">Custom</td><td><code>page_404</code></td><td>Page Title contient "404"</td><td>Page URL · Referrer</td><td><code>GA4 - page_404</code></td><td>🟡 Utile</td></tr>
+            <tr><td class="tc-cus">Custom</td><td><code>cta_click</code></td><td>Click Text contient CTA</td><td>Click Text · Page Path · Click ID</td><td><code>GA4 - cta_click</code></td><td>🟡 Utile</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="bottom">
+    <div class="panel accent-teal" onclick="openModal('naming')">
+      <div class="panel-head"><span class="num">9</span><h2>Event &amp; Naming Conventions</h2><span class="click-hint">détails →</span></div>
+      <div class="panel-body" style="padding:0;">
+        <table class="ntable">
+          <thead><tr><th>Category</th><th>Event Name</th><th>Use Case</th></tr></thead>
+          <tbody>
+            <tr><td class="c-ecom">Ecommerce</td><td class="mono">view_item</td><td style="font-size:10px;color:var(--text3);">Product page view</td></tr>
+            <tr><td class="c-ecom">Ecommerce</td><td class="mono">add_to_cart</td><td style="font-size:10px;color:var(--text3);">Add product to cart</td></tr>
+            <tr><td class="c-ecom">Ecommerce</td><td class="mono">begin_checkout</td><td style="font-size:10px;color:var(--text3);">Checkout step started</td></tr>
+            <tr><td class="c-ecom" style="color:var(--coral);font-weight:700;">Ecommerce ★</td><td class="mono" style="color:var(--coral);">purchase</td><td style="font-size:10px;color:var(--text3);">Order placed</td></tr>
+            <tr><td class="c-eng">Engagement</td><td class="mono">home_view</td><td style="font-size:10px;color:var(--text3);">User lands on homepage</td></tr>
+            <tr><td class="c-eng">Engagement</td><td class="mono">scroll_90</td><td style="font-size:10px;color:var(--text3);">Scroll 90% on page</td></tr>
+            <tr><td class="c-int">Interaction</td><td class="mono">whatsapp_click</td><td style="font-size:10px;color:var(--text3);">Click on WhatsApp</td></tr>
+            <tr><td class="c-int">Interaction</td><td class="mono">cta_click</td><td style="font-size:10px;color:var(--text3);">Click on CTA button</td></tr>
+            <tr><td class="c-int">Custom</td><td class="mono">page_404</td><td style="font-size:10px;color:var(--text3);">Error page detected</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel accent-blue" onclick="openModal('gtm_naming')">
+      <div class="panel-head"><span class="num">9b</span><h2>GTM Naming Conventions</h2><span class="click-hint">détails →</span></div>
+      <div class="panel-body" style="padding:0;">
+        <table class="ntable">
+          <thead><tr><th>Triggers (Event – Condition)</th><th>Tags (Platform – Event)</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">PV - All Pages</td><td class="mono">GA4 - Config (All Pages)</td></tr>
+            <tr><td class="mono">PV - Home</td><td class="mono">GA4 - home_view</td></tr>
+            <tr><td class="mono">PV - Product Page</td><td class="mono">GA4 - view_item</td></tr>
+            <tr><td class="mono">Click - Add to Cart</td><td class="mono">GA4 - add_to_cart</td></tr>
+            <tr><td class="mono">Click - WhatsApp</td><td class="mono">GA4 - whatsapp_click</td></tr>
+            <tr><td class="mono">Scroll - 25/50/75/90%</td><td class="mono">GA4 - scroll</td></tr>
+            <tr><td class="mono">Form Submit - Contact</td><td class="mono">GA4 - submit_form</td></tr>
+          </tbody>
+        </table>
+        <div style="padding:10px 16px;border-top:1px solid var(--border);">
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text3);margin-bottom:6px;">Variables — convention</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;background:var(--card2);border:1px solid var(--border);border-radius:4px;color:var(--text);">DL - page_type</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;background:var(--card2);border:1px solid var(--border);border-radius:4px;color:var(--text);">DL - value</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;background:var(--card2);border:1px solid var(--border);border-radius:4px;color:var(--text);">DL - items</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;background:var(--card2);border:1px solid var(--border);border-radius:4px;color:var(--text);">Page URL</span>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:9px;padding:2px 7px;background:var(--card2);border:1px solid var(--border);border-radius:4px;color:var(--text);">Click Text</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel accent-green" onclick="openModal('bp')">
+      <div class="panel-head"><span class="num">10</span><h2>Best Practices</h2><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div class="bpitem"><div class="bp-check">✓</div><div><div class="bp-title">Events standards en priorité</div><div class="bp-desc">GA4 recommended events — compatibilité automatique des rapports.</div></div></div>
+        <div class="bpitem"><div class="bp-check">✓</div><div><div class="bp-title">snake_case partout</div><div class="bp-desc">Tous les events et params en snake_case. Pas d'espaces.</div></div></div>
+        <div class="bpitem"><div class="bp-check">✓</div><div><div class="bp-title">Preview avant chaque publish</div><div class="bp-desc">GTM Preview + GA4 DebugView. Toujours. Sans exception.</div></div></div>
+        <div class="bpitem"><div class="bp-check">✓</div><div><div class="bp-title">dataLayer pour données dynamiques</div><div class="bp-desc">Never scrape the DOM. Tout via dataLayer.push().</div></div></div>
+        <div class="bpitem"><div class="bp-check">✓</div><div><div class="bp-title">Clear ecommerce avant chaque push</div><div class="bp-desc">dataLayer.push(ecommerce: null) obligatoire avant chaque event.</div></div></div>
+        <div class="bpitem"><div class="bp-check">✓</div><div><div class="bp-title">Audit mensuel du tracking</div><div class="bp-desc">Tag Assistant + GA4 reports. Les bugs coûtent cher en décisions.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- BLOC 1 : TRACKING FORMULAIRES -->
+  <div class="new-row" style="margin-bottom:16px;">
+    <div class="panel accent-teal" style="grid-column:span 2;" onclick="openModal('form_approach')">
+      <div class="panel-head"><span class="num">A</span><h2>Tracking formulaires — 2 approches</h2><span class="new-badge">NEW</span><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div style="border:1px solid rgba(52,211,153,.3);border-radius:10px;padding:12px;background:rgba(52,211,153,.05);">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--green);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">✅ Approche 1 — Recommandée</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text);margin-bottom:4px;">Un seul event, paramètres différents</div>
+            <div style="font-size:10px;color:var(--text3);line-height:1.6;margin-bottom:8px;">Même event <code style="background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px;font-size:9px;">generate_lead</code> pour tous les forms. On distingue via <code style="background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px;font-size:9px;">form_type</code></div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);line-height:1.8;">
+              event: 'generate_lead'<br>
+              form_type: 'contact' | 'devis' | 'newsletter'<br>
+              form_name: 'Formulaire Contact'<br>
+              page_location: {{Page URL}}
+            </div>
+          </div>
+          <div style="border:1px solid rgba(79,142,247,.3);border-radius:10px;padding:12px;background:rgba(79,142,247,.05);">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">⚡ Approche 2 — Objectifs différents</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text);margin-bottom:4px;">Events séparés par objectif business</div>
+            <div style="font-size:10px;color:var(--text3);line-height:1.6;margin-bottom:8px;">Quand les formulaires ont des valeurs business radicalement différentes</div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);line-height:1.8;">
+              'generate_lead'   → contact / devis<br>
+              'newsletter_signup' → inscription email<br>
+              'form_submit'     → formulaires génériques
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:12px;">
+          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px;">Tableau de décision — quel event pour quel formulaire ?</div>
+          <table class="tplan-table">
+            <thead><tr><th>Formulaire</th><th>Event recommandé</th><th>form_type</th><th>Conversion ?</th><th>Priorité</th></tr></thead>
+            <tbody>
+              <tr><td>Formulaire contact</td><td><code>generate_lead</code></td><td><code>contact</code></td><td>✅ Oui</td><td>🔴 Critique</td></tr>
+              <tr><td>Demande de devis</td><td><code>generate_lead</code></td><td><code>devis</code></td><td>✅ Oui</td><td>🔴 Critique</td></tr>
+              <tr><td>Newsletter</td><td><code>newsletter_signup</code></td><td><code>newsletter</code></td><td>🟡 Optionnel</td><td>🟠 Important</td></tr>
+              <tr><td>Formulaire générique</td><td><code>form_submit</code></td><td><code>generic</code></td><td>❌ Non</td><td>🟡 Utile</td></tr>
+              <tr><td>Inscription compte</td><td><code>sign_up</code></td><td>—</td><td>🟡 Optionnel</td><td>🟠 Important</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel accent-amber" onclick="openModal('form_gtm')">
+      <div class="panel-head"><span class="num">A2</span><h2>GTM — config formulaires</h2><span class="new-badge">NEW</span><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Un tag GTM pour tous les forms</div>
+        <div class="code" style="font-size:9px;">
+<span class="c">// Tag : GA4 - generate_lead</span>
+Type     : GA4 Event
+Event    : <span class="s">generate_lead</span>
+Config   : <span class="s">{{GA4 - Config}}</span>
+
+Paramètres :
+form_type     → <span class="s">{{DLV - Form Type}}</span>
+form_name     → <span class="s">{{DLV - Form Name}}</span>
+page_location → <span class="s">{{Page URL}}</span>
+        </div>
+        <div style="font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;margin-top:10px;">Déclencheur</div>
+        <div style="border:1px solid var(--border);border-radius:8px;padding:8px 10px;background:var(--card2);font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text);line-height:1.8;">
+          Type : Envoi de formulaire<br>
+          Activer sur : Tous les formulaires<br>
+          <span style="color:var(--coral);">Ou</span> filtrer par Form ID / Form Classes
+        </div>
+        <div style="margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);line-height:1.8;">
+          <span style="color:var(--amber);">⚠️</span> Activer variable intégrée :<br>
+          Form ID · Form Classes · Form Target
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOC 2 : VARIABLES INTÉGRÉES GTM -->
+  <div class="new-row" style="margin-bottom:16px;">
+    <div class="panel accent-blue" style="grid-column:span 3;" onclick="openModal('builtin_vars')">
+      <div class="panel-head"><span class="num">B</span><h2>Variables intégrées GTM — activer + utiliser</h2><span class="new-badge">NEW</span><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--accent);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border);">📄 Page</div>
+            <div class="em-row"><span class="em-name">Page URL</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ GA4 param: <code style="color:var(--accent);background:rgba(79,142,247,.1);padding:1px 4px;border-radius:3px;">page_location</code></div>
+            <div class="em-row"><span class="em-name">Page Path</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ Chemin sans domaine</div>
+            <div class="em-row"><span class="em-name">Page Title</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ GA4 param: <code style="color:var(--accent);background:rgba(79,142,247,.1);padding:1px 4px;border-radius:3px;">page_title</code></div>
+            <div class="em-row"><span class="em-name">Referrer</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ GA4 param: <code style="color:var(--accent);background:rgba(79,142,247,.1);padding:1px 4px;border-radius:3px;">page_referrer</code></div>
+          </div>
+
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--purple);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border);">🖱️ Clic</div>
+            <div class="em-row"><span class="em-name">Click Text</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ Texte du bouton cliqué</div>
+            <div class="em-row"><span class="em-name">Click ID</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ Attribut id de l'élément</div>
+            <div class="em-row"><span class="em-name">Click Classes</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ Classes CSS du clic</div>
+            <div class="em-row"><span class="em-name">Click URL</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ Destination du lien cliqué</div>
+          </div>
+
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--green);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border);">📜 Scroll</div>
+            <div class="em-row"><span class="em-name">Scroll Depth Threshold</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ GA4 param: <code style="color:var(--green);background:rgba(52,211,153,.1);padding:1px 4px;border-radius:3px;">percent_scrolled</code></div>
+            <div class="em-row"><span class="em-name">Scroll Depth Units</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ "percent" ou "pixels"</div>
+            <div class="em-row"><span class="em-name">Scroll Direction</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ vertical / horizontal</div>
+            <div style="margin-top:10px;font-size:9px;color:var(--text3);line-height:1.6;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.2);border-radius:6px;padding:6px 8px;">
+              <span style="color:var(--green);font-weight:700;">Dans le tag GA4 scroll :</span><br>
+              percent_scrolled → <code style="color:var(--green);">{{Scroll Depth Threshold}}</code><br>
+              page_location → <code style="color:var(--green);">{{Page URL}}</code>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--amber);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border);">📋 Formulaire</div>
+            <div class="em-row"><span class="em-name">Form ID</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ Attribut id du form</div>
+            <div class="em-row"><span class="em-name">Form Classes</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ Classes CSS du form</div>
+            <div class="em-row"><span class="em-name">Form Target</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ Action URL du form</div>
+            <div class="em-row"><span class="em-name">Form Text</span><span class="em-action em-keep">✅ Activer</span></div>
+            <div style="font-size:9px;color:var(--text3);padding:2px 0 4px 4px;">→ Texte du bouton submit</div>
+          </div>
+
+        </div>
+        <div style="margin-top:12px;background:rgba(245,200,66,.08);border:1px solid rgba(245,200,66,.25);border-radius:8px;padding:10px 14px;font-size:11px;color:var(--text2);">
+          <span style="color:var(--sun);font-weight:700;">📍 Où les activer dans GTM :</span> GTM → Variables → Configurer → section "Clics" / "Formulaires" / "Défilement" → cocher chaque variable → Enregistrer
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOC 3 : PARAMÈTRES PAR EVENT -->
+  <div class="new-row" style="margin-bottom:16px;">
+    <div class="panel accent-sun" style="grid-column:span 3;" onclick="openModal('event_params')">
+      <div class="panel-head"><span class="num">C</span><h2>Paramètres recommandés par event — obligatoire vs optionnel</h2><span class="new-badge">NEW</span><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+            <div style="background:rgba(248,113,113,.1);padding:8px 12px;border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--coral);">purchase ★</div>
+            <table style="width:100%;border-collapse:collapse;font-size:10px;">
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">transaction_id</td><td style="padding:5px 10px;"><span style="background:rgba(248,113,113,.15);color:var(--coral);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Obligatoire</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">value</td><td style="padding:5px 10px;"><span style="background:rgba(248,113,113,.15);color:var(--coral);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Obligatoire</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">currency</td><td style="padding:5px 10px;"><span style="background:rgba(248,113,113,.15);color:var(--coral);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Obligatoire</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">items[ ]</td><td style="padding:5px 10px;"><span style="background:rgba(248,113,113,.15);color:var(--coral);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Obligatoire</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">coupon</td><td style="padding:5px 10px;"><span style="background:rgba(251,191,36,.1);color:var(--amber);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Optionnel</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+              <tr><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">tax / shipping</td><td style="padding:5px 10px;"><span style="background:rgba(251,191,36,.1);color:var(--amber);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Optionnel</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+            </table>
+          </div>
+
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+            <div style="background:rgba(52,211,153,.08);padding:8px 12px;border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--green);">generate_lead / form_submit</div>
+            <table style="width:100%;border-collapse:collapse;font-size:10px;">
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">form_type</td><td style="padding:5px 10px;"><span style="background:rgba(248,113,113,.15);color:var(--coral);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Obligatoire</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">form_name</td><td style="padding:5px 10px;"><span style="background:rgba(248,113,113,.15);color:var(--coral);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Obligatoire</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">page_location</td><td style="padding:5px 10px;"><span style="background:rgba(248,113,113,.15);color:var(--coral);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Obligatoire</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">Intégrée</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">form_id</td><td style="padding:5px 10px;"><span style="background:rgba(251,191,36,.1);color:var(--amber);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Optionnel</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">Intégrée</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">currency</td><td style="padding:5px 10px;"><span style="background:rgba(251,191,36,.1);color:var(--amber);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Optionnel</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+              <tr><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">value</td><td style="padding:5px 10px;"><span style="background:rgba(251,191,36,.1);color:var(--amber);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Optionnel</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+            </table>
+          </div>
+
+          <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+            <div style="background:rgba(79,142,247,.08);padding:8px 12px;border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;color:var(--accent);">scroll / cta_click / search</div>
+            <table style="width:100%;border-collapse:collapse;font-size:10px;">
+              <tr style="border-bottom:1px solid var(--border);background:rgba(52,211,153,.04);"><td colspan="3" style="padding:5px 10px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;color:var(--green);">scroll</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">percent_scrolled</td><td style="padding:5px 10px;"><span style="background:rgba(248,113,113,.15);color:var(--coral);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Obligatoire</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">Intégrée</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">page_location</td><td style="padding:5px 10px;"><span style="background:rgba(251,191,36,.1);color:var(--amber);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Optionnel</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">Intégrée</td></tr>
+              <tr style="border-bottom:1px solid var(--border);background:rgba(167,139,250,.04);"><td colspan="3" style="padding:5px 10px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;color:var(--purple);">cta_click</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">cta_text</td><td style="padding:5px 10px;"><span style="background:rgba(248,113,113,.15);color:var(--coral);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Obligatoire</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">Intégrée</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">cta_position</td><td style="padding:5px 10px;"><span style="background:rgba(248,113,113,.15);color:var(--coral);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Obligatoire</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+              <tr style="border-bottom:1px solid var(--border);background:rgba(45,212,191,.04);"><td colspan="3" style="padding:5px 10px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:700;color:var(--teal);">search</td></tr>
+              <tr><td style="padding:5px 10px;color:var(--text);font-family:'IBM Plex Mono',monospace;">search_term</td><td style="padding:5px 10px;"><span style="background:rgba(248,113,113,.15);color:var(--coral);padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;">Obligatoire</span></td><td style="padding:5px 10px;font-size:9px;color:var(--text3);">DLV</td></tr>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOC 4 : SCHÉMA DE DÉCISION -->
+  <div style="margin-bottom:16px;">
+    <div class="panel accent-purple" onclick="openModal('decision_tree')">
+      <div class="panel-head"><span class="num">D</span><h2>Schéma de décision — quel event pour quelle action ?</h2><span class="new-badge">NEW</span><span class="click-hint">détails →</span></div>
+      <div class="panel-body">
+        <div style="display:flex;align-items:flex-start;gap:16px;overflow-x:auto;padding-bottom:4px;">
+
+          <div style="flex-shrink:0;text-align:center;">
+            <div style="background:rgba(167,139,250,.15);border:2px solid rgba(167,139,250,.5);border-radius:12px;padding:12px 20px;font-size:13px;font-weight:700;color:var(--purple);">Action utilisateur</div>
+          </div>
+
+          <div style="font-size:20px;color:var(--text3);margin-top:14px;">→</div>
+
+          <div style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);border-radius:8px;padding:7px 14px;font-size:11px;font-weight:700;color:var(--green);width:130px;text-align:center;">Achat / Paiement</div>
+              <div style="font-size:12px;color:var(--text3);">→</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:6px;padding:4px 10px;color:var(--coral);">purchase ★</div>
+              <div style="font-size:10px;color:var(--text3);">transaction_id · value · currency · items[]</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.3);border-radius:8px;padding:7px 14px;font-size:11px;font-weight:700;color:var(--green);width:130px;text-align:center;">Ajout panier</div>
+              <div style="font-size:12px;color:var(--text3);">→</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);border-radius:6px;padding:4px 10px;color:var(--amber);">add_to_cart</div>
+              <div style="font-size:10px;color:var(--text3);">value · currency · items[]</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.3);border-radius:8px;padding:7px 14px;font-size:11px;font-weight:700;color:var(--accent);width:130px;text-align:center;">Formulaire soumis</div>
+              <div style="font-size:12px;color:var(--text3);">→</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.3);border-radius:6px;padding:4px 10px;color:var(--accent);">generate_lead</div>
+              <div style="font-size:10px;color:var(--text3);">form_type · form_name · page_location</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.3);border-radius:8px;padding:7px 14px;font-size:11px;font-weight:700;color:var(--teal);width:130px;text-align:center;">Scroll page</div>
+              <div style="font-size:12px;color:var(--text3);">→</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.3);border-radius:6px;padding:4px 10px;color:var(--teal);">scroll</div>
+              <div style="font-size:10px;color:var(--text3);">percent_scrolled · page_location</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);border-radius:8px;padding:7px 14px;font-size:11px;font-weight:700;color:var(--purple);width:130px;text-align:center;">Clic CTA</div>
+              <div style="font-size:12px;color:var(--text3);">→</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.3);border-radius:6px;padding:4px 10px;color:var(--purple);">cta_click</div>
+              <div style="font-size:10px;color:var(--text3);">cta_text · cta_position · page_location</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:8px;padding:7px 14px;font-size:11px;font-weight:700;color:var(--sun);width:130px;text-align:center;">Recherche site</div>
+              <div style="font-size:12px;color:var(--text3);">→</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:rgba(245,200,66,.1);border:1px solid rgba(245,200,66,.3);border-radius:6px;padding:4px 10px;color:var(--sun);">search</div>
+              <div style="font-size:10px;color:var(--text3);">search_term</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:8px;padding:7px 14px;font-size:11px;font-weight:700;color:var(--coral);width:130px;text-align:center;">Page erreur 404</div>
+              <div style="font-size:12px;color:var(--text3);">→</div>
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:rgba(248,113,113,.1);border:1px solid rgba(248,113,113,.3);border-radius:6px;padding:4px 10px;color:var(--coral);">page_404</div>
+              <div style="font-size:10px;color:var(--text3);">page_location · page_referrer</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA FLOW -->
+  <div class="dfs">
+    <div class="dfs-label">Data Flow Summary</div>
+    <div class="dfs-node" onclick="openModal('user')"><span class="dfs-dot" style="background:#fbbf24"></span>User Action</div>
+    <div class="dfs-arrow">→</div>
+    <div class="dfs-node" onclick="openModal('site')"><span class="dfs-dot" style="background:#34d399"></span>Website</div>
+    <div class="dfs-arrow">→</div>
+    <div class="dfs-node" onclick="openModal('dl')"><span class="dfs-dot" style="background:#a78bfa"></span>dataLayer</div>
+    <div class="dfs-arrow">→</div>
+    <div class="dfs-node" onclick="openModal('trig')"><span class="dfs-dot" style="background:#60a5fa"></span>GTM Trigger</div>
+    <div class="dfs-arrow">→</div>
+    <div class="dfs-node" onclick="openModal('varr')"><span class="dfs-dot" style="background:#2dd4bf"></span>GTM Variables</div>
+    <div class="dfs-arrow">→</div>
+    <div class="dfs-node" onclick="openModal('tag')"><span class="dfs-dot" style="background:#fb923c"></span>GA4 Event Tag</div>
+    <div class="dfs-arrow">→</div>
+    <div class="dfs-node" onclick="openModal('ga4')"><span class="dfs-dot" style="background:#f87171"></span><strong>GA4</strong></div>
+    <div class="dfs-arrow">→</div>
+    <div class="dfs-node" onclick="openModal('report')"><span class="dfs-dot" style="background:#10b981"></span>Reports &amp; Insights</div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="leg-title">Legend</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#a78bfa"></div>Data Source</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#60a5fa"></div>Processing</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#fb923c"></div>Storage</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#ef4444"></div>Conversion ★</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#34d399"></div>Best Practice</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#f5c842"></div>New Section</div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div>
+        <div class="footer-name">SLIM LARIBI</div>
+        <div class="footer-title">Formation Data Driven</div>
+      </div>
+    </div>
+    <div class="footer-center">
+      <div class="footer-site">🌐 <a href="https://laribislim.com" target="_blank">laribislim.com</a></div>
+      <div class="footer-desc">Consultant & Formateur · Web Analytics · GTM · GA4</div>
+    </div>
+    <div class="footer-right">
+      <a class="footer-wa" href="https://wa.me/21622354833" target="_blank">💬 +216 22 354 833</a>
+      <div class="footer-copy">© 2025 Slim Laribi · Formation Data Driven</div>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="closeModal(event)" style="display:none;">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <span class="modal-icon" id="m-icon"></span>
+      <span class="modal-title" id="m-title"></span>
+      <span class="modal-badge" id="m-badge"></span>
+      <button class="modal-close" id="close-btn" onclick="closeModal(event)">✕</button>
+    </div>
+    <div class="modal-body" id="m-body"></div>
+  </div>
+</div>
+
+<script>
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  document.getElementById('opt-dark').classList.toggle('active', t === 'dark');
+  document.getElementById('opt-light').classList.toggle('active', t === 'light');
+  localStorage.setItem('theme', t);
+}
+(function(){ const t = localStorage.getItem('theme'); if(t) setTheme(t); })();
+
+const MODALS = {
+  user:{icon:'👤',title:"L'utilisateur",badge:'Point de départ',badgeBg:'rgba(52,211,153,.2)',badgeColor:'#34d399',body:`<h3>Qu'est-ce que c'est ?</h3><p class="modal-desc">L'utilisateur est la personne qui visite ton site. Chaque action — clic, scroll, achat, formulaire — peut être <strong>trackée</strong> pour comprendre ses comportements et optimiser les conversions.</p><div class="mpills"><span class="mpill" style="background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)">Visite page</span><span class="mpill" style="background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)">Clic bouton</span><span class="mpill" style="background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)">Scroll</span><span class="mpill" style="background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)">Achat</span><span class="mpill" style="background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)">Formulaire</span></div><div class="mtip"><strong>💡 Règle d'or</strong>Avant de tracker : "Cette action m'aide-t-elle à prendre une décision business ?" Si oui → track. Sinon → inutile.</div>`},
+  site:{icon:'🌐',title:'Le site web',badge:'Source de données',badgeBg:'rgba(79,142,247,.2)',badgeColor:'#4f8ef7',body:`<h3>Le snippet GTM</h3><p class="modal-desc">Le site contient le <strong>snippet GTM</strong> à coller dans le &lt;head&gt; de toutes les pages. Il installe GTM dans le navigateur. Un seul snippet suffit pour tous tes outils marketing.</p><div class="mcode"><div class="mcode-head"><div class="mcode-dots"><div class="mcode-dot" style="background:#f87171"></div><div class="mcode-dot" style="background:#fbbf24"></div><div class="mcode-dot" style="background:#34d399"></div></div><span class="mcode-label">html — snippet GTM dans le head</span></div><pre><span class="mk">&lt;script&gt;</span>
+(function(w,d,s,l,i){
+  w[l]=w[l]||[];
+  w[l].push({<span class="ms">'gtm.start'</span>: <span class="mk">new</span> Date().getTime(),
+    event:<span class="ms">'gtm.js'</span>});
+  <span class="mk">var</span> f=d.getElementsByTagName(s)[<span class="mv">0</span>],j=d.createElement(s);
+  j.async=<span class="mk">true</span>;
+  j.src=<span class="ms">'https://www.googletagmanager.com/gtm.js?id='</span>+i;
+  f.parentNode.insertBefore(j,f);
+})(window,document,<span class="ms">'script'</span>,<span class="ms">'dataLayer'</span>,<span class="ms">'GTM-XXXXXX'</span>);
+<span class="mk">&lt;/script&gt;</span></pre></div><div class="mtip"><strong>💡 Avantage GTM</strong>Un seul snippet pour GA4, Meta Pixel, Google Ads, Hotjar... Plus besoin de 10 scripts dans le code.</div><div class="mwarn"><strong>⚠️ Important</strong>Remplace GTM-XXXXXX par ton vrai Container ID depuis l'interface GTM.</div>`},
+  dl:{icon:'📦',title:'Le dataLayer',badge:'Pont de données',badgeBg:'rgba(251,191,36,.2)',badgeColor:'#fbbf24',body:`<h3>Concept clé</h3><p class="modal-desc">Le <strong>dataLayer</strong> est un tableau JavaScript dans le navigateur. C'est le pont entre le site et GTM. Le développeur y pousse des données structurées avec <code style="background:rgba(255,255,255,.1);padding:2px 6px;border-radius:4px">dataLayer.push()</code>. GTM écoute ce tableau en permanence.</p><h3>Exemple complet — purchase</h3><div class="mcode"><div class="mcode-head"><div class="mcode-dots"><div class="mcode-dot" style="background:#f87171"></div><div class="mcode-dot" style="background:#fbbf24"></div><div class="mcode-dot" style="background:#34d399"></div></div><span class="mcode-label">javascript — dataLayer.push() purchase</span></div><pre><span class="mc">// ÉTAPE 1 — toujours vider ecommerce avant !</span>
+dataLayer.push({ <span class="mkey">ecommerce</span>: <span class="mk">null</span> });
+
+<span class="mc">// ÉTAPE 2 — pousser l'event</span>
+dataLayer.push({
+  <span class="mkey">event</span>: <span class="ms">'purchase'</span>,
+  <span class="mkey">ecommerce</span>: {
+    <span class="mkey">transaction_id</span>: <span class="ms">'T-001'</span>,
+    <span class="mkey">value</span>: <span class="mv">49.99</span>,
+    <span class="mkey">currency</span>: <span class="ms">'EUR'</span>,
+    <span class="mkey">items</span>: [{
+      <span class="mkey">item_id</span>: <span class="ms">'PROD-1'</span>,
+      <span class="mkey">item_name</span>: <span class="ms">'T-shirt'</span>,
+      <span class="mkey">price</span>: <span class="mv">49.99</span>,
+      <span class="mkey">quantity</span>: <span class="mv">1</span>
+    }]
+  }
+});</pre></div><div class="mwarn"><strong>⚠️ Clear obligatoire</strong>dataLayer.push(ecommerce: null) AVANT chaque event e-commerce. Sinon les données du push précédent contaminent le suivant !</div><div class="mtip"><strong>💡 Conseil</strong>Pense au dataLayer comme une boîte aux lettres : le site dépose un message, GTM le lit immédiatement.</div>`},
+  gtm:{icon:'🏷️',title:'Google Tag Manager',badge:'Le conteneur',badgeBg:'rgba(167,139,250,.2)',badgeColor:'#a78bfa',body:`<h3>Les 3 composants GTM</h3><div class="msteps"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-body"><h4>Déclencheurs</h4><p>Détectent quand activer un tag. Sans déclencheur, aucun tag ne s'active.</p></div></div><div class="mstep"><div class="mstep-num">2</div><div class="mstep-body"><h4>Variables DLV</h4><p>Lisent les données du dataLayer. Une DLV par valeur à récupérer.</p></div></div><div class="mstep"><div class="mstep-num">3</div><div class="mstep-body"><h4>Tags</h4><p>Envoient les données vers GA4. GA4 Config = tag parent, GA4 Event = tag enfant.</p></div></div></div><h3>Flux interne GTM</h3><div class="mcode"><div class="mcode-head"><div class="mcode-dots"><div class="mcode-dot" style="background:#f87171"></div><div class="mcode-dot" style="background:#fbbf24"></div><div class="mcode-dot" style="background:#34d399"></div></div><span class="mcode-label">flux de traitement</span></div><pre>dataLayer.push({ event: <span class="ms">'purchase'</span>, ... })
+          ↓
+<span class="mkey">Déclencheur</span>  détecte event = 'purchase'
+          ↓
+<span class="mkey">Variables DLV</span> lisent ecommerce.value, .items...
+          ↓
+<span class="mkey">Tag GA4 Event</span> s'active → envoie le hit
+          ↓
+<span class="mk">GA4</span>  reçoit et enregistre l'event ✓</pre></div><div class="mtip"><strong>💡 Mode Preview</strong>En Preview, tu vois en temps réel tous les events, quels tags fired/not fired, et quelles variables sont lues. Outil de debug N°1 !</div>`},
+  trig:{icon:'⚡',title:'Les déclencheurs',badge:'Composant GTM',badgeBg:'rgba(167,139,250,.2)',badgeColor:'#a78bfa',body:`<h3>Rôle du déclencheur</h3><p class="modal-desc">Un déclencheur dit à GTM <strong>quand</strong> activer un tag. C'est la condition d'activation. Sans déclencheur = aucun tag ne se déclenche jamais.</p><h3>Types courants</h3><table class="mtable"><thead><tr><th>Type</th><th>Condition exemple</th><th>Usage</th></tr></thead><tbody><tr><td>Page view</td><td><code>Toutes les pages</code></td><td>GA4 Config</td></tr><tr><td>Événement custom</td><td><code>event = purchase</code></td><td>Events e-commerce</td></tr><tr><td>Clic - Tous éléments</td><td><code>Click Text contient "Devis"</code></td><td>CTA buttons</td></tr><tr><td>Profondeur scroll</td><td><code>25%, 50%, 75%, 90%</code></td><td>Engagement</td></tr><tr><td>Formulaire</td><td><code>Form ID = contact-form</code></td><td>Lead gen</td></tr><tr><td>Historique (SPA)</td><td><code>Tout changement URL</code></td><td>React/Vue/Angular</td></tr></tbody></table><div class="mwarn"><strong>⚠️ Erreur fréquente</strong>Pour les boutons, utilise "Tous les éléments" et NON "Liens uniquement". Les &lt;button&gt; ne sont pas des &lt;a&gt; !</div><div class="mtip"><strong>💡 Debug</strong>Si ton tag ne se déclenche pas → vérifie le déclencheur en mode Preview. C'est là que se trouve 90% des problèmes.</div>`},
+  varr:{icon:'📋',title:'Les variables DLV',badge:'Composant GTM',badgeBg:'rgba(79,142,247,.2)',badgeColor:'#4f8ef7',body:`<h3>Comment ça fonctionne</h3><p class="modal-desc">Une DLV lit une valeur dans le dataLayer et la rend disponible dans GTM. Dans le tag GA4 tu l'utilises avec la syntaxe <code style="background:rgba(255,255,255,.1);padding:2px 6px;border-radius:4px">{{DLV - Value}}</code>.</p><h3>DLV e-commerce à créer</h3><table class="mtable"><thead><tr><th>Nom GTM</th><th>Chemin dataLayer</th></tr></thead><tbody><tr><td><code>DLV - Value</code></td><td><code>ecommerce.value</code></td></tr><tr><td><code>DLV - Currency</code></td><td><code>ecommerce.currency</code></td></tr><tr><td><code>DLV - Transaction ID</code></td><td><code>ecommerce.transaction_id</code></td></tr><tr><td><code>DLV - Items</code></td><td><code>ecommerce.items</code></td></tr><tr><td><code>DLV - Page Type</code></td><td><code>page_type</code></td></tr><tr><td><code>DLV - User Type</code></td><td><code>user_type</code></td></tr></tbody></table><div class="mtip"><strong>💡 Convention</strong>Préfixe "DLV - " pour les Data Layer Variables. Le conteneur GTM reste lisible en un coup d'oeil !</div>`},
+  tag:{icon:'📡',title:'Les tags GA4',badge:'Composant GTM',badgeBg:'rgba(45,212,191,.2)',badgeColor:'#2dd4bf',body:`<h3>2 types de tags GA4</h3><div class="msteps"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-body"><h4>GA4 Configuration (tag parent)</h4><p>Contient le Measurement ID (G-XXXXXXX). Toutes les pages. À créer UNE FOIS. Tous les tags Event le référencent.</p></div></div><div class="mstep"><div class="mstep-num">2</div><div class="mstep-body"><h4>GA4 Event (tags enfants)</h4><p>Envoie un event spécifique. Référence le tag Config. Un tag par event (purchase, add_to_cart, scroll...).</p></div></div></div><h3>Config tag purchase</h3><div class="mcode"><div class="mcode-head"><div class="mcode-dots"><div class="mcode-dot" style="background:#f87171"></div><div class="mcode-dot" style="background:#fbbf24"></div><div class="mcode-dot" style="background:#34d399"></div></div><span class="mcode-label">GTM — tag GA4 Event purchase</span></div><pre>Type          : <span class="mkey">Google Analytics GA4 Event</span>
+Tag config    : <span class="ms">{{GA4 - Config}}</span>
+Nom de l'event: <span class="ms">purchase</span>
+
+Paramètres :
+transaction_id → <span class="ms">{{DLV - Transaction ID}}</span>
+value          → <span class="ms">{{DLV - Value}}</span>
+currency       → <span class="ms">{{DLV - Currency}}</span>
+items          → <span class="ms">{{DLV - Items}}</span>
+
+Déclencheur : Événement custom <span class="ms">"purchase"</span></pre></div><div class="mtip"><strong>💡 Astuce</strong>Si tu changes de propriété GA4, tu n'as qu'un seul endroit à modifier : le tag GA4 Config.</div>`},
+  ga4:{icon:'📊',title:'Google Analytics 4',badge:'Destination finale',badgeBg:'rgba(251,191,36,.2)',badgeColor:'#fbbf24',body:`<h3>Les 4 types d'events GA4</h3><table class="mtable"><thead><tr><th>Type</th><th>Exemples</th><th>Comment</th></tr></thead><tbody><tr><td><strong>① Automatiques</strong></td><td><code>session_start</code> <code>first_visit</code></td><td>Sans rien faire</td></tr><tr><td><strong>② Mesure améliorée</strong></td><td><code>scroll</code> <code>file_download</code></td><td>Toggle GA4 Admin</td></tr><tr><td><strong>③ Recommandés</strong></td><td><code>purchase</code> <code>add_to_cart</code></td><td>GTM + dataLayer</td></tr><tr><td><strong>④ Personnalisés</strong></td><td><code>page_404</code> <code>cta_click</code></td><td>100% custom GTM</td></tr></tbody></table><div class="mcode"><div class="mcode-head"><div class="mcode-dots"><div class="mcode-dot" style="background:#f87171"></div><div class="mcode-dot" style="background:#fbbf24"></div><div class="mcode-dot" style="background:#34d399"></div></div><span class="mcode-label">GA4 Admin — configuration essentielle</span></div><pre><span class="mc">1. Events       → voir tous les events reçus</span>
+<span class="mc">2. Conversions  → marquer comme objectif</span>
+   <span class="mkey">purchase</span>     → ✓ Conversion
+   <span class="mkey">submit_form</span>  → ✓ Conversion
+<span class="mc">3. Définitions  → enregistrer tes paramètres</span>
+   cta_position → visible dans les rapports
+<span class="mc">4. Audiences    → segments remarketing</span>
+   "Abandonneurs" : add_to_cart SANS purchase</pre></div><div class="mwarn"><strong>⚠️ Limite GA4</strong>Max 500 events distincts / propriété. Max 25 paramètres / event. Planifie d'abord !</div>`},
+  funnel:{icon:'🛒',title:'Funnel e-commerce',badge:'8 étapes GA4',badgeBg:'rgba(45,212,191,.2)',badgeColor:'#2dd4bf',body:`<h3>Les 8 events du funnel GA4</h3><table class="mtable"><thead><tr><th>Étape</th><th>Event GA4</th><th>Paramètres clés</th></tr></thead><tbody><tr><td>① Impression liste</td><td><code>view_item_list</code></td><td>item_list_id, items[]</td></tr><tr><td>② Page produit</td><td><code>view_item</code></td><td>item_id, item_name, price</td></tr><tr><td>③ Ajout panier</td><td><code>add_to_cart</code></td><td>value, currency, items[]</td></tr><tr><td>④ Vue panier</td><td><code>view_cart</code></td><td>value, currency, items[]</td></tr><tr><td>⑤ Début checkout</td><td><code>begin_checkout</code></td><td>value, coupon, items[]</td></tr><tr><td>⑥ Info livraison</td><td><code>add_shipping_info</code></td><td>shipping_tier, value</td></tr><tr><td>⑦ Info paiement</td><td><code>add_payment_info</code></td><td>payment_type, value</td></tr><tr><td>⑧ Achat ★</td><td><code>purchase</code></td><td>transaction_id, value, tax, items[]</td></tr></tbody></table><div class="mwarn"><strong>⚠️ Clear obligatoire</strong>Avant chaque event → dataLayer.push(ecommerce: null) !</div><div class="mtip"><strong>💡 GA4 Explorations</strong>Avec ces 8 events, tu peux créer un entonnoir dans GA4 Explorations et voir exactement où les users abandonnent.</div>`},
+  event_types:{icon:'📌',title:'Les 4 types d\'events GA4',badge:'Architecture',badgeBg:'rgba(245,200,66,.2)',badgeColor:'#f5c842',body:`<h3>Architecture complète des events</h3><table class="mtable"><thead><tr><th>Type</th><th>Effort</th><th>Exemples</th><th>Config</th></tr></thead><tbody><tr><td><strong>① Automatiques</strong></td><td>🟢 Zéro</td><td><code>session_start</code> <code>first_visit</code> <code>page_view</code></td><td>Dès l'install GA4</td></tr><tr><td><strong>② Mesure améliorée</strong></td><td>🔵 Toggle</td><td><code>scroll</code> <code>click</code> <code>file_download</code> <code>video_*</code></td><td>GA4 Admin → Flux de données</td></tr><tr><td><strong>③ Recommandés</strong></td><td>🟠 GTM</td><td><code>purchase</code> <code>add_to_cart</code> <code>login</code> <code>search</code></td><td>dataLayer.push() + tag GTM</td></tr><tr><td><strong>④ Personnalisés</strong></td><td>🔴 Custom</td><td><code>page_404</code> <code>cta_click</code> <code>filtre_appliqué</code></td><td>100% custom via GTM</td></tr></tbody></table><div class="mtip"><strong>💡 Règle d'or</strong>Toujours chercher un event recommandé AVANT de créer un event personnalisé. Tu gardes la compatibilité avec les rapports prédéfinis GA4.</div><div class="mwarn"><strong>⚠️ Limites</strong>Max 500 events distincts · Max 25 paramètres par event · Noms en snake_case uniquement</div>`},
+  enhanced:{icon:'⚙️',title:'Mesure améliorée — stratégie',badge:'Quoi désactiver',badgeBg:'rgba(52,211,153,.2)',badgeColor:'#34d399',body:`<h3>La règle universelle</h3><p class="modal-desc">La mesure améliorée est <strong>trop générique</strong> pour un tracking précis. Pour chaque feature, tu dois décider : garder tel quel, ou désactiver et recréer dans GTM avec plus de granularité.</p><table class="mtable"><thead><tr><th>Feature</th><th>Décision</th><th>Pourquoi</th></tr></thead><tbody><tr><td><code>scroll</code> 90%</td><td>🔴 Désactiver</td><td>Recréer 25/50/75/90% dans GTM</td></tr><tr><td><code>outbound click</code></td><td>🔴 Désactiver</td><td>Ajouter page + position + id du bouton</td></tr><tr><td><code>view_search_results</code></td><td>🔴 Désactiver</td><td>Paramètre URL souvent incorrect</td></tr><tr><td><code>file_download</code></td><td>🟢 Garder</td><td>OK si extensions .pdf/.zip suffisent</td></tr><tr><td><code>video_*</code> YouTube</td><td>🟢 Garder</td><td>OK si uniquement iframes YouTube</td></tr><tr><td><code>page_view</code> SPA</td><td>🔴 Désactiver</td><td>Push manuel à chaque changement de route</td></tr></tbody></table><div class="mtip"><strong>💡 Méthode</strong>Garde la mesure améliorée activée globalement, mais décoche feature par feature ce que tu recréas dans GTM. C'est chirurgical, pas tout ou rien.</div>`},
+  consent:{icon:'🍪',title:'Consent Mode v2',badge:'Obligatoire Europe',badgeBg:'rgba(167,139,250,.2)',badgeColor:'#a78bfa',body:`<h3>Pourquoi c'est obligatoire</h3><p class="modal-desc">Depuis mars 2024, Google exige le Consent Mode v2 pour les annonceurs européens. Sans lui, les données de conversion sont incomplètes et les campagnes Google Ads sous-optimisées.</p><h3>Configuration dans GTM</h3><div class="mcode"><div class="mcode-head"><div class="mcode-dots"><div class="mcode-dot" style="background:#f87171"></div><div class="mcode-dot" style="background:#fbbf24"></div><div class="mcode-dot" style="background:#34d399"></div></div><span class="mcode-label">javascript — état par défaut (avant consentement)</span></div><pre><span class="mc">// À mettre AVANT le snippet GTM</span>
+<span class="mk">window</span>.dataLayer = <span class="mk">window</span>.dataLayer || [];
+<span class="mk">function</span> gtag(){ dataLayer.push(arguments); }
+
+gtag(<span class="ms">'consent'</span>, <span class="ms">'default'</span>, {
+  <span class="mkey">analytics_storage</span>: <span class="ms">'denied'</span>,
+  <span class="mkey">ad_storage</span>: <span class="ms">'denied'</span>,
+  <span class="mkey">ad_user_data</span>: <span class="ms">'denied'</span>,
+  <span class="mkey">ad_personalization</span>: <span class="ms">'denied'</span>,
+  <span class="mkey">wait_for_update</span>: <span class="mv">500</span>
+});</pre></div><div class="mtip"><strong>💡 Modélisation</strong>GA4 modélise automatiquement les données des users qui refusent le consentement. Tu conserves ~60-80% de la visibilité même sans cookies.</div><div class="mwarn"><strong>⚠️ CMP requis</strong>Tu dois utiliser une CMP (Cookiebot, Axeptio, OneTrust...) certifiée Google pour gérer le consentement correctement.</div>`},
+  debug:{icon:'🔍',title:'Mode Debug — pas à pas',badge:'GTM Preview + GA4 DebugView',badgeBg:'rgba(245,200,66,.2)',badgeColor:'#f5c842',body:`<h3>Le processus complet de debug</h3><div class="msteps"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-body"><h4>Activer GTM Preview Mode</h4><p>Dans GTM → bouton "Aperçu". Saisir l'URL de ton site. Un onglet Tag Assistant s'ouvre dans le navigateur.</p></div></div><div class="mstep"><div class="mstep-num">2</div><div class="mstep-body"><h4>Déclencher l'action sur le site</h4><p>Fais l'action à tester : clic, achat, scroll... Tag Assistant affiche l'event en temps réel dans la liste à gauche.</p></div></div><div class="mstep"><div class="mstep-num">3</div><div class="mstep-body"><h4>Vérifier le déclencheur</h4><p>Clique sur l'event dans Tag Assistant → onglet "Tags". Tag en vert = fired ✓ · Tag en rouge = not fired ✗ → problème de déclencheur.</p></div></div><div class="mstep"><div class="mstep-num">4</div><div class="mstep-body"><h4>Vérifier les variables DLV</h4><p>Onglet "Variables" dans Tag Assistant. Vérifie que ecommerce.value, ecommerce.items... sont bien remplis avec les bonnes valeurs.</p></div></div><div class="mstep"><div class="mstep-num">5</div><div class="mstep-body"><h4>Valider dans GA4 DebugView</h4><p>GA4 Admin → DebugView. L'event apparaît avec tous ses paramètres. Vérifie les valeurs reçues côté GA4.</p></div></div></div><div class="mtip"><strong>💡 Ordre de debug</strong>Déclencheur → Variables → Tag → GA4 DebugView. Toujours dans cet ordre pour isoler rapidement le problème.</div><div class="mwarn"><strong>⚠️ Preview = local only</strong>Le mode Preview ne fonctionne que sur TON navigateur. Les visiteurs du site ne voient pas les changements tant que tu n'as pas publié.</div>`},
+  tagging_plan:{icon:'📋',title:'Plan de marquage',badge:'Template complet',badgeBg:'rgba(45,212,191,.2)',badgeColor:'#2dd4bf',body:`<h3>Pourquoi faire un plan de marquage ?</h3><p class="modal-desc">Le plan de marquage est le document de référence qui liste <strong>tous les events à tracker</strong> avant d'implémenter quoi que ce soit. Il évite les oublis, les doublons et les erreurs de nommage.</p><h3>Colonnes essentielles</h3><table class="mtable"><thead><tr><th>Colonne</th><th>Contenu</th><th>Exemple</th></tr></thead><tbody><tr><td><strong>Catégorie</strong></td><td>Type d'event</td><td>Ecommerce / Engagement / Custom</td></tr><tr><td><strong>Event GA4</strong></td><td>Nom exact</td><td><code>purchase</code></td></tr><tr><td><strong>Déclencheur GTM</strong></td><td>Condition</td><td>Event custom "purchase"</td></tr><tr><td><strong>Variables DLV</strong></td><td>Données à lire</td><td>DL-value · DL-items</td></tr><tr><td><strong>Tag GTM</strong></td><td>Nom du tag</td><td><code>GA4 - purchase</code></td></tr><tr><td><strong>Priorité</strong></td><td>Urgence</td><td>🔴 Critique / 🟠 Important / 🟡 Utile</td></tr><tr><td><strong>Responsable</strong></td><td>Qui implémente</td><td>Dev front / Analytics</td></tr><tr><td><strong>Statut</strong></td><td>Avancement</td><td>✓ Live / En cours / À faire</td></tr></tbody></table><div class="mtip"><strong>💡 Conseil</strong>Crée ton plan de marquage dans Google Sheets avant de toucher GTM. Fais valider par le client ou le chef de projet. C'est le contrat de tracking !</div>`},
+  report:{icon:'💡',title:'Rapports & Activation',badge:'Objectif final',badgeBg:'rgba(52,211,153,.2)',badgeColor:'#34d399',body:`<h3>Rapports GA4 essentiels</h3><table class="mtable"><thead><tr><th>Rapport</th><th>Ce qu'il montre</th></tr></thead><tbody><tr><td><strong>Acquisition</strong></td><td>D'où viennent tes users ? SEO, Ads, social...</td></tr><tr><td><strong>Engagement</strong></td><td>Quelles pages performent ? Durée, events</td></tr><tr><td><strong>Monétisation</strong></td><td>Funnel e-commerce, revenus par produit</td></tr><tr><td><strong>Rétention</strong></td><td>Les users reviennent-ils à J1, J7, J30 ?</td></tr><tr><td><strong>Explorations</strong></td><td>Entonnoirs custom, cohortes, parcours user</td></tr></tbody></table><div class="mtip"><strong>💡 BigQuery</strong>Connecte BigQuery (gratuit) pour requêter toutes les données GA4 en SQL sans échantillonnage. Idéal pour les gros volumes de data.</div>`},
+  naming:{icon:'📝',title:'Naming conventions',badge:'Best Practice',badgeBg:'rgba(45,212,191,.2)',badgeColor:'#2dd4bf',body:`<h3>Règles de base</h3><div class="mpills"><span class="mpill" style="background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)">snake_case</span><span class="mpill" style="background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)">Pas d'espaces</span><span class="mpill" style="background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.3)">Pas de majuscules</span><span class="mpill" style="background:rgba(248,113,113,.15);color:#f87171;border:1px solid rgba(248,113,113,.3)">Max 40 chars</span><span class="mpill" style="background:rgba(248,113,113,.15);color:#f87171;border:1px solid rgba(248,113,113,.3)">Max 500 events</span></div><table class="mtable"><thead><tr><th>Élément</th><th>Format</th><th>Exemple correct</th><th>Exemple faux</th></tr></thead><tbody><tr><td>Event name</td><td>snake_case</td><td><code>add_to_cart</code></td><td><code>AddToCart</code> ✗</td></tr><tr><td>Paramètre</td><td>snake_case</td><td><code>item_name</code></td><td><code>itemName</code> ✗</td></tr><tr><td>Variable DLV</td><td>DL - nom</td><td><code>DL - value</code></td><td><code>value</code> ✗</td></tr><tr><td>Tag GTM</td><td>GA4 - event</td><td><code>GA4 - purchase</code></td><td><code>purchase tag</code> ✗</td></tr><tr><td>Déclencheur</td><td>Type - Condition</td><td><code>Click - Add to Cart</code></td><td><code>trigger1</code> ✗</td></tr></tbody></table>`},
+  gtm_naming:{icon:'🏷️',title:'Nommage GTM',badge:'Organisation',badgeBg:'rgba(79,142,247,.2)',badgeColor:'#4f8ef7',body:`<h3>Convention par type d'élément</h3><table class="mtable"><thead><tr><th>Type</th><th>Format</th><th>Exemples</th></tr></thead><tbody><tr><td><strong>Triggers</strong></td><td>Type - Condition</td><td><code>PV - All Pages</code><br><code>Click - Add to Cart</code><br><code>Scroll - 25/50/75/90%</code></td></tr><tr><td><strong>Variables DLV</strong></td><td>DL - nom</td><td><code>DL - value</code><br><code>DL - page_type</code><br><code>DL - items</code></td></tr><tr><td><strong>Variables Built-in</strong></td><td>Nom GA4 standard</td><td><code>Page URL</code><br><code>Click Text</code><br><code>Form ID</code></td></tr><tr><td><strong>Tags GA4</strong></td><td>GA4 - event</td><td><code>GA4 - purchase</code><br><code>GA4 - Config</code></td></tr></tbody></table><div class="mtip"><strong>💡 Pourquoi c'est crucial</strong>Un conteneur GTM bien nommé se lit comme un livre. Quand tu reviens 6 mois après — ou quand un autre consultant reprend le projet — tout est immédiatement compréhensible.</div>`},
+  bp:{icon:'✅',title:'Best Practices',badge:'Les 6 règles d\'or',badgeBg:'rgba(52,211,153,.2)',badgeColor:'#34d399',body:`<div class="msteps"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-body"><h4>Events standards en priorité</h4><p>Toujours utiliser les events recommandés GA4 avant de créer un custom. Compatibilité automatique des rapports.</p></div></div><div class="mstep"><div class="mstep-num">2</div><div class="mstep-body"><h4>snake_case partout</h4><p>Tous les events et paramètres en snake_case. Pas d'espaces, pas de majuscules, pas de tirets.</p></div></div><div class="mstep"><div class="mstep-num">3</div><div class="mstep-body"><h4>Preview avant chaque publish</h4><p>GTM Preview Mode + GA4 DebugView avant chaque publication. Toujours. Sans exception.</p></div></div><div class="mstep"><div class="mstep-num">4</div><div class="mstep-body"><h4>dataLayer pour données dynamiques</h4><p>Ne jamais scraper le DOM. Tout via dataLayer.push(). Plus fiable, plus maintenable.</p></div></div><div class="mstep"><div class="mstep-num">5</div><div class="mstep-body"><h4>Clear ecommerce avant chaque push</h4><p>dataLayer.push(ecommerce: null) obligatoire avant chaque event e-commerce. Évite la contamination.</p></div></div><div class="mstep"><div class="mstep-num">6</div><div class="mstep-body"><h4>Plan de marquage avant tout</h4><p>Documenter tous les events dans un Google Sheet AVANT d'implémenter. Faire valider. C'est le contrat de tracking.</p></div></div></div>`},
+  form_approach:{icon:'📝',title:'Tracking formulaires — 2 approches',badge:'Approche recommandée',badgeBg:'rgba(45,212,191,.2)',badgeColor:'#2dd4bf',body:`<h3>Pourquoi distinguer les formulaires ?</h3><p class="modal-desc">Un site peut avoir plusieurs formulaires avec des <strong>objectifs business différents</strong>. Il faut décider dès le départ si on utilise un seul event avec paramètres différents, ou des events séparés.</p><h3>Approche 1 — Un seul event (Recommandée)</h3><p class="modal-desc">On utilise <strong>generate_lead</strong> pour tous les formulaires de conversion. On distingue grâce au paramètre <code style="background:rgba(255,255,255,.1);padding:2px 6px;border-radius:4px">form_type</code>. Avantage : un seul tag GTM, rapports GA4 filtrables.</p><div class="mcode"><div class="mcode-head"><div class="mcode-dots"><div class="mcode-dot" style="background:#f87171"></div><div class="mcode-dot" style="background:#fbbf24"></div><div class="mcode-dot" style="background:#34d399"></div></div><span class="mcode-label">javascript — dataLayer.push() formulaires</span></div><pre><span class="mc">// ① Formulaire contact</span>
+dataLayer.push({ <span class="mkey">ecommerce</span>: <span class="mk">null</span> });
+dataLayer.push({
+  <span class="mkey">event</span>: <span class="ms">'generate_lead'</span>,
+  <span class="mkey">form_type</span>: <span class="ms">'contact'</span>,
+  <span class="mkey">form_name</span>: <span class="ms">'Formulaire Contact'</span>,
+  <span class="mkey">page_location</span>: window.location.href
+});
+
+<span class="mc">// ② Demande de devis</span>
+dataLayer.push({
+  <span class="mkey">event</span>: <span class="ms">'generate_lead'</span>,
+  <span class="mkey">form_type</span>: <span class="ms">'devis'</span>,
+  <span class="mkey">form_name</span>: <span class="ms">'Demande de devis'</span>,
+  <span class="mkey">page_location</span>: window.location.href
+});
+
+<span class="mc">// ③ Newsletter — event séparé car objectif différent</span>
+dataLayer.push({
+  <span class="mkey">event</span>: <span class="ms">'newsletter_signup'</span>,
+  <span class="mkey">form_name</span>: <span class="ms">'Inscription Newsletter'</span>,
+  <span class="mkey">page_location</span>: window.location.href
+});</pre></div><h3>Approche 2 — Events séparés</h3><p class="modal-desc">Quand les formulaires ont des objectifs <strong>radicalement différents</strong> et que tu veux des rapports GA4 entièrement séparés sans filtrer.</p><table class="mtable"><thead><tr><th>Formulaire</th><th>Event GA4</th><th>Conversion ?</th><th>Priorité</th></tr></thead><tbody><tr><td>Contact / Devis</td><td><code>generate_lead</code></td><td>✅ Oui</td><td>🔴 Critique</td></tr><tr><td>Newsletter</td><td><code>newsletter_signup</code></td><td>🟡 Optionnel</td><td>🟠 Important</td></tr><tr><td>Formulaire générique</td><td><code>form_submit</code></td><td>❌ Non</td><td>🟡 Utile</td></tr><tr><td>Inscription compte</td><td><code>sign_up</code></td><td>🟡 Optionnel</td><td>🟠 Important</td></tr></tbody></table><div class="mtip"><strong>💡 Règle d'or</strong>Si le formulaire génère un lead commercial → generate_lead + marquer comme conversion dans GA4. Si c'est de l'engagement → event séparé, pas forcément une conversion.</div><div class="mwarn"><strong>⚠️ SPA / React / Vue</strong>Pour les formulaires React, le déclencheur GTM "Envoi de formulaire" peut ne pas fonctionner. Il faut un dataLayer.push() explicite dans le handler onSubmit du composant.</div>`},
+
+  form_gtm:{icon:'🏷️',title:'GTM — configuration formulaires',badge:'Config complète GTM',badgeBg:'rgba(251,191,36,.2)',badgeColor:'#fbbf24',body:`<h3>Étape par étape dans GTM</h3><div class="msteps"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-body"><h4>Activer les variables intégrées formulaires</h4><p>GTM → Variables → Configurer → section "Formulaires" → cocher : Form ID, Form Classes, Form Target, Form Text.</p></div></div><div class="mstep"><div class="mstep-num">2</div><div class="mstep-body"><h4>Créer les DLV nécessaires</h4><p>DLV - Form Type → chemin dataLayer : form_type | DLV - Form Name → chemin dataLayer : form_name</p></div></div><div class="mstep"><div class="mstep-num">3</div><div class="mstep-body"><h4>Créer le déclencheur</h4><p>Type : Envoi de formulaire. Activer sur tous les formulaires. Ou filtrer par Form ID si tu veux cibler un formulaire précis.</p></div></div><div class="mstep"><div class="mstep-num">4</div><div class="mstep-body"><h4>Créer le tag GA4 Event</h4><p>Un seul tag pour tous les formulaires. Les DLV lisent le form_type pour distinguer automatiquement contact / devis / newsletter.</p></div></div></div><h3>Configuration du tag GA4</h3><div class="mcode"><div class="mcode-head"><div class="mcode-dots"><div class="mcode-dot" style="background:#f87171"></div><div class="mcode-dot" style="background:#fbbf24"></div><div class="mcode-dot" style="background:#34d399"></div></div><span class="mcode-label">GTM — tag GA4 Event generate_lead</span></div><pre>Type          : <span class="mkey">Google Analytics GA4 Event</span>
+Tag config    : <span class="ms">{{GA4 - Config}}</span>
+Nom de l'event: <span class="ms">generate_lead</span>
+
+<span class="mc">Paramètres de l'événement :</span>
+form_type     → <span class="ms">{{DLV - Form Type}}</span>
+form_name     → <span class="ms">{{DLV - Form Name}}</span>
+page_location → <span class="ms">{{Page URL}}</span>
+form_id       → <span class="ms">{{Form ID}}</span>  <span class="mc">← variable intégrée</span>
+
+<span class="mc">Déclencheur : Envoi de formulaire — Tous</span></pre></div><div class="mtip"><strong>💡 Un tag pour tout</strong>Avec ce setup, UN seul tag GA4 gère TOUS tes formulaires. C'est le form_type pushé dans le dataLayer qui distingue contact / devis / newsletter dans GA4.</div><div class="mwarn"><strong>⚠️ Marquer comme conversion</strong>GA4 Admin → Conversions → marquer generate_lead. Toutes les soumissions de formulaire contact/devis seront comptées comme objectifs.</div>`},
+
+  builtin_vars:{icon:'🔧',title:'Variables intégrées GTM',badge:'Activer dans GTM',badgeBg:'rgba(79,142,247,.2)',badgeColor:'#4f8ef7',body:`<h3>DLV vs Variable intégrée</h3><table class="mtable"><thead><tr><th>Type</th><th>Source</th><th>Comment</th></tr></thead><tbody><tr><td><strong>DLV</strong></td><td>dataLayer.push() — côté développeur</td><td>Tu la crées dans GTM. Chemin = clé dans le dataLayer</td></tr><tr><td><strong>Variable intégrée</strong></td><td>GTM lit le DOM / navigateur automatiquement</td><td>Tu l'actives dans GTM → Variables → Configurer. Zéro code dev.</td></tr></tbody></table><h3>Où les activer dans GTM ?</h3><p class="modal-desc">GTM → <strong>Variables</strong> (menu gauche) → bouton <strong>Configurer</strong> en haut à droite → cocher les variables → Enregistrer.</p><h3>Variables Page</h3><table class="mtable"><thead><tr><th>Nom GTM</th><th>Ce qu'elle retourne</th><th>Param GA4</th></tr></thead><tbody><tr><td><code>Page URL</code></td><td>URL complète : https://site.com/produit</td><td><code>page_location</code></td></tr><tr><td><code>Page Path</code></td><td>Chemin : /produit/t-shirt</td><td><code>page_path</code></td></tr><tr><td><code>Page Title</code></td><td>Titre HTML de la page</td><td><code>page_title</code></td></tr><tr><td><code>Referrer</code></td><td>URL de la page précédente</td><td><code>page_referrer</code></td></tr></tbody></table><h3>Variables Clic</h3><table class="mtable"><thead><tr><th>Nom GTM</th><th>Ce qu'elle retourne</th><th>Usage</th></tr></thead><tbody><tr><td><code>Click Text</code></td><td>"Demander un devis"</td><td>Identifier quel bouton</td></tr><tr><td><code>Click ID</code></td><td>Attribut id de l'élément</td><td>Identifier précisément</td></tr><tr><td><code>Click Classes</code></td><td>"btn btn-primary hero-cta"</td><td>Distinguer position/style</td></tr><tr><td><code>Click URL</code></td><td>Destination du lien</td><td>Liens sortants</td></tr></tbody></table><h3>Variables Scroll</h3><table class="mtable"><thead><tr><th>Nom GTM</th><th>Retourne</th><th>Param GA4</th></tr></thead><tbody><tr><td><code>Scroll Depth Threshold</code></td><td>25 / 50 / 75 / 90</td><td><code>percent_scrolled</code></td></tr><tr><td><code>Scroll Depth Units</code></td><td>"percent" ou "pixels"</td><td>—</td></tr></tbody></table><div class="mcode"><div class="mcode-head"><div class="mcode-dots"><div class="mcode-dot" style="background:#f87171"></div><div class="mcode-dot" style="background:#fbbf24"></div><div class="mcode-dot" style="background:#34d399"></div></div><span class="mcode-label">GTM — tag GA4 scroll avec variables intégrées</span></div><pre>Nom de l'event: <span class="ms">scroll</span>
+
+percent_scrolled → <span class="ms">{{Scroll Depth Threshold}}</span>  <span class="mc">✅ intégrée</span>
+page_location    → <span class="ms">{{Page URL}}</span>              <span class="mc">✅ intégrée</span>
+
+<span class="mc">Déclencheur : Profondeur de défilement</span>
+<span class="mc">Pourcentages : 25, 50, 75, 90</span></pre></div><div class="mtip"><strong>💡 percent_scrolled vs Scroll Depth Threshold</strong>percent_scrolled = le NOM du paramètre GA4. Scroll Depth Threshold = la variable intégrée GTM qui lui fournit la valeur (25, 50, 75 ou 90). Dans le tag : percent_scrolled → {{Scroll Depth Threshold}}.</div>`},
+
+  event_params:{icon:'📊',title:'Paramètres par event',badge:'Obligatoire vs Optionnel',badgeBg:'rgba(245,200,66,.2)',badgeColor:'#f5c842',body:`<h3>Règle générale</h3><p class="modal-desc">Les paramètres <strong>obligatoires</strong> sont ceux sans lesquels GA4 ne remplit pas ses rapports prédéfinis. Les <strong>optionnels</strong> enrichissent l'analyse mais ne bloquent pas le tracking.</p><h3>purchase</h3><table class="mtable"><thead><tr><th>Paramètre</th><th>Statut</th><th>Source GTM</th><th>Exemple</th></tr></thead><tbody><tr><td><code>transaction_id</code></td><td><span style="color:var(--coral);font-weight:700;">Obligatoire</span></td><td>DLV</td><td>T-001</td></tr><tr><td><code>value</code></td><td><span style="color:var(--coral);font-weight:700;">Obligatoire</span></td><td>DLV</td><td>49.99</td></tr><tr><td><code>currency</code></td><td><span style="color:var(--coral);font-weight:700;">Obligatoire</span></td><td>DLV</td><td>EUR</td></tr><tr><td><code>items[]</code></td><td><span style="color:var(--coral);font-weight:700;">Obligatoire</span></td><td>DLV</td><td>[{item_id, price...}]</td></tr><tr><td><code>coupon</code></td><td><span style="color:var(--amber);font-weight:700;">Optionnel</span></td><td>DLV</td><td>PROMO10</td></tr><tr><td><code>tax / shipping</code></td><td><span style="color:var(--amber);font-weight:700;">Optionnel</span></td><td>DLV</td><td>9.00 / 5.00</td></tr></tbody></table><h3>generate_lead</h3><table class="mtable"><thead><tr><th>Paramètre</th><th>Statut</th><th>Source GTM</th><th>Exemple</th></tr></thead><tbody><tr><td><code>form_type</code></td><td><span style="color:var(--coral);font-weight:700;">Obligatoire</span></td><td>DLV</td><td>contact / devis</td></tr><tr><td><code>form_name</code></td><td><span style="color:var(--coral);font-weight:700;">Obligatoire</span></td><td>DLV</td><td>Formulaire Contact</td></tr><tr><td><code>page_location</code></td><td><span style="color:var(--coral);font-weight:700;">Obligatoire</span></td><td>Intégrée (Page URL)</td><td>https://site.com/contact</td></tr><tr><td><code>form_id</code></td><td><span style="color:var(--amber);font-weight:700;">Optionnel</span></td><td>Intégrée (Form ID)</td><td>contact-form</td></tr><tr><td><code>value</code></td><td><span style="color:var(--amber);font-weight:700;">Optionnel</span></td><td>DLV</td><td>Valeur estimée du lead</td></tr></tbody></table><h3>scroll</h3><table class="mtable"><thead><tr><th>Paramètre</th><th>Statut</th><th>Source GTM</th></tr></thead><tbody><tr><td><code>percent_scrolled</code></td><td><span style="color:var(--coral);font-weight:700;">Obligatoire</span></td><td>Intégrée (Scroll Depth Threshold)</td></tr><tr><td><code>page_location</code></td><td><span style="color:var(--amber);font-weight:700;">Optionnel</span></td><td>Intégrée (Page URL)</td></tr></tbody></table><h3>cta_click</h3><table class="mtable"><thead><tr><th>Paramètre</th><th>Statut</th><th>Source GTM</th><th>Exemple</th></tr></thead><tbody><tr><td><code>cta_text</code></td><td><span style="color:var(--coral);font-weight:700;">Obligatoire</span></td><td>Intégrée (Click Text)</td><td>Demander un devis</td></tr><tr><td><code>cta_position</code></td><td><span style="color:var(--coral);font-weight:700;">Obligatoire</span></td><td>DLV ou Click Classes</td><td>hero / footer / sidebar</td></tr><tr><td><code>page_location</code></td><td><span style="color:var(--amber);font-weight:700;">Optionnel</span></td><td>Intégrée (Page URL)</td><td>https://site.com/</td></tr><tr><td><code>cta_id</code></td><td><span style="color:var(--amber);font-weight:700;">Optionnel</span></td><td>Intégrée (Click ID)</td><td>btn-hero-devis</td></tr></tbody></table><div class="mtip"><strong>💡 Rappel</strong>Les paramètres custom doivent être enregistrés dans GA4 Admin → Définitions personnalisées pour apparaître dans les rapports.</div>`},
+
+  decision_tree:{icon:'🧭',title:'Schéma de décision',badge:'Quel event pour quelle action ?',badgeBg:'rgba(167,139,250,.2)',badgeColor:'#a78bfa',body:`<h3>La question à se poser avant tout event</h3><p class="modal-desc"><strong>1)</strong> Est-ce qu'il existe un event recommandé GA4 pour cette action ? <strong>2)</strong> Si oui → l'utiliser. <strong>3)</strong> Si non → créer un event custom en snake_case.</p><h3>Tableau de décision complet</h3><table class="mtable"><thead><tr><th>L'action est...</th><th>Event GA4</th><th>Type</th><th>Paramètres clés</th></tr></thead><tbody><tr><td>Achat finalisé</td><td><code>purchase</code> ★</td><td><span style="color:var(--amber);font-weight:700;">Recommandé</span></td><td>transaction_id · value · currency · items[]</td></tr><tr><td>Ajout au panier</td><td><code>add_to_cart</code></td><td><span style="color:var(--amber);font-weight:700;">Recommandé</span></td><td>value · currency · items[]</td></tr><tr><td>Début de checkout</td><td><code>begin_checkout</code></td><td><span style="color:var(--amber);font-weight:700;">Recommandé</span></td><td>value · coupon · items[]</td></tr><tr><td>Formulaire contact/devis</td><td><code>generate_lead</code></td><td><span style="color:var(--amber);font-weight:700;">Recommandé</span></td><td>form_type · form_name · page_location</td></tr><tr><td>Inscription newsletter</td><td><code>newsletter_signup</code></td><td><span style="color:var(--purple);font-weight:700;">Custom</span></td><td>form_name · page_location</td></tr><tr><td>Scroll profondeur</td><td><code>scroll</code></td><td><span style="color:var(--purple);font-weight:700;">Custom GTM</span></td><td>percent_scrolled · page_location</td></tr><tr><td>Clic bouton CTA</td><td><code>cta_click</code></td><td><span style="color:var(--purple);font-weight:700;">Custom</span></td><td>cta_text · cta_position · page_location</td></tr><tr><td>Recherche sur site</td><td><code>search</code></td><td><span style="color:var(--amber);font-weight:700;">Recommandé</span></td><td>search_term</td></tr><tr><td>Connexion compte</td><td><code>login</code></td><td><span style="color:var(--amber);font-weight:700;">Recommandé</span></td><td>method</td></tr><tr><td>Création compte</td><td><code>sign_up</code></td><td><span style="color:var(--amber);font-weight:700;">Recommandé</span></td><td>method</td></tr><tr><td>Page erreur 404</td><td><code>page_404</code></td><td><span style="color:var(--purple);font-weight:700;">Custom</span></td><td>page_location · page_referrer</td></tr><tr><td>Lecture vidéo</td><td><code>video_start</code></td><td><span style="color:var(--amber);font-weight:700;">Recommandé</span></td><td>video_title · video_duration</td></tr><tr><td>Téléchargement fichier</td><td><code>file_download</code></td><td><span style="color:var(--green);font-weight:700;">Auto/Custom</span></td><td>file_name · file_extension · page_location</td></tr><tr><td>Partage contenu</td><td><code>share</code></td><td><span style="color:var(--amber);font-weight:700;">Recommandé</span></td><td>method · content_type · item_id</td></tr></tbody></table><h3>Priorité de choix</h3><div class="msteps"><div class="mstep"><div class="mstep-num">1</div><div class="mstep-body"><h4>Event recommandé GA4 en premier</h4><p>Consulte la liste officielle Google avant de créer un custom. Compatibilité automatique avec les rapports prédéfinis GA4.</p></div></div><div class="mstep"><div class="mstep-num">2</div><div class="mstep-body"><h4>Event custom si rien n'existe</h4><p>Nommage libre en snake_case. Descriptif et court. Maximum 40 caractères. Ex: cta_click, page_404, filtre_applique.</p></div></div><div class="mstep"><div class="mstep-num">3</div><div class="mstep-body"><h4>Ne jamais réinventer un nom existant</h4><p>Ne pas créer "checkout_start" si "begin_checkout" existe. Ne pas créer "buy" si "purchase" existe. Respecte le nommage Google.</p></div></div></div><div class="mtip"><strong>💡 Ressource officielle</strong>Liste complète des events recommandés : developers.google.com/analytics/devguides/collection/ga4/reference/events</div>`}
+
+};
+
+function openModal(key) {
+  var d = MODALS[key];
+  if (!d) { console.warn('Modal not found:', key); return; }
+  document.getElementById('m-icon').textContent = d.icon;
+  document.getElementById('m-title').textContent = d.title;
+  var b = document.getElementById('m-badge');
+  b.textContent = d.badge;
+  b.style.background = d.badgeBg;
+  b.style.color = d.badgeColor;
+  document.getElementById('m-body').innerHTML = d.body;
+  var ov = document.getElementById('overlay');
+  ov.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('overlay') || (e.currentTarget && e.currentTarget.id === 'close-btn')) {
+    var ov = document.getElementById('overlay');
+    ov.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('overlay').style.display = 'none';
+    document.body.style.overflow = '';
+  }
+});
+</script>
+</body>
+</html>
