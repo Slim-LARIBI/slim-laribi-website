@@ -42,7 +42,7 @@ const steps = [
 
 export function Methodology() {
   return (
-    <section className="py-24 relative">
+    <section className="relative overflow-hidden py-24 section-soft-bg section-grid">
       {/* Background */}
       <div className="absolute inset-0 bg-brand-surface/30 pointer-events-none" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-border to-transparent" />

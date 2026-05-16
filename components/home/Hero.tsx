@@ -19,7 +19,7 @@ export function Hero() {
   ]
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden hero-bg pt-16">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden hero-bg pt-2">
       {/* Background glows */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-brand-accent opacity-[0.06] blur-[120px]" />
@@ -59,10 +59,9 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
           >
-            <span className="text-brand-text-primary">{t('titlePrefix')}&nbsp;</span>
-            <span className="text-gradient-brand">{t('title1')}</span>
-            <br />
-            <span className="text-brand-text-primary">{t('titlePrefix2')}&nbsp;</span>
+            <span className="text-brand-text-primary">{t('titlePrefix')} </span>
+            <span className="text-gradient-brand">{t('title1')}</span>{' '}
+            <span className="text-brand-text-primary">{t('titlePrefix2')} </span>
             <span className="text-gradient-gold">{t('title2')}</span>
           </motion.h1>
 
@@ -83,15 +82,17 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.45 }}
           >
-            <Button
-              variant="gold"
-              size="xl"
-              icon={<Download className="h-5 w-5" />}
-              iconPosition="left"
-              onClick={() => trackCTAClick(t('cta1'), 'hero')}
-            >
-              {t('cta1')}
-            </Button>
+            <Link href="/expertise">
+              <Button
+                variant="gold"
+                size="xl"
+                icon={<ArrowRight className="h-5 w-5" />}
+                iconPosition="left"
+                onClick={() => trackCTAClick(t('cta1'), 'hero')}
+              >
+                {t('cta1')}
+              </Button>
+            </Link>
 
             <Link href="/contact">
               <Button

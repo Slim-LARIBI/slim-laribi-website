@@ -1,115 +1,107 @@
 'use client'
 
 import Link from 'next/link'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { ArrowRight, Award, Briefcase, GraduationCap, Sparkles } from 'lucide-react'
 import { Container } from '@/components/ui/Container'
-import { ArrowRight } from 'lucide-react'
 
-const pills = [
-  'Retail / Sport',
-  'E-commerce',
-  'SaaS B2B',
-  'D2C',
-  'Marketplace',
-  'Omnicanal',
+const proofItems = [
+  {
+    icon: Briefcase,
+    title: 'Directeur E-commerce',
+    description: 'Decathlon Tunisie',
+  },
+  {
+    icon: Sparkles,
+    title: 'Fondateur',
+    description: 'WeScaleUp.tech',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Enseignant & formateur',
+    description: 'Top écoles privées',
+  },
+  {
+    icon: Award,
+    title: 'Certifié & reconnu',
+    description: 'Semrush Ambassador · SAFe® 6',
+  },
 ]
 
-function Marquee({ reverse = false }: { reverse?: boolean }) {
-  const reduce = useReducedMotion()
-  const items = [...pills, ...pills]
-
-  if (reduce) {
-    return (
-      <div className="flex flex-wrap gap-2 justify-center">
-        {pills.map((p) => (
-          <span key={p} className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/70">
-            {p}
-          </span>
-        ))}
-      </div>
-    )
-  }
-
-  return (
-    <div className="relative overflow-hidden">
-      <motion.div
-        className="flex gap-2"
-        style={{ width: 'max-content' }}
-        animate={{ x: reverse ? ['-20%', '0%'] : ['0%', '-20%'] }}
-        transition={{ duration: reverse ? 22 : 18, repeat: Infinity, ease: 'linear' }}
-      >
-        {items.map((p, i) => (
-          <span
-            key={`${p}-${i}`}
-            className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-white/70 backdrop-blur-md"
-          >
-            {p}
-          </span>
-        ))}
-      </motion.div>
-
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-14 bg-gradient-to-r from-black/60 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-14 bg-gradient-to-l from-black/60 to-transparent" />
-    </div>
-  )
-}
+const stats = [
+  { value: '8+', label: 'ans en marketing, data & e-commerce' },
+  { value: '40+', label: 'projets acquisition, tracking & automation' },
+  { value: '90h', label: 'programme Customer Intelligence' },
+  { value: '5', label: 'écoles privées en Tunisie' },
+]
 
 export function CredibilityStrip() {
   return (
-    <section className="relative border-y border-brand-border py-12 overflow-hidden">
-      <div className="absolute inset-0 bg-brand-surface/40" />
+    <section className="relative overflow-hidden border-y border-white/10 bg-[#090a14] py-14">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(124,111,247,0.12),transparent_42%)]" />
 
       <Container className="relative z-10">
-        {/* Heading row */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-brand-text-muted">
-              Data-driven. Execution-ready. Results-focused.
+        <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brand-accent">
+              Proof of authority
             </p>
-            <p className="mt-2 text-sm text-white/70 max-w-2xl">
-              Des stratégies mesurables, une instrumentation solide, et des optimisations orientées ROI — sur des business réels.
+            <h2 className="mt-3 max-w-4xl font-display text-2xl font-black tracking-tight text-white md:text-4xl">
+              Une expertise construite sur le terrain, entre e-commerce, data, formation et accompagnement business.
+            </h2>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-white/65 md:text-base">
+              J’interviens auprès des marques, équipes marketing et dirigeants pour structurer leur acquisition,
+              fiabiliser leur tracking, automatiser leurs opérations et mieux piloter la performance.
             </p>
-          </motion.div>
+          </div>
 
           <Link
-            href="/case-studies"
-            className="inline-flex items-center gap-2 text-sm text-white/80 hover:text-white transition-colors"
+            href="/about"
+            className="inline-flex shrink-0 items-center gap-2 text-sm font-medium text-white/75 transition-colors hover:text-white"
           >
-            Voir les cas clients <ArrowRight className="h-4 w-4" />
+            Découvrir mon parcours <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
 
-        {/* Marquee */}
-        <div className="space-y-2 mb-10">
-          <Marquee />
-          <Marquee reverse />
-        </div>
-
-        {/* Stats */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-4"
+          className="grid gap-4 md:grid-cols-4"
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ duration: 0.55 }}
         >
-          {[
-            { value: '8+', label: "ans d'expérience" },
-            { value: '40+', label: 'projets livrés' },
-            { value: '90h', label: 'formation intensive' },
-            { value: '100%', label: 'orienté résultats' },
-          ].map((s) => (
+          {proofItems.map((item) => {
+            const Icon = item.icon
+
+            return (
+              <div
+                key={item.title}
+                className="rounded-2xl border border-white/10 bg-white/[0.045] p-5 backdrop-blur-xl transition hover:border-brand-accent/40 hover:bg-white/[0.07]"
+              >
+                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5">
+                  <Icon className="h-5 w-5 text-brand-accent" />
+                </div>
+                <p className="font-display text-lg font-bold text-white">{item.title}</p>
+                <p className="mt-1 text-sm text-white/55">{item.description}</p>
+              </div>
+            )
+          })}
+        </motion.div>
+
+        <motion.div
+          className="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4"
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, delay: 0.08 }}
+        >
+          {stats.map((s) => (
             <div
               key={s.label}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 text-center backdrop-blur-md"
+              className="rounded-2xl border border-white/10 bg-black/20 p-5 text-center backdrop-blur-md"
             >
               <p className="font-display text-3xl font-black text-gradient-brand">{s.value}</p>
-              <p className="mt-1 text-xs text-white/60">{s.label}</p>
+              <p className="mt-2 text-xs leading-5 text-white/55">{s.label}</p>
             </div>
           ))}
         </motion.div>

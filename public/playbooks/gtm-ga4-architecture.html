@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>GTM + GA4 Architecture</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family: Inter, sans-serif;
+      color:white;
+      min-height:100vh;
+      padding:40px;
+
+      background:
+        radial-gradient(circle at top, rgba(0,130,195,.22), transparent 30%),
+        radial-gradient(circle at left, rgba(139,92,246,.15), transparent 30%),
+        radial-gradient(circle at right, rgba(6,182,212,.12), transparent 25%),
+        linear-gradient(180deg,#101827 0%,#0b1220 40%,#070b15 100%);
+    }
+
+    .wrapper{
+      max-width:1400px;
+      margin:auto;
+    }
+
+    .hero{
+      text-align:center;
+      margin-bottom:50px;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:8px 16px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      margin-bottom:24px;
+      font-size:12px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+      color:#7dd3fc;
+    }
+
+    h1{
+      font-size:72px;
+      line-height:1;
+      margin-bottom:20px;
+      font-weight:900;
+
+      background:linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #38bdf8 40%,
+        #8b5cf6 100%
+      );
+
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+
+    .subtitle{
+      max-width:900px;
+      margin:auto;
+      color:#94a3b8;
+      font-size:20px;
+      line-height:1.7;
+    }
+
+    .top-flow{
+      margin-top:60px;
+
+      display:grid;
+      grid-template-columns:repeat(7,1fr);
+      gap:14px;
+    }
+
+    .flow-card{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+
+      padding:24px;
+      border-radius:24px;
+
+      backdrop-filter:blur(20px);
+
+      transition:.3s ease;
+    }
+
+    .flow-card:hover{
+      transform:translateY(-6px);
+      border-color:#38bdf8;
+      box-shadow:0 20px 60px rgba(56,189,248,.15);
+    }
+
+    .flow-icon{
+      width:56px;
+      height:56px;
+      border-radius:16px;
+
+      display:flex;
+      align-items:center;
+      justify-content:center;
+
+      background:rgba(56,189,248,.12);
+
+      margin-bottom:18px;
+
+      font-size:24px;
+    }
+
+    .flow-title{
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      color:#cbd5e1;
+      margin-bottom:10px;
+      font-weight:700;
+    }
+
+    .flow-desc{
+      color:#64748b;
+      line-height:1.6;
+      font-size:14px;
+    }
+
+    .dashboard{
+      margin-top:40px;
+
+      display:grid;
+      grid-template-columns:2fr 1fr;
+      gap:24px;
+    }
+
+    .panel{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:28px;
+      padding:28px;
+      backdrop-filter:blur(20px);
+    }
+
+    .panel-title{
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      color:#38bdf8;
+      margin-bottom:24px;
+      font-weight:700;
+    }
+
+    .code{
+      background:#0b1220;
+      border-radius:20px;
+      padding:24px;
+
+      font-family:monospace;
+      line-height:1.8;
+      color:#7dd3fc;
+
+      overflow:auto;
+    }
+
+    .events{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .event{
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:16px;
+      padding:16px 18px;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .event-name{
+      color:white;
+      font-family:monospace;
+    }
+
+    .event-tag{
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:11px;
+      text-transform:uppercase;
+      font-weight:700;
+      letter-spacing:1px;
+    }
+
+    .green{
+      background:rgba(16,185,129,.12);
+      color:#34d399;
+    }
+
+    .orange{
+      background:rgba(251,146,60,.12);
+      color:#fb923c;
+    }
+
+    .red{
+      background:rgba(239,68,68,.12);
+      color:#f87171;
+    }
+
+    @media(max-width:1200px){
+      .top-flow{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .dashboard{
+        grid-template-columns:1fr;
+      }
+
+      h1{
+        font-size:48px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+  <div class="hero">
+    <div class="badge">
+      GTM · GA4 · DATA LAYER · META ADS
+    </div>
+
+    <h1>
+      GTM + GA4<br />
+      Architecture
+    </h1>
+
+    <p class="subtitle">
+      Architecture complète e-commerce : Data Layer,
+      GTM, GA4, Google Ads, Meta Ads,
+      attribution et tracking server-side.
+    </p>
+  </div>
+
+  <div class="top-flow">
+
+    <div class="flow-card">
+      <div class="flow-icon">👤</div>
+      <div class="flow-title">Utilisateur</div>
+      <div class="flow-desc">
+        L’utilisateur visite le site, clique,
+        ajoute au panier et achète.
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-icon">🌐</div>
+      <div class="flow-title">Website</div>
+      <div class="flow-desc">
+        Les pages chargent et déclenchent
+        les événements marketing.
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-icon">📦</div>
+      <div class="flow-title">Data Layer</div>
+      <div class="flow-desc">
+        dataLayer.push() envoie
+        les données produits.
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-icon">🏷️</div>
+      <div class="flow-title">GTM</div>
+      <div class="flow-desc">
+        GTM déclenche les tags
+        Google Ads, GA4 et Meta.
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-icon">📊</div>
+      <div class="flow-title">GA4</div>
+      <div class="flow-desc">
+        Analyse des événements,
+        funnels et conversions.
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-icon">🎯</div>
+      <div class="flow-title">Ads</div>
+      <div class="flow-desc">
+        Google Ads et Meta utilisent
+        les signaux de conversion.
+      </div>
+    </div>
+
+    <div class="flow-card">
+      <div class="flow-icon">💡</div>
+      <div class="flow-title">Insights</div>
+      <div class="flow-desc">
+        Optimisation ROAS,
+        attribution et reporting.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="dashboard">
+
+    <div class="panel">
+      <div class="panel-title">
+        DATA LAYER PURCHASE EVENT
+      </div>
+
+      <div class="code">
+window.dataLayer.push({<br />
+&nbsp;&nbsp;event: 'purchase',<br />
+&nbsp;&nbsp;transaction_id: 'TN-4521',<br />
+&nbsp;&nbsp;value: 249.90,<br />
+&nbsp;&nbsp;currency: 'TND',<br />
+&nbsp;&nbsp;items: [{<br />
+&nbsp;&nbsp;&nbsp;&nbsp;item_name: 'Tapis de course'<br />
+&nbsp;&nbsp;}]<br />
+})
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">
+        EVENTS TRACKING
+      </div>
+
+      <div class="events">
+
+        <div class="event">
+          <div class="event-name">page_view</div>
+          <div class="event-tag green">auto</div>
+        </div>
+
+        <div class="event">
+          <div class="event-name">view_item</div>
+          <div class="event-tag orange">custom</div>
+        </div>
+
+        <div class="event">
+          <div class="event-name">add_to_cart</div>
+          <div class="event-tag orange">custom</div>
+        </div>
+
+        <div class="event">
+          <div class="event-name">begin_checkout</div>
+          <div class="event-tag orange">custom</div>
+        </div>
+
+        <div class="event">
+          <div class="event-name">purchase</div>
+          <div class="event-tag red">conversion</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>

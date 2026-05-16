@@ -1,7 +1,13 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { BarChart3, Cpu, ShoppingCart, Code2, GraduationCap } from 'lucide-react'
+import {
+  BarChart3,
+  Cpu,
+  ShoppingCart,
+  Workflow,
+  GraduationCap,
+} from 'lucide-react'
 import { Container } from '@/components/ui/Container'
 import { Card } from '@/components/ui/Card'
 import { Reveal } from '@/components/animations/Reveal'
@@ -9,47 +15,47 @@ import { Reveal } from '@/components/animations/Reveal'
 const pillars = [
   {
     icon: BarChart3,
-    title: 'Performance Marketing',
-    subtitle: 'Ads · Attribution · ROAS',
+    title: 'Acquisition & Performance',
+    subtitle: 'Google Ads · Meta Ads · ROAS',
     description:
-      'Google Ads, Meta Ads, structuration de comptes, optimisation des campagnes et attribution data-driven. Chaque euro dépensé, mesuré.',
-    tags: ['Google Ads', 'Meta Ads', 'Performance Max', 'Attribution'],
+      'Structuration, pilotage et optimisation des campagnes d’acquisition pour améliorer la rentabilité, la qualité du trafic et la contribution business réelle.',
+    tags: ['Google Ads', 'Meta Ads', 'Performance Max', 'ROAS'],
     color: 'violet',
   },
   {
     icon: Cpu,
-    title: 'Tracking & MarTech',
+    title: 'Tracking, GA4 & MarTech',
     subtitle: 'GTM · GA4 · Server-side',
     description:
-      'Architecture de tracking fiable de bout en bout. Server-side, CAPI, déduplication, qualité de la donnée — zéro fuite de conversion.',
-    tags: ['GTM Server-side', 'GA4', 'Meta CAPI', 'BigQuery'],
+      'Mise en place d’une architecture de mesure fiable : tracking web, GA4, GTM server-side, Meta CAPI, déduplication et qualité de la donnée.',
+    tags: ['GA4', 'GTM Server-side', 'Meta CAPI', 'DataLayer'],
     color: 'gold',
   },
   {
     icon: ShoppingCart,
-    title: 'E-commerce & CRM',
-    subtitle: 'Lifecycle · Segmentation · ROI',
+    title: 'E-commerce, CRM & Data Client',
+    subtitle: 'Lifecycle · Segmentation · Revenue',
     description:
-      'Activation des données client : segmentation RFM, lifecycle email, flows automatisés, PCR et KPIs CRM orientés revenue.',
-    tags: ['Klaviyo', 'Shopify', 'Lifecycle', 'Segmentation RFM'],
+      'Activation des données client pour mieux vendre : segmentation, lifecycle marketing, CRM, campagnes automatisées et pilotage orienté chiffre d’affaires.',
+    tags: ['CRM', 'Segmentation', 'Lifecycle', 'E-commerce'],
     color: 'violet',
   },
   {
-    icon: Code2,
-    title: 'Automation & SaaS',
-    subtitle: 'n8n · Builder · No-code',
+    icon: Workflow,
+    title: 'Automation & IA appliquée',
+    subtitle: 'n8n · CRM · IA · Workflows',
     description:
-      'Construction d\'outils internes, workflows n8n, dashboards automatisés et mini-SaaS pour gagner en efficacité opérationnelle.',
-    tags: ['n8n', 'Automation', 'Dashboards', 'SaaS Builder'],
+      'Création de workflows, automatisations marketing, dashboards et systèmes assistés par IA pour gagner du temps, réduire les tâches manuelles et scaler les opérations.',
+    tags: ['n8n', 'Automation', 'IA', 'Dashboards'],
     color: 'gold',
   },
   {
     icon: GraduationCap,
-    title: 'Formation Customer Intelligence',
-    subtitle: 'Marketing · Tracking · Data',
+    title: 'Formation & montée en compétence',
+    subtitle: 'Marketing · Data · Tracking',
     description:
-      '90 heures de formation intensive : WordPress, SEO, SEA, Meta Ads, GTM, GA4, CRM. Du fondement au déploiement opérationnel.',
-    tags: ['Formation 90h', '3 mois', 'Présentiel', 'Certifiant'],
+      'Formations intensives et ateliers pratiques pour aider les étudiants, équipes marketing et dirigeants à maîtriser les leviers digitaux modernes.',
+    tags: ['Formation', 'Workshops', '90h', 'Présentiel'],
     color: 'violet',
   },
 ]
@@ -59,35 +65,35 @@ const colorMap = {
     icon: 'text-brand-accent',
     iconBg: 'bg-brand-accent/10 border border-brand-accent/20',
     tag: 'bg-brand-accent/8 text-brand-accent border border-brand-accent/15',
-    glow: 'shadow-glow-sm',
   },
   gold: {
     icon: 'text-brand-gold',
     iconBg: 'bg-brand-gold/10 border border-brand-gold/20',
     tag: 'bg-brand-gold/8 text-brand-gold border border-brand-gold/15',
-    glow: 'shadow-gold-glow',
   },
 }
 
 export function ExpertiseCards() {
   return (
-    <section className="py-24">
+    <section className="relative overflow-hidden py-24 section-deep-bg section-grid">
       <Container>
-        {/* Header */}
-        <Reveal className="text-center mb-16">
-          <p className="text-xs font-semibold tracking-[0.2em] uppercase text-brand-accent mb-3">
-            Domaines d'expertise
+        <Reveal className="mb-16 text-center">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-brand-accent">
+            Domaines d&apos;expertise
           </p>
-          <h2 className="font-display text-4xl md:text-5xl font-black text-brand-text-primary tracking-tight mb-4">
-            5 piliers, 1 objectif : vos résultats.
+
+          <h2 className="mb-4 font-display text-4xl font-black tracking-tight text-brand-text-primary md:text-5xl">
+            5 piliers pour construire une croissance mesurable.
           </h2>
-          <p className="text-brand-text-secondary max-w-xl mx-auto">
-            Une approche intégrée qui couvre tout le spectre du marketing digital moderne — de la donnée brute à l'activation à grande échelle.
+
+          <p className="mx-auto max-w-2xl text-brand-text-secondary">
+            Une approche complète qui relie acquisition, tracking, data client,
+            automation et formation — pour passer de l’exécution marketing à un
+            système de performance piloté.
           </p>
         </Reveal>
 
-        {/* Cards grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {pillars.map((pillar, i) => {
             const Icon = pillar.icon
             const colors = colorMap[pillar.color as keyof typeof colorMap]
@@ -108,32 +114,31 @@ export function ExpertiseCards() {
                 <Card
                   variant="glass"
                   hover
-                  className="h-full group transition-all duration-300 hover:border-brand-border-strong"
+                  className="group h-full transition-all duration-300 hover:border-brand-border-strong"
                 >
-                  {/* Icon */}
                   <div
-                    className={`inline-flex items-center justify-center h-11 w-11 rounded-xl mb-5 ${colors.iconBg}`}
+                    className={`mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl ${colors.iconBg}`}
                   >
                     <Icon className={`h-5 w-5 ${colors.icon}`} />
                   </div>
 
-                  {/* Content */}
-                  <h3 className="font-display text-xl font-bold text-brand-text-primary mb-1 tracking-tight">
+                  <h3 className="mb-1 font-display text-xl font-bold tracking-tight text-brand-text-primary">
                     {pillar.title}
                   </h3>
-                  <p className={`text-xs font-medium mb-3 ${colors.icon}`}>
+
+                  <p className={`mb-3 text-xs font-medium ${colors.icon}`}>
                     {pillar.subtitle}
                   </p>
-                  <p className="text-sm text-brand-text-secondary leading-relaxed mb-5">
+
+                  <p className="mb-5 text-sm leading-relaxed text-brand-text-secondary">
                     {pillar.description}
                   </p>
 
-                  {/* Tags */}
                   <div className="flex flex-wrap gap-1.5">
                     {pillar.tags.map((tag) => (
                       <span
                         key={tag}
-                        className={`px-2.5 py-1 rounded-lg text-xs font-medium ${colors.tag}`}
+                        className={`rounded-lg px-2.5 py-1 text-xs font-medium ${colors.tag}`}
                       >
                         {tag}
                       </span>

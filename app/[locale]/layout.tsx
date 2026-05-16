@@ -2,8 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { NextIntlClientProvider } from 'next-intl'
 import { Navbar } from '@/components/layout/Navbar'
-import { Footer } from '@/components/layout/Footer'
-
+import { FooterWrapper } from '@/components/layout/FooterWrapper'
 
 const SUPPORTED_LOCALES = ['fr', 'en'] as const
 type AppLocale = (typeof SUPPORTED_LOCALES)[number]
@@ -61,7 +60,7 @@ export default async function LocaleLayout({
     <NextIntlClientProvider locale={locale} messages={messages}>
       <Navbar locale={locale} />
       <main>{children}</main>
-      <Footer />
+      <FooterWrapper />
     </NextIntlClientProvider>
   )
 }

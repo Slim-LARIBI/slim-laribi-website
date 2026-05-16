@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (locale === 'fr') {
     return {
-      title: 'Planning détaillé — Programme 90h Customer Intelligence',
+      title: 'Planning détaillé — Programme 93h Customer Intelligence',
       description:
         'Programme détaillé semaine par semaine de la formation Customer Intelligence 90h sur 3 mois. Thèmes, objectifs, ateliers pratiques et total des heures.',
       alternates: {
@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     openGraph: {
       title: 'Detailed Schedule — 90h Customer Intelligence Program',
       description:
-        'Week-by-week detailed schedule of the 90-hour Customer Intelligence training program over 3 months. Themes, objectives, workshops and total hours.',
+        'Week-by-week detailed schedule of the 93-hour Customer Intelligence training program over 3 months. Themes, objectives, workshops and total hours.',
       url: pageUrl,
       type: 'website',
       images: [

@@ -12,7 +12,7 @@ const footerLinks = {
     { href: '/expertises-data-marketing', label: 'Hub expertises' },
   ],
   Formation: [
-    { href: '/formation', label: 'Programme 90h' },
+    { href: '/formation', label: 'Programme 93h' },
     { href: '/formation/programme', label: 'Planning détaillé' },
     { href: '/testimonials', label: 'Témoignages' },
     { href: '/contact', label: "S'inscrire" },
@@ -20,79 +20,82 @@ const footerLinks = {
   Ressources: [
     { href: '/blog', label: 'Blog' },
     { href: '/case-studies', label: 'Cas clients' },
-    { href: '/saas', label: 'Projets SaaS' },
+    { href: '/saas', label: 'Labs & outils' },
     { href: '/about', label: 'À propos' },
     { href: '/contact', label: 'Contact' },
   ],
 }
 
-export function Footer() {
+export function Footer({ showCTA = true }: { showCTA?: boolean }) {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="relative border-t border-brand-border bg-brand-bg overflow-hidden">
+    <footer className="relative overflow-hidden border-t border-brand-border bg-brand-bg">
       <div className="absolute inset-0 pointer-events-none opacity-40 bg-gradient-glow" />
 
-      {/* Premium CTA */}
-      <div className="relative">
-        <Container className="py-20 md:py-24">
-          <div className="rounded-[2rem] border border-brand-border bg-white/[0.03] backdrop-blur-sm px-6 py-12 md:px-10 md:py-14 text-center shadow-glow-sm">
-            <p className="text-xs font-semibold tracking-[0.25em] uppercase text-brand-accent mb-4">
-              Conseil · Audit · Formation
-            </p>
+      {showCTA && (
+        <div className="relative">
+          <Container className="py-20 md:py-24">
+            <div className="rounded-[2rem] border border-brand-border bg-white/[0.03] px-6 py-12 text-center shadow-glow-sm backdrop-blur-sm md:px-10 md:py-14">
+              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-brand-accent">
+                Conseil · Audit · Formation
+              </p>
 
-            <h2 className="font-display text-3xl md:text-5xl font-black tracking-tight text-brand-text-primary mb-5">
-              Construisons une
-              <span className="text-gradient-brand"> machine marketing </span>
-              pilotée par la donnée.
-            </h2>
+              <h2 className="mb-5 font-display text-3xl font-black tracking-tight text-brand-text-primary md:text-5xl">
+                Construisons une
+                <span className="text-gradient-brand"> machine marketing </span>
+                pilotée par la donnée.
+              </h2>
 
-            <p className="text-brand-text-secondary max-w-2xl mx-auto mb-8 leading-relaxed">
-              Audit tracking, performance marketing, architecture MarTech, CRM et automatisation :
-              une approche senior, structurée et orientée résultats.
-            </p>
+              <p className="mx-auto mb-8 max-w-2xl leading-relaxed text-brand-text-secondary">
+                Audit tracking, performance marketing, architecture MarTech, CRM et automatisation :
+                une approche senior, structurée et orientée résultats.
+              </p>
 
-            <div className="flex flex-wrap gap-3 justify-center">
-              <Link href="/contact">
-                <Button variant="primary" size="lg">
-                  Réserver un appel
-                </Button>
-              </Link>
-              <Link href="/expertises-data-marketing">
-                <Button variant="secondary" size="lg">
-                  Explorer les expertises
-                </Button>
-              </Link>
+              <div className="flex flex-wrap justify-center gap-3">
+                <Link href="/contact">
+                  <Button variant="primary" size="lg">
+                    Réserver un appel
+                  </Button>
+                </Link>
+                <Link href="/expertises-data-marketing">
+                  <Button variant="secondary" size="lg">
+                    Explorer les expertises
+                  </Button>
+                </Link>
+              </div>
             </div>
-          </div>
-        </Container>
-      </div>
+          </Container>
+        </div>
+      )}
 
-      {/* Main footer */}
-      <Container className="relative py-14 md:py-16 border-t border-brand-border">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8">
-          {/* Brand block */}
+      <Container
+        className={`relative py-14 md:py-16 ${
+          showCTA ? 'border-t border-brand-border' : ''
+        }`}
+      >
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-4">
-            <Link href="/" className="inline-flex items-center gap-3 mb-5">
+            <Link href="/" className="mb-5 inline-flex items-center gap-3">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-brand shadow-glow-sm">
-                <span className="text-sm font-black text-white tracking-wide">SL</span>
+                <span className="text-sm font-black tracking-wide text-white">SL</span>
               </div>
               <div>
                 <span className="block font-display text-xl font-black tracking-tight text-brand-text-primary">
                   Slim Laribi
                 </span>
-                <span className="block text-xs text-brand-text-muted uppercase tracking-[0.18em] mt-0.5">
+                <span className="mt-0.5 block text-xs uppercase tracking-[0.18em] text-brand-text-muted">
                   Digital Marketing · Tracking · MarTech
                 </span>
               </div>
             </Link>
 
-            <p className="text-sm text-brand-text-secondary leading-relaxed max-w-md mb-6">
+            <p className="mb-6 max-w-md text-sm leading-relaxed text-brand-text-secondary">
               J’aide les entreprises à fiabiliser leur tracking, mieux piloter leurs campagnes,
               structurer leur CRM et transformer leur data en décisions utiles.
             </p>
 
-            <div className="flex flex-wrap gap-3 mb-6">
+            <div className="mb-6 flex flex-wrap gap-3">
               {[
                 {
                   label: 'LinkedIn',
@@ -111,7 +114,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-brand-border bg-white/[0.02] text-brand-text-muted hover:text-brand-text-primary hover:border-brand-border-strong hover:bg-white/[0.04] transition-all duration-200 text-xs font-bold"
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-brand-border bg-white/[0.02] text-xs font-bold text-brand-text-muted transition-all duration-200 hover:border-brand-border-strong hover:bg-white/[0.04] hover:text-brand-text-primary"
                 >
                   {s.initial}
                 </a>
@@ -124,11 +127,10 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Links */}
-          <div className="md:col-span-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 md:col-span-8">
             {Object.entries(footerLinks).map(([category, links]) => (
               <div key={category}>
-                <p className="text-xs font-semibold tracking-[0.18em] uppercase text-brand-text-muted mb-4">
+                <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-brand-text-muted">
                   {category}
                 </p>
                 <ul className="space-y-3">
@@ -136,7 +138,7 @@ export function Footer() {
                     <li key={link.label}>
                       <Link
                         href={link.href}
-                        className="text-sm text-brand-text-secondary hover:text-brand-text-primary transition-colors duration-200"
+                        className="text-sm text-brand-text-secondary transition-colors duration-200 hover:text-brand-text-primary"
                       >
                         {link.label}
                       </Link>
@@ -148,24 +150,23 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom bar */}
-        <div className="mt-14 pt-6 border-t border-brand-border flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+        <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-brand-border pt-6 md:flex-row md:items-center">
           <p className="text-xs text-brand-text-muted">
             © {year} Slim Laribi. Tous droits réservés.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 text-xs text-brand-text-muted">
-            <Link href="/contact" className="hover:text-brand-text-primary transition-colors">
+            <Link href="/contact" className="transition-colors hover:text-brand-text-primary">
               Contact
             </Link>
             <span className="opacity-40">•</span>
-            <Link href="/blog" className="hover:text-brand-text-primary transition-colors">
+            <Link href="/blog" className="transition-colors hover:text-brand-text-primary">
               Blog
             </Link>
             <span className="opacity-40">•</span>
             <Link
               href="/expertises-data-marketing"
-              className="hover:text-brand-text-primary transition-colors"
+              className="transition-colors hover:text-brand-text-primary"
             >
               Expertises
             </Link>

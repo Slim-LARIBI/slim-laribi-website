@@ -11,26 +11,26 @@
     "more": "Plus"
   },
   "hero": {
-    "badge": "Tracking · Data Strategy · MarTech Architecture · Formation",
-    "titlePrefix": "Des",
-    "title1": "décisions marketing",
-    "titlePrefix2": "basées sur une",
-    "title2": "data fiable.",
-    "subtitle": "Expert en tracking, performance marketing et architecture MarTech. J’accompagne les entreprises dans la maîtrise de leur data et l’optimisation de leur croissance.",
-    "cta1": "Télécharger le programme",
+    "badge": "E-commerce · Data Marketing · IA · MarTech · Formation",
+    "titlePrefix": "Transformer la",
+    "title1": "data marketing",
+    "titlePrefix2": "en",
+    "title2": "croissance mesurable.",
+    "subtitle": "Directeur E-commerce chez Decathlon Tunisie, fondateur de WeScaleUp et formateur en marketing digital. J’aide les marques, équipes marketing et dirigeants à structurer leur acquisition, leur tracking, leur automation et leur usage de l’IA.",
+    "cta1": "Découvrir mes expertises",
     "cta2": "Planifier un appel",
     "cta3": "Voir les formations",
     "metric1": {
-      "label": "Tracking fiable",
-      "sub": "GTM · Server-side · CAPI"
+      "label": "Directeur E-commerce",
+      "sub": "Decathlon Tunisie"
     },
     "metric2": {
-      "label": "Décisions data-driven",
-      "sub": "Attribution & analytics"
+      "label": "Formateur & enseignant",
+      "sub": "Top écoles privées"
     },
     "metric3": {
-      "label": "Automatisation",
-      "sub": "Workflows · n8n · CRM"
+      "label": "Fondateur WeScaleUp",
+      "sub": "Tracking · Ads · Automation"
     }
   }
 }

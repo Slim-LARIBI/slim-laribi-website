@@ -5,7 +5,16 @@ import { usePathname } from 'next/navigation'
 import { Link } from '@/components/i18n/Link'
 import { Container } from '@/components/ui/Container'
 import { Button } from '@/components/ui/Button'
-import { ChevronDown, Menu, X, ArrowRight } from 'lucide-react'
+import {
+  ChevronDown,
+  Menu,
+  X,
+  ArrowRight,
+  BookOpen,
+  Layers,
+  FlaskConical,
+  Wrench,
+} from 'lucide-react'
 
 type Locale = 'fr' | 'en'
 
@@ -18,7 +27,7 @@ const labels = {
     expertises: 'Expertises',
     formation: 'Formation',
     caseStudies: 'Cas clients',
-    blog: 'Blog',
+    insights: 'Insights',
     about: 'À propos',
     contact: 'Contact',
     cta: 'Réserver un appel',
@@ -28,7 +37,7 @@ const labels = {
     expertises: 'Expertise',
     formation: 'Training',
     caseStudies: 'Case Studies',
-    blog: 'Blog',
+    insights: 'Insights',
     about: 'About',
     contact: 'Contact',
     cta: 'Book a call',
@@ -53,6 +62,61 @@ const expertiseItems = {
   ],
 } as const
 
+const insightItems = {
+  fr: [
+    {
+      href: '/blog',
+      label: 'Blog',
+      description: 'Articles, analyses et retours terrain.',
+      icon: BookOpen,
+    },
+    {
+      href: '/playbooks',
+      label: 'Playbooks',
+      description: 'Guides pratiques étape par étape.',
+      icon: Layers,
+    },
+    {
+      href: '/labs',
+      label: 'Labs',
+      description: 'SaaS, IA, automation et expérimentations.',
+      icon: FlaskConical,
+    },
+    {
+      href: '/toolkit',
+      label: 'Toolkit',
+      description: 'Templates, checklists et ressources.',
+      icon: Wrench,
+    },
+  ],
+  en: [
+    {
+      href: '/blog',
+      label: 'Blog',
+      description: 'Articles, analysis and field insights.',
+      icon: BookOpen,
+    },
+    {
+      href: '/playbooks',
+      label: 'Playbooks',
+      description: 'Step-by-step practical guides.',
+      icon: Layers,
+    },
+    {
+      href: '/labs',
+      label: 'Labs',
+      description: 'SaaS, AI, automation and experiments.',
+      icon: FlaskConical,
+    },
+    {
+      href: '/toolkit',
+      label: 'Toolkit',
+      description: 'Templates, checklists and resources.',
+      icon: Wrench,
+    },
+  ],
+} as const
+
 function switchLocaleInPath(pathname: string, targetLocale: Locale) {
   if (!pathname) return `/${targetLocale}`
 
@@ -73,10 +137,12 @@ function switchLocaleInPath(pathname: string, targetLocale: Locale) {
 export function Navbar({ locale }: HeaderProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [mobileExpertiseOpen, setMobileExpertiseOpen] = useState(false)
+  const [mobileInsightsOpen, setMobileInsightsOpen] = useState(false)
   const pathname = usePathname()
 
   const t = labels[locale]
   const items = expertiseItems[locale]
+  const insights = insightItems[locale]
 
   const frHref = useMemo(() => switchLocaleInPath(pathname || '/', 'fr'), [pathname])
   const enHref = useMemo(() => switchLocaleInPath(pathname || '/', 'en'), [pathname])
@@ -85,32 +151,30 @@ export function Navbar({ locale }: HeaderProps) {
     <header className="sticky top-0 z-50 border-b border-brand-border bg-brand-bg/80 backdrop-blur-xl">
       <Container>
         <div className="flex h-20 items-center justify-between gap-6">
-          {/* Brand */}
           <Link href="/" className="shrink-0">
-            <span className="font-display text-xl md:text-2xl font-black tracking-tight text-brand-text-primary">
+            <span className="font-display text-xl font-black tracking-tight text-brand-text-primary md:text-2xl">
               Slim <span className="uppercase">LARIBI</span>
             </span>
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-8">
-            <div className="relative group">
+          <nav className="hidden items-center gap-8 lg:flex">
+            <div className="group relative">
               <button
                 type="button"
-                className="inline-flex items-center gap-1 text-sm font-medium text-brand-text-secondary hover:text-brand-text-primary transition-colors"
+                className="inline-flex items-center gap-1 text-sm font-medium text-brand-text-secondary transition-colors hover:text-brand-text-primary"
               >
                 <span>{t.expertises}</span>
                 <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />
               </button>
 
-              <div className="absolute left-0 top-full pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <div className="w-80 rounded-2xl border border-brand-border bg-brand-bg/95 backdrop-blur-xl p-3 shadow-2xl">
+              <div className="invisible absolute left-0 top-full pt-4 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                <div className="w-80 rounded-2xl border border-brand-border bg-brand-bg/95 p-3 shadow-2xl backdrop-blur-xl">
                   <div className="grid gap-1">
                     {items.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
-                        className="rounded-xl px-4 py-3 hover:bg-white/[0.04] transition-colors"
+                        className="rounded-xl px-4 py-3 transition-colors hover:bg-white/[0.04]"
                       >
                         <div className="text-sm font-semibold text-brand-text-primary">
                           {item.label}
@@ -124,46 +188,78 @@ export function Navbar({ locale }: HeaderProps) {
 
             <Link
               href="/formation"
-              className="text-sm font-medium text-brand-text-secondary hover:text-brand-text-primary transition-colors"
+              className="text-sm font-medium text-brand-text-secondary transition-colors hover:text-brand-text-primary"
             >
               {t.formation}
             </Link>
 
             <Link
               href="/case-studies"
-              className="text-sm font-medium text-brand-text-secondary hover:text-brand-text-primary transition-colors"
+              className="text-sm font-medium text-brand-text-secondary transition-colors hover:text-brand-text-primary"
             >
               {t.caseStudies}
             </Link>
 
-            <Link
-              href="/blog"
-              className="text-sm font-medium text-brand-text-secondary hover:text-brand-text-primary transition-colors"
-            >
-              {t.blog}
-            </Link>
+            <div className="group relative">
+              <button
+                type="button"
+                className="inline-flex items-center gap-1 text-sm font-medium text-brand-text-secondary transition-colors hover:text-brand-text-primary"
+              >
+                <span>{t.insights}</span>
+                <ChevronDown className="h-4 w-4 transition-transform group-hover:rotate-180" />
+              </button>
+
+              <div className="invisible absolute left-1/2 top-full -translate-x-1/2 pt-4 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                <div className="w-[520px] rounded-2xl border border-brand-border bg-brand-bg/95 p-3 shadow-2xl backdrop-blur-xl">
+                  <div className="grid grid-cols-2 gap-2">
+                    {insights.map((item) => {
+                      const Icon = item.icon
+
+                      return (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="group/item rounded-xl p-4 transition-colors hover:bg-white/[0.04]"
+                        >
+                          <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-xl border border-brand-border bg-white/[0.03]">
+                            <Icon className="h-4 w-4 text-brand-accent" />
+                          </div>
+
+                          <div className="text-sm font-semibold text-brand-text-primary">
+                            {item.label}
+                          </div>
+
+                          <p className="mt-1 text-xs leading-5 text-brand-text-muted">
+                            {item.description}
+                          </p>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <Link
               href="/about"
-              className="text-sm font-medium text-brand-text-secondary hover:text-brand-text-primary transition-colors"
+              className="text-sm font-medium text-brand-text-secondary transition-colors hover:text-brand-text-primary"
             >
               {t.about}
             </Link>
 
             <Link
               href="/contact"
-              className="text-sm font-medium text-brand-text-secondary hover:text-brand-text-primary transition-colors"
+              className="text-sm font-medium text-brand-text-secondary transition-colors hover:text-brand-text-primary"
             >
               {t.contact}
             </Link>
           </nav>
 
-          {/* Right side */}
-          <div className="hidden lg:flex items-center gap-4 shrink-0">
+          <div className="hidden shrink-0 items-center gap-4 lg:flex">
             <div className="flex items-center gap-1 rounded-full border border-brand-border bg-white/[0.02] p-1">
               <Link
                 href={frHref}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
                   locale === 'fr'
                     ? 'bg-white text-black'
                     : 'text-brand-text-muted hover:text-brand-text-primary'
@@ -173,7 +269,7 @@ export function Navbar({ locale }: HeaderProps) {
               </Link>
               <Link
                 href={enHref}
-                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
                   locale === 'en'
                     ? 'bg-white text-black'
                     : 'text-brand-text-muted hover:text-brand-text-primary'
@@ -184,20 +280,15 @@ export function Navbar({ locale }: HeaderProps) {
             </div>
 
             <Link href="/contact">
-              <Button
-                variant="primary"
-                size="md"
-                icon={<ArrowRight className="h-4 w-4" />}
-              >
+              <Button variant="primary" size="md" icon={<ArrowRight className="h-4 w-4" />}>
                 {t.cta}
               </Button>
             </Link>
           </div>
 
-          {/* Mobile toggle */}
           <button
             type="button"
-            className="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-xl border border-brand-border text-brand-text-primary"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-brand-border text-brand-text-primary lg:hidden"
             aria-label={t.mobileMenu}
             onClick={() => setMobileOpen((v) => !v)}
           >
@@ -206,15 +297,14 @@ export function Navbar({ locale }: HeaderProps) {
         </div>
       </Container>
 
-      {/* Mobile panel */}
       {mobileOpen && (
-        <div className="lg:hidden border-t border-brand-border bg-brand-bg">
+        <div className="border-t border-brand-border bg-brand-bg lg:hidden">
           <Container>
-            <div className="py-6 space-y-3">
+            <div className="space-y-3 py-6">
               <button
                 type="button"
                 onClick={() => setMobileExpertiseOpen((v) => !v)}
-                className="w-full flex items-center justify-between rounded-xl border border-brand-border px-4 py-3 text-left"
+                className="flex w-full items-center justify-between rounded-xl border border-brand-border px-4 py-3 text-left"
               >
                 <span className="text-sm font-semibold text-brand-text-primary">
                   {t.expertises}
@@ -232,7 +322,7 @@ export function Navbar({ locale }: HeaderProps) {
                     <Link
                       key={item.href}
                       href={item.href}
-                      className="block rounded-xl px-3 py-3 text-sm text-brand-text-secondary hover:text-brand-text-primary hover:bg-white/[0.04] transition-colors"
+                      className="block rounded-xl px-3 py-3 text-sm text-brand-text-secondary transition-colors hover:bg-white/[0.04] hover:text-brand-text-primary"
                       onClick={() => setMobileOpen(false)}
                     >
                       {item.label}
@@ -244,25 +334,71 @@ export function Navbar({ locale }: HeaderProps) {
               {[
                 { href: '/formation', label: t.formation },
                 { href: '/case-studies', label: t.caseStudies },
-                { href: '/blog', label: t.blog },
-                { href: '/about', label: t.about },
-                { href: '/contact', label: t.contact },
               ].map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block rounded-xl border border-brand-border px-4 py-3 text-sm font-medium text-brand-text-secondary hover:text-brand-text-primary transition-colors"
+                  className="block rounded-xl border border-brand-border px-4 py-3 text-sm font-medium text-brand-text-secondary transition-colors hover:text-brand-text-primary"
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
                 </Link>
               ))}
 
-              <div className="flex items-center justify-between pt-2 gap-3">
+              <button
+                type="button"
+                onClick={() => setMobileInsightsOpen((v) => !v)}
+                className="flex w-full items-center justify-between rounded-xl border border-brand-border px-4 py-3 text-left"
+              >
+                <span className="text-sm font-semibold text-brand-text-primary">
+                  {t.insights}
+                </span>
+                <ChevronDown
+                  className={`h-4 w-4 text-brand-text-muted transition-transform ${
+                    mobileInsightsOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              {mobileInsightsOpen && (
+                <div className="rounded-2xl border border-brand-border bg-white/[0.02] p-2">
+                  {insights.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="block rounded-xl px-3 py-3 transition-colors hover:bg-white/[0.04]"
+                      onClick={() => setMobileOpen(false)}
+                    >
+                      <div className="text-sm font-semibold text-brand-text-primary">
+                        {item.label}
+                      </div>
+                      <p className="mt-1 text-xs text-brand-text-muted">
+                        {item.description}
+                      </p>
+                    </Link>
+                  ))}
+                </div>
+              )}
+
+              {[
+                { href: '/about', label: t.about },
+                { href: '/contact', label: t.contact },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="block rounded-xl border border-brand-border px-4 py-3 text-sm font-medium text-brand-text-secondary transition-colors hover:text-brand-text-primary"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+
+              <div className="flex items-center justify-between gap-3 pt-2">
                 <div className="flex items-center gap-1 rounded-full border border-brand-border bg-white/[0.02] p-1">
                   <Link
                     href={frHref}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                    className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
                       locale === 'fr'
                         ? 'bg-white text-black'
                         : 'text-brand-text-muted hover:text-brand-text-primary'
@@ -273,7 +409,7 @@ export function Navbar({ locale }: HeaderProps) {
                   </Link>
                   <Link
                     href={enHref}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                    className={`rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
                       locale === 'en'
                         ? 'bg-white text-black'
                         : 'text-brand-text-muted hover:text-brand-text-primary'
